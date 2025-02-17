@@ -15,6 +15,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -23,6 +24,7 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.pathfinder.BlockPathTypes;
 
 public class EntityCrab extends AbstractAnimatableCreature
 {
@@ -40,6 +42,13 @@ public class EntityCrab extends AbstractAnimatableCreature
 	public EntityCrab(EntityType<? extends PathfinderMob> p_33002_, Level p_33003_) 
 	{
 		super(p_33002_, p_33003_);
+		this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
+	}
+	
+	@Override
+	public MobType getMobType() 
+	{
+		return MobType.WATER;
 	}
 	
     public static AttributeSupplier.Builder createAttributes()
@@ -100,6 +109,24 @@ public class EntityCrab extends AbstractAnimatableCreature
     {
 		return pServerLevel.getBlockState(pPos.below()).is(Blocks.SAND);
     }
+	
+	@Override
+	public boolean canBreatheUnderwater() 
+	{
+		return true;
+	}
+	
+	@Override
+	public boolean isPushedByFluid() 
+	{
+		return false;
+	}
+	
+	@Override
+	protected boolean isAffectedByFluids()
+	{
+		return false;
+	}
     
     @Override
     public void setRecordPlayingNearby(BlockPos p_29395_, boolean p_29396_) 
