@@ -1,5 +1,6 @@
 package com.min01.oceanicrealms.entity;
 
+import com.min01.oceanicrealms.entity.ai.goal.SwimmingGoal;
 import com.min01.oceanicrealms.util.OceanicUtil;
 
 import net.minecraft.commands.arguments.EntityAnchorArgument.Anchor;
@@ -13,7 +14,6 @@ import net.minecraft.world.entity.ai.control.LookControl;
 import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
-import net.minecraft.world.entity.ai.goal.RandomSwimmingGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
 import net.minecraft.world.level.Level;
@@ -23,6 +23,8 @@ import net.minecraft.world.phys.Vec3;
 
 public abstract class AbstractOceanicCreature extends AbstractAnimatableCreature
 {
+	private float rollAngle = 0.0F;
+	
 	public AbstractOceanicCreature(EntityType<? extends PathfinderMob> p_33002_, Level p_33003_)
 	{
 		super(p_33002_, p_33003_);
@@ -34,14 +36,7 @@ public abstract class AbstractOceanicCreature extends AbstractAnimatableCreature
 	@Override
 	protected void registerGoals() 
 	{
-        this.goalSelector.addGoal(4, new RandomSwimmingGoal(this, this.getAttributeBaseValue(Attributes.MOVEMENT_SPEED), 20)
-        {
-        	@Override
-        	public boolean canUse() 
-        	{
-        		return AbstractOceanicCreature.this.canRandomSwim();
-        	}
-        });
+        this.goalSelector.addGoal(4, new SwimmingGoal(this, this.getAttributeBaseValue(Attributes.MOVEMENT_SPEED)));
 	}
 	
 	@Override
@@ -102,6 +97,29 @@ public abstract class AbstractOceanicCreature extends AbstractAnimatableCreature
 	{
 		super.baseTick();
 		this.handleAirSupply(this.getAirSupply());
+		
+		//ChatGPT ahh;
+	    if(this.isInWater()) 
+	    {
+		    Vec3 movement = this.getDeltaMovement();
+		    float speed = (float) movement.length();
+		    
+		    if(speed > 0.01F) 
+		    {
+		        float targetRoll = (float) Math.toDegrees(Math.atan2(movement.x, movement.z)) * 0.1F;
+		        
+		        this.rollAngle += (targetRoll - this.rollAngle) * 0.05F;
+		    }
+		    else
+		    {
+		        this.rollAngle *= 0.9F;
+		    }
+	    }
+	}
+	
+	public float getRollAngle()
+	{
+		return this.rollAngle;
 	}
 	
 	public LookControl getSwimmingLookControl()
@@ -155,7 +173,7 @@ public abstract class AbstractOceanicCreature extends AbstractAnimatableCreature
 	
 	public float getInsideWaterSpeed()
 	{
-		return 0.05F;
+		return 0.5F;
 	}
 	
 	public boolean canRandomSwim()

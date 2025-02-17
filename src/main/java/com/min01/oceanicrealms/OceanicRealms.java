@@ -2,6 +2,7 @@ package com.min01.oceanicrealms;
 
 import com.min01.oceanicrealms.entity.OceanicEntities;
 import com.min01.oceanicrealms.item.OceanicItems;
+import com.min01.oceanicrealms.network.OceanicNetwork;
 
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -18,5 +19,7 @@ public class OceanicRealms
 
 		OceanicEntities.ENTITY_TYPES.register(bus);
 		OceanicItems.ITEMS.register(bus);
+		
+		OceanicNetwork.registerMessages();
 	}
 }

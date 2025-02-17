@@ -1,6 +1,7 @@
 package com.min01.oceanicrealms.entity;
 
 import com.min01.oceanicrealms.OceanicRealms;
+import com.min01.oceanicrealms.entity.living.EntityCrab;
 import com.min01.oceanicrealms.entity.living.EntityGreatWhiteShark;
 
 import net.minecraft.resources.ResourceLocation;
@@ -16,6 +17,7 @@ public class OceanicEntities
 	public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, OceanicRealms.MODID);
 	
 	public static final RegistryObject<EntityType<EntityGreatWhiteShark>> GREAT_WHITE_SHARK = registerEntity("great_white_shark", createBuilder(EntityGreatWhiteShark::new, MobCategory.WATER_CREATURE).sized(2.0F, 1.6F));
+	public static final RegistryObject<EntityType<EntityCrab>> CRAB = registerEntity("crab", createBuilder(EntityCrab::new, MobCategory.WATER_CREATURE).sized(0.4F, 0.3F));
 	
 	public static <T extends Entity> EntityType.Builder<T> createBuilder(EntityType.EntityFactory<T> factory, MobCategory category)
 	{
