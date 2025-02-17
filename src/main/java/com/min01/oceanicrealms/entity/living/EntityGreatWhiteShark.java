@@ -9,14 +9,17 @@ import com.min01.oceanicrealms.entity.ai.goal.GreatWhiteSharkEatingItemGoal;
 import com.min01.oceanicrealms.util.OceanicUtil;
 
 import net.minecraft.commands.arguments.EntityAnchorArgument.Anchor;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -25,7 +28,10 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
@@ -74,6 +80,7 @@ public class EntityGreatWhiteShark extends AbstractOceanicCreature
     			return super.canUse() && EntityGreatWhiteShark.this.isHungry();
     		}
     	});
+    	this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Player.class, false, t -> t.getHealth() < 3.0F));
     }
     
 	@Override
@@ -160,6 +167,11 @@ public class EntityGreatWhiteShark extends AbstractOceanicCreature
 			this.setHungerCooldown(this.getHungerCooldown() - 1);
 		}
 	}
+	
+	public static boolean checkSharkSpawnRules(EntityType<EntityGreatWhiteShark> type, ServerLevelAccessor pServerLevel, MobSpawnType pMobSpawnType, BlockPos pPos, RandomSource pRandom) 
+    {
+		return pRandom.nextInt(10) == 0 && pServerLevel.getBlockState(pPos.above()).is(Blocks.WATER);
+    }
 	
 	@Override
 	public boolean canRandomSwim()
