@@ -25,6 +25,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.ai.util.DefaultRandomPos;
 import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
@@ -32,6 +33,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
@@ -168,9 +170,20 @@ public class EntityGreatWhiteShark extends AbstractOceanicCreature
 		}
 	}
 	
+	public Vec3 getRandomSwimmablePosAway(PathfinderMob p_147445_, int p_147446_, int p_147447_, Vec3 pos)
+	{
+		Vec3 vec3 = DefaultRandomPos.getPosAway(p_147445_, p_147446_, p_147447_, pos);
+
+		for(int i = 0; vec3 != null && !p_147445_.level.getBlockState(BlockPos.containing(vec3)).isPathfindable(p_147445_.level, BlockPos.containing(vec3), PathComputationType.WATER) && i++ < 10; vec3 = DefaultRandomPos.getPosAway(p_147445_, p_147446_, p_147447_, pos))
+		{
+			
+		}
+		return vec3;
+	}
+	
 	public static boolean checkSharkSpawnRules(EntityType<EntityGreatWhiteShark> type, ServerLevelAccessor pServerLevel, MobSpawnType pMobSpawnType, BlockPos pPos, RandomSource pRandom) 
     {
-		return pRandom.nextInt(10) == 0 && pServerLevel.getBlockState(pPos.above()).is(Blocks.WATER);
+		return pServerLevel.getBlockState(pPos.above()).is(Blocks.WATER);
     }
 	
 	@Override

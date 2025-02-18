@@ -26,12 +26,12 @@ public class OceanicBiomeModifier implements BiomeModifier
 		if(biome.is(Biomes.DEEP_OCEAN))
 		{
 			MobSpawnSettingsBuilder mobSpawnSettings = builder.getMobSpawnSettings();
-			mobSpawnSettings.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(OceanicEntities.GREAT_WHITE_SHARK.get(), 5, 1, 1));
+			mobSpawnSettings.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(OceanicEntities.GREAT_WHITE_SHARK.get(), 15, 1, 1));
 		}
 		if(biome.is(Biomes.BEACH))
 		{
 			MobSpawnSettingsBuilder mobSpawnSettings = builder.getMobSpawnSettings();
-			mobSpawnSettings.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(OceanicEntities.CRAB.get(), 5, 2, 6));
+			mobSpawnSettings.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(OceanicEntities.CRAB.get(), 50, 2, 6));
 		}
 	}
 

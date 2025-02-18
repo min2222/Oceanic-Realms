@@ -24,7 +24,6 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.pathfinder.BlockPathTypes;
 
 public class EntityCrab extends AbstractAnimatableCreature
 {
@@ -42,7 +41,6 @@ public class EntityCrab extends AbstractAnimatableCreature
 	public EntityCrab(EntityType<? extends PathfinderMob> p_33002_, Level p_33003_) 
 	{
 		super(p_33002_, p_33003_);
-		this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
 	}
 	
 	@Override
