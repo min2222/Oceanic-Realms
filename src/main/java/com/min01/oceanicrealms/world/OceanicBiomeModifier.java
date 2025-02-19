@@ -32,7 +32,7 @@ public class OceanicBiomeModifier implements BiomeModifier
 		}
 		if(biome.is(Biomes.BEACH) || biome.is(BiomeTags.IS_OCEAN) || biome.is(Tags.Biomes.IS_SWAMP))
 		{
-			mobSpawnSettings.addSpawn(MobCategory.WATER_CREATURE, new MobSpawnSettings.SpawnerData(OceanicEntities.CRAB.get(), 80, 2, 6));
+			mobSpawnSettings.addSpawn(MobCategory.WATER_CREATURE, new MobSpawnSettings.SpawnerData(OceanicEntities.CRAB.get(), 120, 2, 6));
 		}
 		if(biome.is(Biomes.COLD_OCEAN) || biome.is(Biomes.DEEP_COLD_OCEAN))
 		{
