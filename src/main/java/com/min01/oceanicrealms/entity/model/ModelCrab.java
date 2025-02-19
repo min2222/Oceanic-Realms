@@ -73,6 +73,9 @@ public class ModelCrab extends HierarchicalModel<EntityCrab>
 		this.animateWalk(CrabAnimation.CRAB_WALK, limbSwing, limbSwingAmount, 2.5F, 2.5F);
 		this.animate(entity.idleAnimationState, CrabAnimation.CRAB_IDLE, ageInTicks);
 		this.animate(entity.danceAnimationState, CrabAnimation.CRAB_DANCE, ageInTicks);
+		this.animate(entity.eatingAnimationState, CrabAnimation.CRAB_EATING, ageInTicks);
+		this.animate(entity.digAnimationState, CrabAnimation.CRAB_DIG, ageInTicks);
+		this.animate(entity.digOutAnimationState, CrabAnimation.CRAB_DIG_OUT, ageInTicks);
 	}
 	
 	@Override

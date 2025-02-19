@@ -6,10 +6,12 @@ import com.mojang.serialization.Codec;
 
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.biome.MobSpawnSettings;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.world.BiomeModifier;
 import net.minecraftforge.common.world.MobSpawnSettingsBuilder;
 import net.minecraftforge.common.world.ModifiableBiomeInfo.BiomeInfo.Builder;
@@ -23,15 +25,18 @@ public class OceanicBiomeModifier implements BiomeModifier
 	@Override
 	public void modify(Holder<Biome> biome, Phase phase, Builder builder)
 	{
-		if(biome.is(Biomes.DEEP_OCEAN))
+		MobSpawnSettingsBuilder mobSpawnSettings = builder.getMobSpawnSettings();
+		if(biome.is(BiomeTags.IS_DEEP_OCEAN))
 		{
-			MobSpawnSettingsBuilder mobSpawnSettings = builder.getMobSpawnSettings();
-			mobSpawnSettings.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(OceanicEntities.GREAT_WHITE_SHARK.get(), 15, 1, 1));
+			mobSpawnSettings.addSpawn(MobCategory.WATER_CREATURE, new MobSpawnSettings.SpawnerData(OceanicEntities.GREAT_WHITE_SHARK.get(), 10, 1, 1));
 		}
-		if(biome.is(Biomes.BEACH))
+		if(biome.is(Biomes.BEACH) || biome.is(BiomeTags.IS_OCEAN) || biome.is(Tags.Biomes.IS_SWAMP))
 		{
-			MobSpawnSettingsBuilder mobSpawnSettings = builder.getMobSpawnSettings();
-			mobSpawnSettings.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(OceanicEntities.CRAB.get(), 50, 2, 6));
+			mobSpawnSettings.addSpawn(MobCategory.WATER_CREATURE, new MobSpawnSettings.SpawnerData(OceanicEntities.CRAB.get(), 80, 2, 6));
+		}
+		if(biome.is(Biomes.COLD_OCEAN) || biome.is(Biomes.DEEP_COLD_OCEAN))
+		{
+			mobSpawnSettings.addSpawn(MobCategory.WATER_CREATURE, new MobSpawnSettings.SpawnerData(OceanicEntities.BULL_SHARK.get(), 20, 2, 4));
 		}
 	}
 

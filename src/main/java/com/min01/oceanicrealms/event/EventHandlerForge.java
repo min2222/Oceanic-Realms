@@ -1,6 +1,7 @@
 package com.min01.oceanicrealms.event;
 
 import com.min01.oceanicrealms.OceanicRealms;
+import com.min01.oceanicrealms.entity.living.EntityBullShark;
 import com.min01.oceanicrealms.entity.living.EntityGreatWhiteShark;
 
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
@@ -18,6 +19,7 @@ public class EventHandlerForge
 		if(event.getEntity() instanceof WaterAnimal animal)
 		{
 			animal.goalSelector.addGoal(2, new AvoidEntityGoal<>(animal, EntityGreatWhiteShark.class, 15.0F, 1.6D, 1.4D));
+			animal.goalSelector.addGoal(2, new AvoidEntityGoal<>(animal, EntityBullShark.class, 15.0F, 1.6D, 1.4D));
 		}
 	}
 }

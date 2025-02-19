@@ -1,14 +1,14 @@
 package com.min01.oceanicrealms.entity.ai.goal;
 
-import com.min01.oceanicrealms.entity.living.EntityGreatWhiteShark;
+import com.min01.oceanicrealms.entity.AbstractOceanicShark;
 import com.min01.oceanicrealms.util.OceanicUtil;
 
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.phys.Vec3;
 
-public class GreatWhiteSharkAttackGoal extends BasicAnimationSkillGoal<EntityGreatWhiteShark>
+public class SharkAttackGoal extends BasicAnimationSkillGoal<AbstractOceanicShark>
 {
-	public GreatWhiteSharkAttackGoal(EntityGreatWhiteShark mob)
+	public SharkAttackGoal(AbstractOceanicShark mob)
 	{
 		super(mob);
 	}
@@ -31,20 +31,23 @@ public class GreatWhiteSharkAttackGoal extends BasicAnimationSkillGoal<EntityGre
 	@Override
 	public boolean additionalStartCondition()
 	{
-		Vec3 lookPos = OceanicUtil.getLookPos(this.mob.getRotationVector(), this.mob.position(), 0.0F, 0.0F, 2.0F);
-		return lookPos.distanceTo(this.mob.getTarget().position()) <= 3.5F;
+		Vec3 lookPos = OceanicUtil.getLookPos(this.mob.getRotationVector(), this.mob.position(), 0.0F, 0.0F, this.mob.getHeadDistance());
+		return lookPos.distanceTo(this.mob.getTarget().position()) <= 2.5F;
 	}
 
 	@Override
 	protected void performSkill() 
 	{
-		Vec3 lookPos = OceanicUtil.getLookPos(this.mob.getRotationVector(), this.mob.position(), 0.0F, 0.0F, 2.0F);
-		if(lookPos.distanceTo(this.mob.getTarget().position()) <= 3.5F)
+		Vec3 lookPos = OceanicUtil.getLookPos(this.mob.getRotationVector(), this.mob.position(), 0.0F, 0.0F, this.mob.getHeadDistance());
+		if(this.mob.getTarget() != null)
 		{
-			if(this.mob.getTarget().hurt(this.mob.damageSources().mobAttack(this.mob), (float) this.mob.getAttributeBaseValue(Attributes.ATTACK_DAMAGE)))
+			if(lookPos.distanceTo(this.mob.getTarget().position()) <= 2.5F)
 			{
-				this.mob.setHungerCooldown(this.getSkillUsingInterval());
-		    	this.nextSkillTickCount = this.mob.tickCount + this.getSkillUsingInterval();
+				if(this.mob.getTarget().hurt(this.mob.damageSources().mobAttack(this.mob), (float) this.mob.getAttributeBaseValue(Attributes.ATTACK_DAMAGE)))
+				{
+					this.mob.setHungerCooldown(this.getSkillUsingInterval());
+			    	this.nextSkillTickCount = this.mob.tickCount + this.getSkillUsingInterval();
+				}
 			}
 		}
 	}

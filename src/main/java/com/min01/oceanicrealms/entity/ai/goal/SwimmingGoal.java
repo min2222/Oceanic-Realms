@@ -12,10 +12,10 @@ import net.minecraft.world.phys.Vec3;
 
 public class SwimmingGoal extends Goal 
 {
-    private final AbstractOceanicCreature mob;
-    private final double speed;
-    private double targetX, targetY, targetZ;
-    private Vec3 prevTarget = Vec3.ZERO;
+    protected final AbstractOceanicCreature mob;
+    protected final double speed;
+    protected double targetX, targetY, targetZ;
+    protected Vec3 prevTarget = Vec3.ZERO;
 
     public SwimmingGoal(AbstractOceanicCreature mob, double speed) 
     {

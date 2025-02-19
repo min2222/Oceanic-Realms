@@ -178,6 +178,6 @@ public abstract class AbstractOceanicCreature extends AbstractAnimatableCreature
 	
 	public boolean canRandomSwim()
 	{
-		return !this.isUsingSkill() || this.getTarget() == null;
+		return !this.isUsingSkill() || this.getTarget() == null && this.getNavigation().isDone();
 	}
 }

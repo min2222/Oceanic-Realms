@@ -2,20 +2,21 @@ package com.min01.oceanicrealms.entity.ai.goal;
 
 import java.util.List;
 
-import com.min01.oceanicrealms.entity.living.EntityGreatWhiteShark;
+import com.min01.oceanicrealms.entity.AbstractOceanicShark;
 
 import net.minecraft.commands.arguments.EntityAnchorArgument.Anchor;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.item.ItemEntity;
 
-public class GreatWhiteSharkEatingItemGoal extends Goal
+public class SharkEatingGoal extends Goal
 {
-	private final EntityGreatWhiteShark mob;
+	private final AbstractOceanicShark mob;
 	
 	private ItemEntity item;
 	
-	public GreatWhiteSharkEatingItemGoal(EntityGreatWhiteShark mob) 
+	public SharkEatingGoal(AbstractOceanicShark mob) 
 	{
 		this.mob = mob;
 	}
@@ -45,13 +46,13 @@ public class GreatWhiteSharkEatingItemGoal extends Goal
 	@Override
 	public boolean canContinueToUse() 
 	{
-		return this.canUse() && this.mob.isEat();
+		return this.canUse() && this.mob.isEat() && this.item.isAlive();
 	}
 	
 	@Override
 	public void tick() 
 	{
-		this.mob.getNavigation().moveTo(this.item, 0.45F);
+		this.mob.getNavigation().moveTo(this.item, this.mob.getAttributeBaseValue(Attributes.MOVEMENT_SPEED));
 		this.mob.lookAt(Anchor.EYES, this.item.getEyePosition());
 	}
 	

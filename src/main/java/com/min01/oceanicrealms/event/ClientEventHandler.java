@@ -2,8 +2,10 @@ package com.min01.oceanicrealms.event;
 
 import com.min01.oceanicrealms.OceanicRealms;
 import com.min01.oceanicrealms.entity.OceanicEntities;
+import com.min01.oceanicrealms.entity.model.ModelBullShark;
 import com.min01.oceanicrealms.entity.model.ModelCrab;
 import com.min01.oceanicrealms.entity.model.ModelGreatWhiteShark;
+import com.min01.oceanicrealms.entity.renderer.BullSharkRenderer;
 import com.min01.oceanicrealms.entity.renderer.CrabRenderer;
 import com.min01.oceanicrealms.entity.renderer.GreatWhiteSharkRenderer;
 
@@ -34,6 +36,7 @@ public class ClientEventHandler
     {
     	event.registerLayerDefinition(ModelGreatWhiteShark.LAYER_LOCATION, ModelGreatWhiteShark::createBodyLayer);
     	event.registerLayerDefinition(ModelCrab.LAYER_LOCATION, ModelCrab::createBodyLayer);
+    	event.registerLayerDefinition(ModelBullShark.LAYER_LOCATION, ModelBullShark::createBodyLayer);
     }
     
     @SubscribeEvent
@@ -41,5 +44,6 @@ public class ClientEventHandler
     {
     	event.registerEntityRenderer(OceanicEntities.GREAT_WHITE_SHARK.get(), GreatWhiteSharkRenderer::new);
     	event.registerEntityRenderer(OceanicEntities.CRAB.get(), CrabRenderer::new);
+    	event.registerEntityRenderer(OceanicEntities.BULL_SHARK.get(), BullSharkRenderer::new);
     }
 }
