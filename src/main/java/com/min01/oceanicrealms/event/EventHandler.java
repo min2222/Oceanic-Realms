@@ -29,7 +29,7 @@ public class EventHandler
 	public static void onSpawnPlacementRegister(SpawnPlacementRegisterEvent event)
 	{
     	event.register(OceanicEntities.GREAT_WHITE_SHARK.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EntityGreatWhiteShark::checkSharkSpawnRules, Operation.AND);
-    	event.register(OceanicEntities.CRAB.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EntityCrab::checkCrabSpawnRules, Operation.OR);
+    	event.register(OceanicEntities.CRAB.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EntityCrab::checkCrabSpawnRules, Operation.AND);
     	event.register(OceanicEntities.BULL_SHARK.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EntityBullShark::checkSharkSpawnRules, Operation.AND);
 	}
 }
