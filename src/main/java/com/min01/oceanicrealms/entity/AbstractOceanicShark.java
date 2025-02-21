@@ -18,9 +18,9 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -33,16 +33,10 @@ public abstract class AbstractOceanicShark extends AbstractOceanicCreature
 	public static final EntityDataAccessor<Integer> HUNGER_COOLDOWN = SynchedEntityData.defineId(AbstractOceanicShark.class, EntityDataSerializers.INT);
 	public static final EntityDataAccessor<Boolean> IS_EAT = SynchedEntityData.defineId(AbstractOceanicShark.class, EntityDataSerializers.BOOLEAN);
 	
-	public AbstractOceanicShark(EntityType<? extends PathfinderMob> p_33002_, Level p_33003_) 
+	public AbstractOceanicShark(EntityType<? extends WaterAnimal> p_33002_, Level p_33003_) 
 	{
 		super(p_33002_, p_33003_);
 	}
-    
-    @Override
-    public boolean removeWhenFarAway(double p_27598_)
-    {
-        return false;
-    }
     
     @Override
     protected void defineSynchedData()

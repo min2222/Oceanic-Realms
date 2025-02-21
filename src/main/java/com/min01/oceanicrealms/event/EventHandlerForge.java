@@ -1,10 +1,9 @@
 package com.min01.oceanicrealms.event;
 
 import com.min01.oceanicrealms.OceanicRealms;
-import com.min01.oceanicrealms.entity.living.EntityBullShark;
-import com.min01.oceanicrealms.entity.living.EntityGreatWhiteShark;
+import com.min01.oceanicrealms.entity.AbstractOceanicShark;
+import com.min01.oceanicrealms.entity.ai.goal.AvoidSharkGoal;
 
-import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -18,8 +17,10 @@ public class EventHandlerForge
 	{
 		if(event.getEntity() instanceof WaterAnimal animal)
 		{
-			animal.goalSelector.addGoal(2, new AvoidEntityGoal<>(animal, EntityGreatWhiteShark.class, 15.0F, 1.6D, 1.4D));
-			animal.goalSelector.addGoal(2, new AvoidEntityGoal<>(animal, EntityBullShark.class, 15.0F, 1.6D, 1.4D));
+			if(!(animal instanceof AbstractOceanicShark))
+			{
+				animal.goalSelector.addGoal(2, new AvoidSharkGoal(animal, 8.0F, 0.65F));
+			}
 		}
 	}
 }

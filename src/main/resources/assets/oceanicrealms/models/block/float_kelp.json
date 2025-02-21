@@ -1,41 +1,15 @@
 {
 	"credit": "Made with Blockbench",
 	"texture_size": [64, 64],
-	"render_type": "cutout",
 	"textures": {
+		"particle": "oceanicrealms:block/float_kelp_particle",
 		"0": "oceanicrealms:block/float_kelp"
 	},
 	"elements": [
 		{
-			"from": [0, 0, 8],
-			"to": [16, 16, 8],
-			"rotation": {"angle": -45, "axis": "y", "origin": [8, 0, 8]},
-			"faces": {
-				"north": {"uv": [0, 0, 4, 4], "texture": "#0"},
-				"east": {"uv": [0, 0, 0, 4], "texture": "#0"},
-				"south": {"uv": [4, 0, 8, 4], "texture": "#0"},
-				"west": {"uv": [4, 0, 4, 4], "texture": "#0"},
-				"up": {"uv": [4, 0, 0, 0], "texture": "#0"},
-				"down": {"uv": [8, 0, 4, 0], "texture": "#0"}
-			}
-		},
-		{
-			"from": [0, 0, 8],
-			"to": [16, 16, 8],
-			"rotation": {"angle": 45, "axis": "y", "origin": [8, 0, 8]},
-			"faces": {
-				"north": {"uv": [0, 0, 4, 4], "texture": "#0"},
-				"east": {"uv": [0, 0, 0, 4], "texture": "#0"},
-				"south": {"uv": [4, 0, 8, 4], "texture": "#0"},
-				"west": {"uv": [4, 0, 4, 4], "texture": "#0"},
-				"up": {"uv": [4, 0, 0, 0], "texture": "#0"},
-				"down": {"uv": [8, 0, 4, 0], "texture": "#0"}
-			}
-		},
-		{
-			"from": [0, 16, 0],
-			"to": [16, 23, 16],
-			"rotation": {"angle": 0, "axis": "y", "origin": [1, 16, 1]},
+			"from": [0, 0, 0],
+			"to": [16, 7, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [1, 0, 1]},
 			"faces": {
 				"north": {"uv": [4, 12, 8, 13.75], "texture": "#0"},
 				"east": {"uv": [0, 12, 4, 13.75], "texture": "#0"},
@@ -51,7 +25,7 @@
 			"name": "bone",
 			"origin": [8, 0, 8],
 			"color": 0,
-			"children": [0, 1, 2]
+			"children": [0]
 		}
 	]
 }

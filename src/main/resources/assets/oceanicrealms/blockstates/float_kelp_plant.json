@@ -1,7 +1,10 @@
 {
 	"variants": {
-		"": {
+		"is_top=false": {
 			"model": "oceanicrealms:block/float_kelp_plant"
+		},
+		"is_top=true": {
+			"model": "oceanicrealms:block/float_kelp_plant2"
 		}
 	}
 }

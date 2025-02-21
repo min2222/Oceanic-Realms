@@ -16,7 +16,6 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
@@ -37,7 +36,7 @@ public class EntityBullShark extends AbstractOceanicShark
 	public final AnimationState attackAnimationState = new AnimationState();
 	public final AnimationState eatingAnimationState = new AnimationState();
 	
-	public EntityBullShark(EntityType<? extends PathfinderMob> p_33002_, Level p_33003_) 
+	public EntityBullShark(EntityType<? extends WaterAnimal> p_33002_, Level p_33003_) 
 	{
 		super(p_33002_, p_33003_);
 	}
@@ -56,7 +55,7 @@ public class EntityBullShark extends AbstractOceanicShark
     {
     	super.registerGoals();
     	this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, EntityGreatWhiteShark.class, 25.0F, 0.45D, 0.45D));
-    	this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, WaterAnimal.class, false, t -> t.isInWater() && !(t instanceof Dolphin))
+    	this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, WaterAnimal.class, false, t -> t.isInWater() && !(t instanceof Dolphin) && !(t instanceof AbstractOceanicShark))
     	{
     		@Override
     		public boolean canUse() 

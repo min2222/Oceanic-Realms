@@ -4,11 +4,13 @@ import com.min01.oceanicrealms.entity.ai.goal.SwimmingGoal;
 import com.min01.oceanicrealms.util.OceanicUtil;
 
 import net.minecraft.commands.arguments.EntityAnchorArgument.Anchor;
+import net.minecraft.core.BlockPos;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobType;
+import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.MoverType;
-import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.LookControl;
 import net.minecraft.world.entity.ai.control.MoveControl;
@@ -16,19 +18,19 @@ import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
+import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
 
-public abstract class AbstractOceanicCreature extends AbstractAnimatableCreature
+public abstract class AbstractOceanicCreature extends AbstractAnimatableWaterAnimal
 {
 	private float rollAngle = 0.0F;
 	
-	public AbstractOceanicCreature(EntityType<? extends PathfinderMob> p_33002_, Level p_33003_)
+	public AbstractOceanicCreature(EntityType<? extends WaterAnimal> p_33002_, Level p_33003_)
 	{
 		super(p_33002_, p_33003_);
-		this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
 		this.moveControl = this.getSwimmingMoveControl();
 		this.lookControl = this.getSwimmingLookControl();
 	}
@@ -38,12 +40,6 @@ public abstract class AbstractOceanicCreature extends AbstractAnimatableCreature
 	{
         this.goalSelector.addGoal(4, new SwimmingGoal(this, this.getAttributeBaseValue(Attributes.MOVEMENT_SPEED)));
 	}
-	
-	@Override
-	public MobType getMobType() 
-	{
-		return MobType.WATER;
-	}
     
     @Override
     protected PathNavigation createNavigation(Level p_27480_) 
@@ -52,51 +48,15 @@ public abstract class AbstractOceanicCreature extends AbstractAnimatableCreature
     }
     
     @Override
-    public boolean checkSpawnObstruction(LevelReader worldReader)
+    public boolean removeWhenFarAway(double p_21542_) 
     {
-        return worldReader.isUnobstructed(this);
+    	return false;
     }
-	
-	@Override
-	public boolean canBreatheUnderwater() 
-	{
-		return true;
-	}
-	
-	@Override
-	public boolean isPushedByFluid() 
-	{
-		return false;
-	}
-	
-	@Override
-	protected boolean isAffectedByFluids()
-	{
-		return false;
-	}
-	
-	public void handleAirSupply(int supply) 
-	{
-		if(this.isAlive() && !this.isInWaterOrBubble())
-		{
-			this.setAirSupply(supply - 1);
-			if(this.getAirSupply() == -20) 
-			{
-				this.setAirSupply(0);
-				this.hurt(this.damageSources().drown(), 2.0F);
-			}
-		}
-		else 
-		{
-			this.setAirSupply(300);
-		}
-	}
 	
 	@Override
 	public void baseTick() 
 	{
 		super.baseTick();
-		this.handleAirSupply(this.getAirSupply());
 		
 		//ChatGPT ahh;
 	    if(this.isInWater()) 
@@ -131,6 +91,11 @@ public abstract class AbstractOceanicCreature extends AbstractAnimatableCreature
 	{
 		return new SmoothSwimmingMoveControl(this, 85, this.getBodyRotationSpeed(), this.getInsideWaterSpeed(), 0.1F, false);
 	}
+	
+	public static boolean checkFishSpawnRules(EntityType<? extends AbstractOceanicCreature> type, ServerLevelAccessor pServerLevel, MobSpawnType pMobSpawnType, BlockPos pPos, RandomSource pRandom) 
+    {
+		return pServerLevel.getFluidState(pPos.below()).is(FluidTags.WATER) && pServerLevel.getBlockState(pPos.above()).is(Blocks.WATER);
+    }
     
     @Override
     public void travel(Vec3 p_27490_) 
@@ -178,6 +143,6 @@ public abstract class AbstractOceanicCreature extends AbstractAnimatableCreature
 	
 	public boolean canRandomSwim()
 	{
-		return !this.isUsingSkill() || this.getTarget() == null && this.getNavigation().isDone();
+		return (!this.isUsingSkill() || this.getTarget() == null) && this.getNavigation().isDone();
 	}
 }

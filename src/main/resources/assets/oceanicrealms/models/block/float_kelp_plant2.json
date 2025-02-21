@@ -4,7 +4,7 @@
 	"render_type": "cutout",
 	"textures": {
 		"particle": "oceanicrealms:block/float_kelp_particle",
-		"0": "oceanicrealms:block/float_kelp_plant"
+		"0": "oceanicrealms:block/float_kelp_plant2"
 	},
 	"elements": [
 		{

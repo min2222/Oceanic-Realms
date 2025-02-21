@@ -3,7 +3,9 @@ package com.min01.oceanicrealms.entity;
 import com.min01.oceanicrealms.OceanicRealms;
 import com.min01.oceanicrealms.entity.living.EntityBullShark;
 import com.min01.oceanicrealms.entity.living.EntityCrab;
+import com.min01.oceanicrealms.entity.living.EntityDolphinfish;
 import com.min01.oceanicrealms.entity.living.EntityGreatWhiteShark;
+import com.min01.oceanicrealms.entity.living.EntityTuna;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
@@ -20,6 +22,8 @@ public class OceanicEntities
 	public static final RegistryObject<EntityType<EntityGreatWhiteShark>> GREAT_WHITE_SHARK = registerEntity("great_white_shark", createBuilder(EntityGreatWhiteShark::new, MobCategory.WATER_CREATURE).sized(2.0F, 1.6F));
 	public static final RegistryObject<EntityType<EntityCrab>> CRAB = registerEntity("crab", createBuilder(EntityCrab::new, MobCategory.WATER_CREATURE).sized(0.4F, 0.3F));
 	public static final RegistryObject<EntityType<EntityBullShark>> BULL_SHARK = registerEntity("bull_shark", createBuilder(EntityBullShark::new, MobCategory.WATER_CREATURE).sized(1.125F, 0.875F));
+	public static final RegistryObject<EntityType<EntityTuna>> TUNA = registerEntity("tuna", createBuilder(EntityTuna::new, MobCategory.WATER_CREATURE).sized(1.0F, 1.0F));
+	public static final RegistryObject<EntityType<EntityDolphinfish>> DOLPHINFISH = registerEntity("dolphinfish", createBuilder(EntityDolphinfish::new, MobCategory.WATER_CREATURE).sized(1.0F, 0.6F));
 	
 	public static <T extends Entity> EntityType.Builder<T> createBuilder(EntityType.EntityFactory<T> factory, MobCategory category)
 	{

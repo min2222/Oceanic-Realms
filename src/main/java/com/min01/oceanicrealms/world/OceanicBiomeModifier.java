@@ -37,6 +37,11 @@ public class OceanicBiomeModifier implements BiomeModifier
 		if(biome.is(Biomes.COLD_OCEAN) || biome.is(Biomes.DEEP_COLD_OCEAN))
 		{
 			mobSpawnSettings.addSpawn(MobCategory.WATER_CREATURE, new MobSpawnSettings.SpawnerData(OceanicEntities.BULL_SHARK.get(), 20, 2, 4));
+			mobSpawnSettings.addSpawn(MobCategory.WATER_CREATURE, new MobSpawnSettings.SpawnerData(OceanicEntities.TUNA.get(), 20, 3, 4));
+		}
+		if(biome.is(Biomes.WARM_OCEAN) || biome.is(Biomes.LUKEWARM_OCEAN) || biome.is(Biomes.DEEP_LUKEWARM_OCEAN))
+		{
+			mobSpawnSettings.addSpawn(MobCategory.WATER_CREATURE, new MobSpawnSettings.SpawnerData(OceanicEntities.DOLPHINFISH.get(), 20, 3, 4));
 		}
 	}
 

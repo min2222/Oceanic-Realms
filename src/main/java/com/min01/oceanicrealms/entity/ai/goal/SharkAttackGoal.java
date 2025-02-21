@@ -34,6 +34,12 @@ public class SharkAttackGoal extends BasicAnimationSkillGoal<AbstractOceanicShar
 		Vec3 lookPos = OceanicUtil.getLookPos(this.mob.getRotationVector(), this.mob.position(), 0.0F, 0.0F, this.mob.getHeadDistance());
 		return lookPos.distanceTo(this.mob.getTarget().position()) <= 2.5F;
 	}
+	
+	@Override
+	public boolean stopMovingWhenStart() 
+	{
+		return false;
+	}
 
 	@Override
 	protected void performSkill() 
@@ -45,8 +51,11 @@ public class SharkAttackGoal extends BasicAnimationSkillGoal<AbstractOceanicShar
 			{
 				if(this.mob.getTarget().hurt(this.mob.damageSources().mobAttack(this.mob), (float) this.mob.getAttributeBaseValue(Attributes.ATTACK_DAMAGE)))
 				{
-					this.mob.setHungerCooldown(this.getSkillUsingInterval());
-			    	this.nextSkillTickCount = this.mob.tickCount + this.getSkillUsingInterval();
+					if(!this.mob.getTarget().isAlive())
+					{
+						this.mob.setHungerCooldown(this.getSkillUsingInterval());
+				    	this.nextSkillTickCount = this.mob.tickCount + this.getSkillUsingInterval();
+					}
 				}
 			}
 		}
