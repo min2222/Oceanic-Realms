@@ -26,14 +26,18 @@ public class SwimmingGoal extends Goal
     @Override
     public boolean canUse() 
     {
-    	this.generateNewTarget();
-        return this.mob.canRandomSwim();
+    	if(this.mob.canRandomSwim())
+    	{
+        	this.generateNewTarget();
+    		return true;
+    	}
+    	return false;
     }
 
     @Override
     public boolean canContinueToUse() 
     {
-    	return !this.mob.getNavigation().isDone();
+    	return !this.mob.getNavigation().isDone() && this.mob.canRandomSwim();
     }
 
     @Override
@@ -55,7 +59,7 @@ public class SwimmingGoal extends Goal
         
         for(int i = 0; i < 10; i++)
         {
-        	Vec3 pos = OceanicUtil.getSpreadPosition(this.mob, radius);
+        	Vec3 pos = OceanicUtil.getRandomPosition(this.mob, radius);
             BlockPos targetPos = BlockPos.containing(pos);
             BlockState blockState = world.getBlockState(targetPos);
             

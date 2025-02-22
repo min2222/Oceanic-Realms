@@ -18,14 +18,15 @@ import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.ai.util.DefaultRandomPos;
 import net.minecraft.world.entity.animal.Dolphin;
 import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.pathfinder.Path;
+import net.minecraft.world.phys.Vec3;
 
 public class EntityBullShark extends AbstractOceanicShark
 {	
@@ -54,7 +55,6 @@ public class EntityBullShark extends AbstractOceanicShark
     protected void registerGoals() 
     {
     	super.registerGoals();
-    	this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, EntityGreatWhiteShark.class, 25.0F, 0.45D, 0.45D));
     	this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, WaterAnimal.class, false, t -> t.isInWater() && !(t instanceof Dolphin) && !(t instanceof AbstractOceanicShark))
     	{
     		@Override
@@ -68,7 +68,7 @@ public class EntityBullShark extends AbstractOceanicShark
     		@Override
     		public boolean canUse() 
     		{
-    			return super.canUse() && EntityBullShark.this.isHungry() && EntityBullShark.this.getSchoolSize() >= 6;
+    			return super.canUse() && EntityBullShark.this.isHungry() && EntityBullShark.this.getSchoolSize() >= 6 && EntityBullShark.this.getLeader() == null;
     		}
     	});
     	this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Player.class, false, t -> t.getHealth() < 5.0F));
@@ -122,21 +122,27 @@ public class EntityBullShark extends AbstractOceanicShark
 	public void tick() 
 	{
 		super.tick();
-		if(!this.isLeader())
+		if(this.isLeader())
 		{
-			if(this.getLeader() == null)
+			if(this.tickCount % 20 == 0)
 			{
-				List<EntityBullShark> list = this.level.getEntitiesOfClass(EntityBullShark.class, this.getBoundingBox().inflate(2.5F), t -> t.isLeader());
-				if(!list.isEmpty())
+				List<EntityBullShark> list = this.level.getEntitiesOfClass(EntityBullShark.class, this.getBoundingBox().inflate(5.0F), t -> !t.isLeader() && t.getLeader() == null);
+				list.forEach(t -> 
 				{
-					EntityBullShark leader = list.get(0);
-					this.setLeader(leader);
-					leader.setSchoolSize(leader.getSchoolSize() + 1);
-				}
+					t.setLeader(this);
+					this.setSchoolSize(this.getSchoolSize() + 1);
+				});
+			}
+		}
+		else if(this.getLeader() != null)
+		{
+			EntityBullShark leader = this.getLeader();
+			if(this.distanceTo(leader) > 2.5F)
+			{
+				this.getNavigation().moveTo(leader, 0.5F);
 			}
 			else
 			{
-				EntityBullShark leader = this.getLeader();
 				if(leader.getNavigation().getPath() != null)
 				{
 					BlockPos pos = leader.getNavigation().getPath().getTarget();
@@ -149,6 +155,18 @@ public class EntityBullShark extends AbstractOceanicShark
 				}
 			}
 		}
+		List<WaterAnimal> list = this.level.getEntitiesOfClass(WaterAnimal.class, this.getBoundingBox().inflate(5.0F), t -> !(t instanceof EntityGreatWhiteShark) && !(t instanceof EntityBullShark));
+		list.forEach(t -> 
+		{
+			if(this.tickCount % 20 == 0)
+			{
+		        Vec3 vec3 = DefaultRandomPos.getPosAway(t, 16, 7, this.position());
+		        if(vec3 != null)
+		        {
+		            t.getNavigation().moveTo(vec3.x, vec3.y, vec3.z, 0.7F);
+		        }
+			}
+		});
 	}
 	
 	@Override

@@ -9,6 +9,8 @@ import com.min01.oceanicrealms.network.OceanicNetwork;
 import com.min01.oceanicrealms.network.UpdateCrabDancePacket;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
@@ -16,6 +18,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
@@ -35,7 +38,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.TurtleEggBlock;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.BuiltinStructures;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
@@ -211,21 +216,26 @@ public class EntityCrab extends AbstractAnimatableCreature
         {
         	if(!this.isInWall())
         	{
+        		this.level.broadcastEntityEvent(this, (byte) 99);
             	this.setDeltaMovement(Vec3.ZERO);
             	this.moveTo(this.position().subtract(0.0F, (20 - this.getAnimationTick()) * 0.003F, 0.0F));
         	}
-        	else if(!this.isNight())
+        	else
         	{
-            	if(this.digOutTick > 0)
-            	{
-            		this.digOutTick--;
-            	}
-            	else if(player == null)
-            	{
-            		this.moveTo(this.position().add(0.0F, 0.3F, 0.0F));
-            		this.setAnimationState(3);
-            		this.setAnimationTick(35);
-            	}
+        		this.digOutAnimationState.stop();
+        		if(!this.isNight())
+        		{
+                	if(this.digOutTick > 0)
+                	{
+                		this.digOutTick--;
+                	}
+                	else if(player == null)
+                	{
+                		this.moveTo(this.position().add(0.0F, 0.3F, 0.0F));
+                		this.setAnimationState(3);
+                		this.setAnimationTick(35);
+                	}
+        		}
         	}
         }
         
@@ -305,6 +315,28 @@ public class EntityCrab extends AbstractAnimatableCreature
 		}
 		return false;
     }
+	
+	@Override
+	public void handleEntityEvent(byte p_21375_)
+	{
+		super.handleEntityEvent(p_21375_);
+		
+		if(p_21375_ == 99)
+		{
+			RandomSource random = this.getRandom();
+			BlockState blockState = this.getBlockStateOn();
+			if(blockState.getRenderShape() != RenderShape.INVISIBLE) 
+			{
+				for(int i = 0; i < 5; ++i) 
+				{
+					double d0 = this.getX() + (double)Mth.randomBetween(random, -0.3F, 0.3F);
+					double d1 = this.getY();
+					double d2 = this.getZ() + (double)Mth.randomBetween(random, -0.3F, 0.3F);
+					this.level.addParticle(new BlockParticleOption(ParticleTypes.BLOCK, blockState), d0, d1, d2, 0.0D, 0.0D, 0.0D);
+				}
+			}
+		}
+	}
 	
 	@Override
 	public boolean hurt(DamageSource p_21016_, float p_21017_) 

@@ -43,6 +43,12 @@ public class OceanicUtil
 		});
 	}
 	
+	public static Vec3 getRandomPosition(Entity entity, int range)
+	{
+    	Vec3 vec3 = entity.position().add(Mth.randomBetweenInclusive(entity.level.random, -range, range), Mth.randomBetweenInclusive(entity.level.random, -range, range), Mth.randomBetweenInclusive(entity.level.random, -range, range));
+        return vec3;
+	}
+	
 	public static Vec3 getSpreadPosition(Entity entity, double range)
 	{
         double x = (double) entity.getX() + (entity.level.random.nextDouble() - entity.level.random.nextDouble()) * (double)range + 0.5D;
