@@ -19,14 +19,12 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.ai.util.DefaultRandomPos;
 import net.minecraft.world.entity.animal.Dolphin;
 import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.pathfinder.Path;
-import net.minecraft.world.phys.Vec3;
 
 public class EntityBullShark extends AbstractOceanicShark
 {	
@@ -155,24 +153,6 @@ public class EntityBullShark extends AbstractOceanicShark
 				}
 			}
 		}
-		List<WaterAnimal> list = this.level.getEntitiesOfClass(WaterAnimal.class, this.getBoundingBox().inflate(5.0F), t -> !(t instanceof EntityGreatWhiteShark) && !(t instanceof EntityBullShark));
-		list.forEach(t -> 
-		{
-			if(this.tickCount % 20 == 0)
-			{
-		        Vec3 vec3 = DefaultRandomPos.getPosAway(t, 16, 7, this.position());
-		        if(vec3 != null)
-		        {
-		            t.getNavigation().moveTo(vec3.x, vec3.y, vec3.z, 0.7F);
-		        }
-			}
-		});
-	}
-	
-	@Override
-	public int getBodyRotationSpeed() 
-	{
-		return 6;
 	}
 	
     @Override

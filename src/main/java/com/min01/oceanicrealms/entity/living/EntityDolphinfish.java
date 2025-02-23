@@ -41,7 +41,7 @@ public class EntityDolphinfish extends AbstractOceanicCreature
     {
         return Monster.createMonsterAttributes()
         		.add(Attributes.MAX_HEALTH, 15.0F)
-        		.add(Attributes.MOVEMENT_SPEED, 0.5F);
+        		.add(Attributes.MOVEMENT_SPEED, 0.58F);
     }
     
     @Override
@@ -72,7 +72,7 @@ public class EntityDolphinfish extends AbstractOceanicCreature
 			EntityDolphinfish leader = this.getLeader();
 			if(this.distanceTo(leader) > 2.5F)
 			{
-				this.getNavigation().moveTo(leader, 0.5F);
+				this.getNavigation().moveTo(leader, 0.58F);
 			}
 			else
 			{
@@ -80,7 +80,7 @@ public class EntityDolphinfish extends AbstractOceanicCreature
 				{
 					BlockPos pos = leader.getNavigation().getPath().getTarget();
 					Path path = this.getNavigation().createPath(pos, 1);
-					this.getNavigation().moveTo(path, 0.5F);
+					this.getNavigation().moveTo(path, 0.58F);
 				}
 				if(leader.getTarget() != null)
 				{

@@ -305,7 +305,7 @@ public class EntityCrab extends AbstractAnimatableCreature
 	public static boolean checkCrabSpawnRules(EntityType<EntityCrab> type, ServerLevelAccessor pServerLevel, MobSpawnType pMobSpawnType, BlockPos pPos, RandomSource pRandom) 
     {
         Structure structure = pServerLevel.registryAccess().registryOrThrow(Registries.STRUCTURE).get(BuiltinStructures.SHIPWRECK_BEACHED);
-		ServerLevel level = (ServerLevel) pServerLevel;
+		ServerLevel level = pServerLevel.getLevel();
 		boolean isWater = pServerLevel.getBlockState(pPos).is(Blocks.WATER);
 		boolean isLand = TurtleEggBlock.onSand(pServerLevel, pPos) || pServerLevel.getBlockState(pPos.below()).is(Blocks.GRASS_BLOCK) || pServerLevel.getBlockState(pPos.below()).is(Blocks.MUD);
 		boolean isShipwreck = level.structureManager().getStructureAt(pPos, structure).isValid();

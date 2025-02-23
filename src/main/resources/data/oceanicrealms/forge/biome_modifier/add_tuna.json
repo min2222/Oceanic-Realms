@@ -1,0 +1,10 @@
+{
+	"type": "forge:add_spawns",
+	"biomes": "#oceanicrealms:cold_oceans",
+	"spawners": {
+		"type": "oceanicrealms:tuna",
+		"weight": 20,
+		"minCount": 1,
+		"maxCount": 1
+	}
+}
