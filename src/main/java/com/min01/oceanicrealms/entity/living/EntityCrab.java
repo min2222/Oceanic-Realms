@@ -2,7 +2,6 @@ package com.min01.oceanicrealms.entity.living;
 
 import javax.annotation.Nullable;
 
-import com.min01.oceanicrealms.block.OceanicBlocks;
 import com.min01.oceanicrealms.config.OceanicConfig;
 import com.min01.oceanicrealms.entity.AbstractAnimatableCreature;
 import com.min01.oceanicrealms.network.OceanicNetwork;
@@ -44,7 +43,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.BuiltinStructures;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.Tags;
 
 public class EntityCrab extends AbstractAnimatableCreature
@@ -118,7 +116,7 @@ public class EntityCrab extends AbstractAnimatableCreature
     		@Override
     		public boolean canUse()
     		{
-    			return super.canUse() && this.mob.level.getNearestPlayer(this.mob.getX(), this.mob.getY(), this.mob.getZ(), 2.5F, true) == null;
+    			return super.canUse() && EntityCrab.this.getAnimationState() == 0;
     		}
     		
     		@Override
@@ -195,7 +193,7 @@ public class EntityCrab extends AbstractAnimatableCreature
             }
         }
 
-        boolean flag = this.isNight() && this.level.getBlockState(this.blockPosition().below()).is(OceanicBlocks.CRAB_HOLE.get());
+        //boolean flag = this.isNight() && this.level.getBlockState(this.blockPosition().below()).is(OceanicBlocks.CRAB_HOLE.get());
         Player player = this.level.getNearestPlayer(this.getX(), this.getY(), this.getZ(), 2.5F, true);
         if(this.getAnimationState() == 0 && this.getNavigation().isDone())
         {
@@ -203,16 +201,17 @@ public class EntityCrab extends AbstractAnimatableCreature
             {
             	this.setAnimationState(1);
             	this.setAnimationTick(30);
+            	this.getNavigation().stop();
             }
-            if(player != null || flag)
+            /*if(player != null || flag)
             {
             	this.setAnimationState(2);
             	this.setAnimationTick(20);
         		this.digOutTick = 80;
-            }
+            }*/
         }
         
-        if(this.getAnimationState() == 2)
+        /*if(this.getAnimationState() == 2)
         {
         	if(!this.isInWall())
         	{
@@ -250,7 +249,7 @@ public class EntityCrab extends AbstractAnimatableCreature
         	{
         		this.setAnimationState(0);
         	}
-        }
+        }*/
         
         if(this.getAnimationTick() <= 0)
         {
@@ -260,7 +259,7 @@ public class EntityCrab extends AbstractAnimatableCreature
         	}
         }
         
-        if(this.getHolePos() != BlockPos.ZERO)
+        /*if(this.getHolePos() != BlockPos.ZERO)
         {
         	if(this.isNight())
         	{
@@ -289,12 +288,18 @@ public class EntityCrab extends AbstractAnimatableCreature
         			}
             	}
         	}
-        }
+        }*/
         
         if(this.isDance || this.getAnimationState() != 0)
         {
         	this.getNavigation().stop();
         }
+    }
+    
+    @Override
+    public int getMaxSpawnClusterSize()
+    {
+    	return 7;
     }
     
     public boolean isNight()

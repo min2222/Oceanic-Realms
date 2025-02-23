@@ -30,7 +30,7 @@ public class OceanicCreativeTabs
     			output.accept(OceanicItems.RAW_TUNA.get());
     			output.accept(OceanicItems.RAW_DOLPHINFISH.get());
     			output.accept(OceanicItems.FISH_FILLET.get());
-    			output.accept(OceanicItems.CRAB_HOLE.get());
+    			//output.accept(OceanicItems.CRAB_HOLE.get());
     			output.accept(OceanicItems.FLOAT_KELP.get());
     		}).build());
 }
