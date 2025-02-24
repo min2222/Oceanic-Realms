@@ -150,10 +150,10 @@ public class EntityHammerheadShark extends AbstractOceanicShark
 	@Override
 	public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_21434_, DifficultyInstance p_21435_, MobSpawnType p_21436_, SpawnGroupData p_21437_, CompoundTag p_21438_) 
 	{
-		if(p_21436_ == MobSpawnType.NATURAL && this.random.nextBoolean())
+		if(p_21436_ == MobSpawnType.NATURAL)
 		{
 			this.setLeader(true);
-			int schoolSize = this.random.nextInt(1, 3);
+			int schoolSize = this.random.nextInt(0, 4);
 			for(int i = 0; i < schoolSize; i++)
 			{
 				EntityHammerheadShark shark = new EntityHammerheadShark(OceanicEntities.HAMMERHEAD_SHARK.get(), this.level);

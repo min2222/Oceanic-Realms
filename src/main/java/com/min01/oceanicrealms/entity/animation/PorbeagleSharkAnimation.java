@@ -5,9 +5,9 @@ import net.minecraft.client.animation.AnimationDefinition;
 import net.minecraft.client.animation.Keyframe;
 import net.minecraft.client.animation.KeyframeAnimations;
 
-public class BullSharkAnimation 
+public class PorbeagleSharkAnimation 
 {
-	public static final AnimationDefinition BULL_SHARK_SWIM = AnimationDefinition.Builder.withLength(1.3722F).looping()
+	public static final AnimationDefinition PORBEAGLE_SHARK_SWIM = AnimationDefinition.Builder.withLength(1.3722F).looping()
 			.addAnimation("bone", new AnimationChannel(AnimationChannel.Targets.ROTATION, 
 				new Keyframe(0.0F, KeyframeAnimations.degreeVec(0.0F, 0.0F, -1.97F), AnimationChannel.Interpolations.LINEAR),
 				new Keyframe(0.0653F, KeyframeAnimations.degreeVec(0.0F, 1.03F, -1.97F), AnimationChannel.Interpolations.LINEAR),
@@ -299,7 +299,7 @@ public class BullSharkAnimation
 			))
 			.build();
 
-		public static final AnimationDefinition BULL_SHARK_ATTACK = AnimationDefinition.Builder.withLength(1.0F).looping()
+		public static final AnimationDefinition PORBEAGLE_SHARK_ATTACK = AnimationDefinition.Builder.withLength(1.0F).looping()
 			.addAnimation("bone4", new AnimationChannel(AnimationChannel.Targets.ROTATION, 
 				new Keyframe(0.0F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
 				new Keyframe(0.4583F, KeyframeAnimations.degreeVec(-5.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
@@ -350,7 +350,7 @@ public class BullSharkAnimation
 			))
 			.build();
 
-		public static final AnimationDefinition BULL_SHARK_EATING = AnimationDefinition.Builder.withLength(1.0F).looping()
+		public static final AnimationDefinition PORBEAGLE_SHARK_EATING = AnimationDefinition.Builder.withLength(1.0F).looping()
 			.addAnimation("bone5", new AnimationChannel(AnimationChannel.Targets.ROTATION, 
 				new Keyframe(0.0F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
 				new Keyframe(0.25F, KeyframeAnimations.degreeVec(-5.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),

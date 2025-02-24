@@ -12,6 +12,7 @@ public class OceanicTags
 	public static class OceanicBiomes
 	{
 		public static final TagKey<Biome> CRAB_SPAWN_BIOMES = create("crab_spawn_biomes");
+		public static final TagKey<Biome> WARM_AND_COLD_OCEANS = create("warm_and_cold_oceans");
 		public static final TagKey<Biome> COLD_OCEANS = create("cold_oceans");
 		public static final TagKey<Biome> WARM_OCEANS = create("warm_oceans");
 		

@@ -21,7 +21,7 @@ public class OceanicCreativeTabs
     		{
     			output.accept(OceanicItems.GREAT_WHITE_SHARK_SPAWN_EGG.get());
     			output.accept(OceanicItems.CRAB_SPAWN_EGG.get());
-    			output.accept(OceanicItems.BULL_SHARK_SPAWN_EGG.get());
+    			output.accept(OceanicItems.PORBEAGLE_SHARK_SPAWN_EGG.get());
     			output.accept(OceanicItems.TUNA_SPAWN_EGG.get());
     			output.accept(OceanicItems.DOLPHINFISH_SPAWN_EGG.get());
     			output.accept(OceanicItems.HAMMERHEAD_SHARK_SPAWN_EGG.get());
@@ -32,5 +32,6 @@ public class OceanicCreativeTabs
     			output.accept(OceanicItems.FISH_FILLET.get());
     			//output.accept(OceanicItems.CRAB_HOLE.get());
     			output.accept(OceanicItems.FLOAT_KELP.get());
+    			output.accept(OceanicItems.SEDIMENTARY_SANDSTONE.get());
     		}).build());
 }

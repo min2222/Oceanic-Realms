@@ -8,6 +8,7 @@ import javax.annotation.Nullable;
 
 import com.min01.oceanicrealms.entity.AbstractOceanicCreature;
 import com.min01.oceanicrealms.entity.OceanicEntities;
+import com.min01.oceanicrealms.misc.OceanicTags;
 import com.min01.oceanicrealms.util.OceanicUtil;
 
 import net.minecraft.core.BlockPos;
@@ -31,6 +32,8 @@ public class EntityTuna extends AbstractOceanicCreature
 {
 	public static final EntityDataAccessor<Optional<UUID>> LEADER_UUID = SynchedEntityData.defineId(EntityTuna.class, EntityDataSerializers.OPTIONAL_UUID);
 	public static final EntityDataAccessor<Boolean> IS_LEADER = SynchedEntityData.defineId(EntityTuna.class, EntityDataSerializers.BOOLEAN);
+	public static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(EntityTuna.class, EntityDataSerializers.INT);
+	
 	public EntityTuna(EntityType<? extends WaterAnimal> p_33002_, Level p_33003_)
 	{
 		super(p_33002_, p_33003_);
@@ -49,6 +52,7 @@ public class EntityTuna extends AbstractOceanicCreature
     	super.defineSynchedData();
     	this.entityData.define(LEADER_UUID, Optional.empty());
     	this.entityData.define(IS_LEADER, false);
+    	this.entityData.define(VARIANT, 1);
     }
     
 	@Override
@@ -102,9 +106,17 @@ public class EntityTuna extends AbstractOceanicCreature
 				EntityTuna tuna = new EntityTuna(OceanicEntities.TUNA.get(), this.level);
 				tuna.setPos(this.position());
 				tuna.setLeader(this);
+		    	if(p_21434_.getBiome(tuna.blockPosition()).is(OceanicTags.OceanicBiomes.COLD_OCEANS))
+		    	{
+		    		tuna.setVariant(2);
+		    	}
 				this.level.addFreshEntity(tuna);
 			}
 		}
+    	if(p_21434_.getBiome(this.blockPosition()).is(OceanicTags.OceanicBiomes.COLD_OCEANS))
+    	{
+    		this.setVariant(2);
+    	}
 		return super.finalizeSpawn(p_21434_, p_21435_, p_21436_, p_21437_, p_21438_);
 	}
     
@@ -118,6 +130,7 @@ public class EntityTuna extends AbstractOceanicCreature
     public void addAdditionalSaveData(CompoundTag p_21484_)
     {
     	super.addAdditionalSaveData(p_21484_);
+    	p_21484_.putInt("Variant", this.getVariant());
 		if(this.entityData.get(LEADER_UUID).isPresent())
 		{
 			p_21484_.putUUID("Leader", this.entityData.get(LEADER_UUID).get());
@@ -129,6 +142,10 @@ public class EntityTuna extends AbstractOceanicCreature
     public void readAdditionalSaveData(CompoundTag p_21450_) 
     {
     	super.readAdditionalSaveData(p_21450_);
+    	if(p_21450_.contains("Variant"))
+    	{
+    		this.setVariant(p_21450_.getInt("Variant"));
+    	}
 		if(p_21450_.hasUUID("Leader")) 
 		{
 			this.entityData.set(LEADER_UUID, Optional.of(p_21450_.getUUID("Leader")));
@@ -143,6 +160,16 @@ public class EntityTuna extends AbstractOceanicCreature
     public boolean canRandomSwim() 
     {
     	return super.canRandomSwim() && this.getLeader() == null;
+    }
+    
+    public void setVariant(int value)
+    {
+    	this.entityData.set(VARIANT, value);
+    }
+    
+    public int getVariant()
+    {
+    	return this.entityData.get(VARIANT);
     }
     
     public void setLeader(boolean value)

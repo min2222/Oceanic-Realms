@@ -26,16 +26,16 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.pathfinder.Path;
 
-public class EntityBullShark extends AbstractOceanicShark
+public class EntityPorbeagleShark extends AbstractOceanicShark
 {	
-	public static final EntityDataAccessor<Optional<UUID>> LEADER_UUID = SynchedEntityData.defineId(EntityBullShark.class, EntityDataSerializers.OPTIONAL_UUID);
-	public static final EntityDataAccessor<Integer> SCHOOL_SIZE = SynchedEntityData.defineId(EntityBullShark.class, EntityDataSerializers.INT);
-	public static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(EntityBullShark.class, EntityDataSerializers.INT);
+	public static final EntityDataAccessor<Optional<UUID>> LEADER_UUID = SynchedEntityData.defineId(EntityPorbeagleShark.class, EntityDataSerializers.OPTIONAL_UUID);
+	public static final EntityDataAccessor<Integer> SCHOOL_SIZE = SynchedEntityData.defineId(EntityPorbeagleShark.class, EntityDataSerializers.INT);
+	public static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(EntityPorbeagleShark.class, EntityDataSerializers.INT);
 	
 	public final AnimationState attackAnimationState = new AnimationState();
 	public final AnimationState eatingAnimationState = new AnimationState();
 	
-	public EntityBullShark(EntityType<? extends WaterAnimal> p_33002_, Level p_33003_) 
+	public EntityPorbeagleShark(EntityType<? extends WaterAnimal> p_33002_, Level p_33003_) 
 	{
 		super(p_33002_, p_33003_);
 	}
@@ -58,7 +58,7 @@ public class EntityBullShark extends AbstractOceanicShark
     		@Override
     		public boolean canUse() 
     		{
-    			return super.canUse() && EntityBullShark.this.isHungry() && EntityBullShark.this.getLeader() == null;
+    			return super.canUse() && EntityPorbeagleShark.this.isHungry() && EntityPorbeagleShark.this.getLeader() == null;
     		}
     	});
     	this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Dolphin.class, false, t -> t.isInWater())
@@ -66,7 +66,7 @@ public class EntityBullShark extends AbstractOceanicShark
     		@Override
     		public boolean canUse() 
     		{
-    			return super.canUse() && EntityBullShark.this.isHungry() && EntityBullShark.this.getSchoolSize() >= 6 && EntityBullShark.this.getLeader() == null;
+    			return super.canUse() && EntityPorbeagleShark.this.isHungry() && EntityPorbeagleShark.this.getSchoolSize() >= 6 && EntityPorbeagleShark.this.getLeader() == null;
     		}
     	});
     	this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Player.class, false, t -> t.getHealth() < 5.0F));
@@ -124,7 +124,7 @@ public class EntityBullShark extends AbstractOceanicShark
 		{
 			if(this.tickCount % 20 == 0)
 			{
-				List<EntityBullShark> list = this.level.getEntitiesOfClass(EntityBullShark.class, this.getBoundingBox().inflate(5.0F), t -> !t.isLeader() && t.getLeader() == null);
+				List<EntityPorbeagleShark> list = this.level.getEntitiesOfClass(EntityPorbeagleShark.class, this.getBoundingBox().inflate(5.0F), t -> !t.isLeader() && t.getLeader() == null);
 				list.forEach(t -> 
 				{
 					t.setLeader(this);
@@ -134,7 +134,7 @@ public class EntityBullShark extends AbstractOceanicShark
 		}
 		else if(this.getLeader() != null)
 		{
-			EntityBullShark leader = this.getLeader();
+			EntityPorbeagleShark leader = this.getLeader();
 			if(this.distanceTo(leader) > 2.5F)
 			{
 				this.getNavigation().moveTo(leader, 0.5F);
@@ -197,17 +197,17 @@ public class EntityBullShark extends AbstractOceanicShark
     	return this.getVariant() == 1;
     }
 	
-	public void setLeader(EntityBullShark leader)
+	public void setLeader(EntityPorbeagleShark leader)
 	{
 		this.entityData.set(LEADER_UUID, Optional.of(leader.getUUID()));
 	}
 	
 	@Nullable
-	public EntityBullShark getLeader() 
+	public EntityPorbeagleShark getLeader() 
 	{
 		if(this.entityData.get(LEADER_UUID).isPresent()) 
 		{
-			return (EntityBullShark) OceanicUtil.getEntityByUUID(this.level, this.entityData.get(LEADER_UUID).get());
+			return (EntityPorbeagleShark) OceanicUtil.getEntityByUUID(this.level, this.entityData.get(LEADER_UUID).get());
 		}
 		return null;
 	}

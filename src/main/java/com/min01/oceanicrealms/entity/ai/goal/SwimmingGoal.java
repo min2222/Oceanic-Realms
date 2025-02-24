@@ -5,9 +5,12 @@ import com.min01.oceanicrealms.util.OceanicUtil;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
 public class SwimmingGoal extends Goal 
@@ -60,17 +63,21 @@ public class SwimmingGoal extends Goal
         for(int i = 0; i < 10; i++)
         {
         	Vec3 pos = OceanicUtil.getRandomPosition(this.mob, radius);
-            BlockPos targetPos = BlockPos.containing(pos);
-            BlockState blockState = world.getBlockState(targetPos);
-            
-            if(blockState.is(Blocks.WATER) && this.prevTarget.distanceTo(pos) >= radius)
-            {
-            	this.targetX = pos.x;
-            	this.targetY = pos.y;
-            	this.targetZ = pos.z;
-            	this.prevTarget = new Vec3(this.targetX, this.targetY, this.targetZ);
-            	break;
-            }
+        	HitResult hitResult = this.mob.level.clip(new ClipContext(this.mob.position(), pos, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this.mob));
+        	if(hitResult instanceof BlockHitResult blockHit)
+        	{
+                BlockPos targetPos = blockHit.getBlockPos();
+                BlockState blockState = world.getBlockState(targetPos);
+                
+                if(blockState.is(Blocks.WATER) && this.prevTarget.distanceTo(pos) >= radius)
+                {
+                	this.targetX = pos.x;
+                	this.targetY = pos.y;
+                	this.targetZ = pos.z;
+                	this.prevTarget = new Vec3(this.targetX, this.targetY, this.targetZ);
+                	break;
+                }
+        	}
         }
     }
 }

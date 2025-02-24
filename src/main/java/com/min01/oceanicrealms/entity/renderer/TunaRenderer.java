@@ -18,6 +18,6 @@ public class TunaRenderer extends MobRenderer<EntityTuna, ModelTuna>
 	@Override
 	public ResourceLocation getTextureLocation(EntityTuna p_115812_)
 	{
-		return new ResourceLocation(OceanicRealms.MODID, "textures/entity/tuna.png");
+		return new ResourceLocation(String.format("%s:textures/entity/tuna%d.png", OceanicRealms.MODID, p_115812_.getVariant()));
 	}
 }

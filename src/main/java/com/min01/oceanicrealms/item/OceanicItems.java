@@ -23,7 +23,7 @@ public class OceanicItems
 	
 	public static final RegistryObject<Item> GREAT_WHITE_SHARK_SPAWN_EGG = registerSpawnEgg("great_white_shark_spawn_egg", () -> OceanicEntities.GREAT_WHITE_SHARK.get(), 3760229, 14014421);
 	public static final RegistryObject<Item> CRAB_SPAWN_EGG = registerSpawnEgg("crab_spawn_egg", () -> OceanicEntities.CRAB.get(), 8268809, 16774373);
-	public static final RegistryObject<Item> BULL_SHARK_SPAWN_EGG = registerSpawnEgg("bull_shark_spawn_egg", () -> OceanicEntities.BULL_SHARK.get(), 8347223, 14736324);
+	public static final RegistryObject<Item> PORBEAGLE_SHARK_SPAWN_EGG = registerSpawnEgg("porbeagle_shark_spawn_egg", () -> OceanicEntities.PORBEAGLE_SHARK.get(), 8347223, 14736324);
 	public static final RegistryObject<Item> TUNA_SPAWN_EGG = registerSpawnEgg("tuna_spawn_egg", () -> OceanicEntities.TUNA.get(), 3957141, 12047834);
 	public static final RegistryObject<Item> DOLPHINFISH_SPAWN_EGG = registerSpawnEgg("dolphinfish_spawn_egg", () -> OceanicEntities.DOLPHINFISH.get(), 4962601, 12824900);
 	public static final RegistryObject<Item> HAMMERHEAD_SHARK_SPAWN_EGG = registerSpawnEgg("hammerhead_shark_spawn_egg", () -> OceanicEntities.HAMMERHEAD_SHARK.get(), 6654324, 12174013);
@@ -37,6 +37,7 @@ public class OceanicItems
 	
 	public static final RegistryObject<Item> CRAB_HOLE = registerBlockItem("crab_hole", () -> OceanicBlocks.CRAB_HOLE.get(), new Item.Properties());
 	public static final RegistryObject<Item> FLOAT_KELP = registerBlockItem("float_kelp", () -> OceanicBlocks.FLOAT_KELP.get(), new Item.Properties());
+	public static final RegistryObject<Item> SEDIMENTARY_SANDSTONE = registerBlockItem("sedimentary_sandstone", () -> OceanicBlocks.SEDIMENTARY_SANDSTONE.get(), new Item.Properties());
 	
 	public static RegistryObject<Item> registerBlockItem(String name, Supplier<Block> block, Item.Properties properties)
 	{

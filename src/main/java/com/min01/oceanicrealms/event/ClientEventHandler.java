@@ -2,17 +2,17 @@ package com.min01.oceanicrealms.event;
 
 import com.min01.oceanicrealms.OceanicRealms;
 import com.min01.oceanicrealms.entity.OceanicEntities;
-import com.min01.oceanicrealms.entity.model.ModelBullShark;
 import com.min01.oceanicrealms.entity.model.ModelCrab;
 import com.min01.oceanicrealms.entity.model.ModelDolphinfish;
 import com.min01.oceanicrealms.entity.model.ModelGreatWhiteShark;
 import com.min01.oceanicrealms.entity.model.ModelHammerheadShark;
+import com.min01.oceanicrealms.entity.model.ModelPorbeagleShark;
 import com.min01.oceanicrealms.entity.model.ModelTuna;
-import com.min01.oceanicrealms.entity.renderer.BullSharkRenderer;
 import com.min01.oceanicrealms.entity.renderer.CrabRenderer;
 import com.min01.oceanicrealms.entity.renderer.DolphinfishRenderer;
 import com.min01.oceanicrealms.entity.renderer.GreatWhiteSharkRenderer;
 import com.min01.oceanicrealms.entity.renderer.HammerheadSharkRenderer;
+import com.min01.oceanicrealms.entity.renderer.PorbeagleSharkRenderer;
 import com.min01.oceanicrealms.entity.renderer.TunaRenderer;
 
 import net.minecraftforge.api.distmarker.Dist;
@@ -42,7 +42,7 @@ public class ClientEventHandler
     {
     	event.registerLayerDefinition(ModelGreatWhiteShark.LAYER_LOCATION, ModelGreatWhiteShark::createBodyLayer);
     	event.registerLayerDefinition(ModelCrab.LAYER_LOCATION, ModelCrab::createBodyLayer);
-    	event.registerLayerDefinition(ModelBullShark.LAYER_LOCATION, ModelBullShark::createBodyLayer);
+    	event.registerLayerDefinition(ModelPorbeagleShark.LAYER_LOCATION, ModelPorbeagleShark::createBodyLayer);
     	event.registerLayerDefinition(ModelTuna.LAYER_LOCATION, ModelTuna::createBodyLayer);
     	event.registerLayerDefinition(ModelDolphinfish.LAYER_LOCATION, ModelDolphinfish::createBodyLayer);
     	event.registerLayerDefinition(ModelHammerheadShark.LAYER_LOCATION, ModelHammerheadShark::createBodyLayer);
@@ -53,7 +53,7 @@ public class ClientEventHandler
     {
     	event.registerEntityRenderer(OceanicEntities.GREAT_WHITE_SHARK.get(), GreatWhiteSharkRenderer::new);
     	event.registerEntityRenderer(OceanicEntities.CRAB.get(), CrabRenderer::new);
-    	event.registerEntityRenderer(OceanicEntities.BULL_SHARK.get(), BullSharkRenderer::new);
+    	event.registerEntityRenderer(OceanicEntities.PORBEAGLE_SHARK.get(), PorbeagleSharkRenderer::new);
     	event.registerEntityRenderer(OceanicEntities.TUNA.get(), TunaRenderer::new);
     	event.registerEntityRenderer(OceanicEntities.DOLPHINFISH.get(), DolphinfishRenderer::new);
     	event.registerEntityRenderer(OceanicEntities.HAMMERHEAD_SHARK.get(), HammerheadSharkRenderer::new);
