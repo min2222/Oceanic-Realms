@@ -3,7 +3,7 @@
 	"biomes": "#oceanicrealms:warm_oceans",
 	"spawners": {
 		"type": "oceanicrealms:hammerhead_shark",
-		"weight": 40,
+		"weight": 80,
 		"minCount": 1,
 		"maxCount": 1
 	}

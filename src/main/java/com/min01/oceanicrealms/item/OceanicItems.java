@@ -38,6 +38,7 @@ public class OceanicItems
 	public static final RegistryObject<Item> CRAB_HOLE = registerBlockItem("crab_hole", () -> OceanicBlocks.CRAB_HOLE.get(), new Item.Properties());
 	public static final RegistryObject<Item> FLOAT_KELP = registerBlockItem("float_kelp", () -> OceanicBlocks.FLOAT_KELP.get(), new Item.Properties());
 	public static final RegistryObject<Item> SEDIMENTARY_SANDSTONE = registerBlockItem("sedimentary_sandstone", () -> OceanicBlocks.SEDIMENTARY_SANDSTONE.get(), new Item.Properties());
+	public static final RegistryObject<Item> HARD_SEDIMENTARY_SANDSTONE = registerBlockItem("hard_sedimentary_sandstone", () -> OceanicBlocks.HARD_SEDIMENTARY_SANDSTONE.get(), new Item.Properties());
 	
 	public static RegistryObject<Item> registerBlockItem(String name, Supplier<Block> block, Item.Properties properties)
 	{

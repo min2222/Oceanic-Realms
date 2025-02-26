@@ -40,7 +40,7 @@ public class SwimmingGoal extends Goal
     @Override
     public boolean canContinueToUse() 
     {
-    	return !this.mob.getNavigation().isDone() && this.mob.canRandomSwim();
+    	return !this.mob.getNavigation().isDone();
     }
 
     @Override

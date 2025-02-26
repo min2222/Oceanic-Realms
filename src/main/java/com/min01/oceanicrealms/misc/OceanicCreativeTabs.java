@@ -33,5 +33,6 @@ public class OceanicCreativeTabs
     			//output.accept(OceanicItems.CRAB_HOLE.get());
     			output.accept(OceanicItems.FLOAT_KELP.get());
     			output.accept(OceanicItems.SEDIMENTARY_SANDSTONE.get());
+    			output.accept(OceanicItems.HARD_SEDIMENTARY_SANDSTONE.get());
     		}).build());
 }

@@ -1,0 +1,8 @@
+{
+	"parent": "minecraft:block/cube_bottom_top",
+	"textures": {
+		"bottom": "oceanicrealms:block/hard_sedimentary_sandstone_top",
+		"side": "oceanicrealms:block/hard_sedimentary_sandstone_side",
+		"top": "oceanicrealms:block/hard_sedimentary_sandstone_top"
+	}
+}
