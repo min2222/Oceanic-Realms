@@ -1,12 +1,12 @@
 package com.min01.oceanicrealms.world.feature;
 
+import com.min01.oceanicrealms.block.OceanicBlocks;
 import com.mojang.serialization.Codec;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.levelgen.feature.Feature;
@@ -15,9 +15,9 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlac
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
 
-public class ReefRockShallowFeature extends Feature<ListFeatureConfiguration>
+public class SandstoneArchFeature extends Feature<ListFeatureConfiguration>
 {
-	public ReefRockShallowFeature(Codec<ListFeatureConfiguration> p_65786_) 
+	public SandstoneArchFeature(Codec<ListFeatureConfiguration> p_65786_) 
 	{
 		super(p_65786_);
 	}
@@ -28,12 +28,11 @@ public class ReefRockShallowFeature extends Feature<ListFeatureConfiguration>
 		WorldGenLevel level = p_159749_.level();
 		BlockPos pos = p_159749_.origin();
 		RandomSource random = p_159749_.random();
-		//TODO
-		if(level.getBlockState(pos.above(4)).isAir() && level.getBlockState(pos).is(Blocks.WATER) && level.getBlockState(pos.below()).isCollisionShapeFullBlock(level, pos))
+		if(level.getBlockState(pos.below()).is(OceanicBlocks.SEDIMENTARY_SANDSTONE.get()))
 		{
 			if(random.nextFloat() <= 0.3F)
 			{
-				ResourceLocation location = p_159749_.config().structures.get(random.nextInt(4));
+				ResourceLocation location = p_159749_.config().structures.get(random.nextInt(3));
 				StructureTemplateManager manager = level.getLevel().getStructureManager();
 				StructureTemplate template = manager.getOrCreate(location);
 		    	StructurePlaceSettings settings = (new StructurePlaceSettings()).setMirror(Mirror.values()[random.nextInt(2)]).setRotation(Rotation.getRandom(random));
