@@ -29,7 +29,7 @@ public class ReefRockShallowFeature extends Feature<ListFeatureConfiguration>
 		BlockPos pos = p_159749_.origin();
 		RandomSource random = p_159749_.random();
 		//TODO
-		if(level.getBlockState(pos.above(4)).isAir() && level.getBlockState(pos).is(Blocks.WATER))
+		if(level.getBlockState(pos.above(4)).isAir() && level.getBlockState(pos).is(Blocks.WATER) && !level.getBlockState(pos.below()).isAir())
 		{
 			if(random.nextFloat() <= 0.3F)
 			{

@@ -35,5 +35,6 @@ public class OceanicCreativeTabs
     			output.accept(OceanicItems.SEDIMENTARY_SANDSTONE.get());
     			output.accept(OceanicItems.HARD_SEDIMENTARY_SANDSTONE.get());
     			output.accept(OceanicItems.CLAM.get());
+    			output.accept(OceanicItems.SEA_URCHIN.get());
     		}).build());
 }

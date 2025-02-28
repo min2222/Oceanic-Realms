@@ -1,7 +1,16 @@
 {
 	"variants": {
-		"": {
-			"model": "oceanicrealms:block/clam"
+		"clam_variant=1": {
+			"model": "oceanicrealms:block/clam1"
+		},
+		"clam_variant=2": {
+			"model": "oceanicrealms:block/clam2"
+		},
+		"clam_variant=3": {
+			"model": "oceanicrealms:block/clam3"
+		},
+		"clam_variant=4": {
+			"model": "oceanicrealms:block/clam4"
 		}
 	}
 }

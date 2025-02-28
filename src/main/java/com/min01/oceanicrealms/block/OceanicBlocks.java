@@ -26,6 +26,7 @@ public class OceanicBlocks
     public static final RegistryObject<Block> SEDIMENTARY_SANDSTONE = BLOCKS.register("sedimentary_sandstone", () -> new Block(BlockBehaviour.Properties.copy(Blocks.SANDSTONE)));
     public static final RegistryObject<Block> HARD_SEDIMENTARY_SANDSTONE = BLOCKS.register("hard_sedimentary_sandstone", () -> new Block(BlockBehaviour.Properties.copy(Blocks.SANDSTONE)));
     public static final RegistryObject<Block> CLAM = BLOCKS.register("clam", () -> new ClamBlock());
+    public static final RegistryObject<Block> SEA_URCHIN = BLOCKS.register("sea_urchin", () -> new SeaUrchinBlock());
 
     public static final RegistryObject<BlockEntityType<CrabHoleBlockEntity>> CRAB_HOLE_BLOCK_ENTITY = BLOCK_ENTITIES.register("crab_hole", () -> BlockEntityType.Builder.of(CrabHoleBlockEntity::new, OceanicBlocks.CRAB_HOLE.get()).build(null));
     
