@@ -7,8 +7,11 @@ import java.util.function.Consumer;
 import org.joml.Math;
 
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.entity.LevelEntityGetter;
 import net.minecraft.world.phys.Vec2;
@@ -19,6 +22,22 @@ import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 
 public class OceanicUtil
 {
+	public static void fishFlopping(LivingEntity entity)
+	{
+		fishFlopping(entity, SoundEvents.COD_FLOP, 1.0F, 0.5F);
+	}
+	
+	public static void fishFlopping(LivingEntity entity, SoundEvent flopSound, float volume, float yMotion)
+	{
+        if(!entity.isInWater() && entity.onGround() && entity.verticalCollision) 
+        {
+        	entity.setDeltaMovement(entity.getDeltaMovement().add((double)((entity.getRandom().nextFloat() * 2.0F - 1.0F) * 0.05F), yMotion, (double)((entity.getRandom().nextFloat() * 2.0F - 1.0F) * 0.05F)));
+        	entity.setOnGround(false);
+        	entity.hasImpulse = true;
+        	entity.playSound(flopSound, volume, entity.getVoicePitch());
+        }
+	}
+	
 	@SuppressWarnings("unchecked")
 	public static Entity getEntityByUUID(Level level, UUID uuid)
 	{

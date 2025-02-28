@@ -141,4 +141,32 @@ public class TunaAnimation
 				new Keyframe(1.2529F, KeyframeAnimations.degreeVec(0.0F, 7.5F, 0.0F), AnimationChannel.Interpolations.CATMULLROM)
 			))
 			.build();
+	
+	public static final AnimationDefinition TUNA_DRY = AnimationDefinition.Builder.withLength(0.75F).looping()
+			.addAnimation("bone", new AnimationChannel(AnimationChannel.Targets.ROTATION, 
+				new Keyframe(0.0F, KeyframeAnimations.degreeVec(0.0F, 22.5F, 90.0F), AnimationChannel.Interpolations.CATMULLROM),
+				new Keyframe(0.2083F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 90.0F), AnimationChannel.Interpolations.CATMULLROM),
+				new Keyframe(0.375F, KeyframeAnimations.degreeVec(0.0F, 22.5F, 90.0F), AnimationChannel.Interpolations.CATMULLROM),
+				new Keyframe(0.5833F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 90.0F), AnimationChannel.Interpolations.CATMULLROM),
+				new Keyframe(0.75F, KeyframeAnimations.degreeVec(0.0F, 22.5F, 90.0F), AnimationChannel.Interpolations.CATMULLROM)
+			))
+			.addAnimation("bone", new AnimationChannel(AnimationChannel.Targets.POSITION, 
+				new Keyframe(0.0F, KeyframeAnimations.posVec(0.0F, -2.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
+				new Keyframe(0.75F, KeyframeAnimations.posVec(0.0F, -2.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM)
+			))
+			.addAnimation("bone2", new AnimationChannel(AnimationChannel.Targets.ROTATION, 
+				new Keyframe(0.0417F, KeyframeAnimations.degreeVec(0.0F, -45.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
+				new Keyframe(0.25F, KeyframeAnimations.degreeVec(0.0F, 12.5F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
+				new Keyframe(0.4167F, KeyframeAnimations.degreeVec(0.0F, -45.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
+				new Keyframe(0.625F, KeyframeAnimations.degreeVec(0.0F, 12.5F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
+				new Keyframe(0.75F, KeyframeAnimations.degreeVec(0.0F, -45.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM)
+			))
+			.addAnimation("bone3", new AnimationChannel(AnimationChannel.Targets.ROTATION, 
+				new Keyframe(0.0417F, KeyframeAnimations.degreeVec(0.0F, 17.5F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
+				new Keyframe(0.25F, KeyframeAnimations.degreeVec(0.0F, -35.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
+				new Keyframe(0.4167F, KeyframeAnimations.degreeVec(0.0F, 17.5F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
+				new Keyframe(0.625F, KeyframeAnimations.degreeVec(0.0F, -35.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
+				new Keyframe(0.75F, KeyframeAnimations.degreeVec(0.0F, 17.5F, 0.0F), AnimationChannel.Interpolations.CATMULLROM)
+			))
+			.build();
 }

@@ -62,6 +62,7 @@ public class ModelDolphinfish extends HierarchicalModel<EntityDolphinfish>
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 		OceanicClientUtil.animateHead(this.root, netHeadYaw, headPitch);
 		this.root.zRot += Math.toRadians(entity.getRollAngle());
+		this.animate(entity.dryAnimationState, DolphinfishAnimation.DOLPHINFISH_DRY, ageInTicks);
 		this.animateWalk(DolphinfishAnimation.DOLPHINFISH_SWIM, limbSwing, limbSwingAmount, 3.5F, 2.5F);
 	}
 	

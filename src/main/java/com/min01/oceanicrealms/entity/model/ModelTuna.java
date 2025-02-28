@@ -61,6 +61,7 @@ public class ModelTuna extends HierarchicalModel<EntityTuna>
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 		OceanicClientUtil.animateHead(this.root, netHeadYaw, headPitch);
 		this.root.zRot += Math.toRadians(entity.getRollAngle());
+		this.animate(entity.dryAnimationState, TunaAnimation.TUNA_DRY, ageInTicks);
 		this.animateWalk(TunaAnimation.TUNA_SWIM, limbSwing, limbSwingAmount, 3.5F, 2.5F);
 	}
 	

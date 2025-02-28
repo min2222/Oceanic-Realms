@@ -1,6 +1,9 @@
 package com.min01.oceanicrealms.event;
 
 import com.min01.oceanicrealms.OceanicRealms;
+import com.min01.oceanicrealms.block.OceanicBlocks;
+import com.min01.oceanicrealms.block.model.ModelClam;
+import com.min01.oceanicrealms.blockentity.renderer.NoRotationLimitRenderer;
 import com.min01.oceanicrealms.entity.OceanicEntities;
 import com.min01.oceanicrealms.entity.model.ModelCrab;
 import com.min01.oceanicrealms.entity.model.ModelDolphinfish;
@@ -15,6 +18,7 @@ import com.min01.oceanicrealms.entity.renderer.HammerheadSharkRenderer;
 import com.min01.oceanicrealms.entity.renderer.PorbeagleSharkRenderer;
 import com.min01.oceanicrealms.entity.renderer.TunaRenderer;
 
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -27,6 +31,7 @@ public class ClientEventHandler
 	@SubscribeEvent
 	public static void onFMLClientSetup(FMLClientSetupEvent event)
 	{
+        BlockEntityRenderers.register(OceanicBlocks.NO_ROTATION_LIMIT_BLOCK_ENTITY.get(), NoRotationLimitRenderer::new);
 		/*try
 		{
 		    AESUtil.encryptFiles(".png");
@@ -46,6 +51,7 @@ public class ClientEventHandler
     	event.registerLayerDefinition(ModelTuna.LAYER_LOCATION, ModelTuna::createBodyLayer);
     	event.registerLayerDefinition(ModelDolphinfish.LAYER_LOCATION, ModelDolphinfish::createBodyLayer);
     	event.registerLayerDefinition(ModelHammerheadShark.LAYER_LOCATION, ModelHammerheadShark::createBodyLayer);
+    	event.registerLayerDefinition(ModelClam.LAYER_LOCATION, ModelClam::createBodyLayer);
     }
     
     @SubscribeEvent

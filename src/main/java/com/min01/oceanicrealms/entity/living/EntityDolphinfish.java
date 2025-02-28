@@ -16,6 +16,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnGroupData;
@@ -31,6 +32,8 @@ public class EntityDolphinfish extends AbstractOceanicCreature
 {	
 	public static final EntityDataAccessor<Optional<UUID>> LEADER_UUID = SynchedEntityData.defineId(EntityDolphinfish.class, EntityDataSerializers.OPTIONAL_UUID);
 	public static final EntityDataAccessor<Boolean> IS_LEADER = SynchedEntityData.defineId(EntityDolphinfish.class, EntityDataSerializers.BOOLEAN);
+
+	public final AnimationState dryAnimationState = new AnimationState();
 	
 	public EntityDolphinfish(EntityType<? extends WaterAnimal> p_33002_, Level p_33003_)
 	{
@@ -56,6 +59,14 @@ public class EntityDolphinfish extends AbstractOceanicCreature
 	public void tick() 
 	{
 		super.tick();
+		
+		if(this.level.isClientSide)
+		{
+			this.dryAnimationState.animateWhen(!this.isInWater(), this.tickCount);
+		}
+		
+		OceanicUtil.fishFlopping(this);
+		
 		if(this.isLeader())
 		{
 			if(this.tickCount % 20 == 0)

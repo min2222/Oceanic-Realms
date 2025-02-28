@@ -15,6 +15,7 @@ public class OceanicTags
 		public static final TagKey<Biome> WARM_AND_COLD_OCEANS = create("warm_and_cold_oceans");
 		public static final TagKey<Biome> COLD_OCEANS = create("cold_oceans");
 		public static final TagKey<Biome> WARM_OCEANS = create("warm_oceans");
+		public static final TagKey<Biome> OCEANS = create("oceans");
 		
 		private static TagKey<Biome> create(String p_203849_) 
 		{
