@@ -40,7 +40,7 @@ public class ClamBlock extends FaceAttachedHorizontalDirectionalBlock implements
 	public ClamBlock() 
 	{
 		super(BlockBehaviour.Properties.of().noOcclusion());
-		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(FACE, AttachFace.WALL).setValue(VARIANT, 1));
+		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(FACE, AttachFace.FLOOR).setValue(VARIANT, 1).setValue(WATERLOGGED, false));
 	}
 	
 	@Override

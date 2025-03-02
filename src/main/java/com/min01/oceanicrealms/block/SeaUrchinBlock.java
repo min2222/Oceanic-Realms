@@ -35,7 +35,7 @@ public class SeaUrchinBlock extends FaceAttachedHorizontalDirectionalBlock imple
 	public SeaUrchinBlock() 
 	{
 		super(BlockBehaviour.Properties.of().noOcclusion());
-		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(FACE, AttachFace.WALL).setValue(VARIANT, 1));
+		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(FACE, AttachFace.FLOOR).setValue(VARIANT, 1));
 	}
 	
 	@Override

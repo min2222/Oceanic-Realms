@@ -31,5 +31,4 @@ public class CrabHoleFeature extends Feature<NoneFeatureConfiguration>
 		}
 		return false;
 	}
-
 }
