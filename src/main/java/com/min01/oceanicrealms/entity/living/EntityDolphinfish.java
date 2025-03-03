@@ -44,7 +44,7 @@ public class EntityDolphinfish extends AbstractOceanicCreature
     {
         return Monster.createMonsterAttributes()
         		.add(Attributes.MAX_HEALTH, 15.0F)
-        		.add(Attributes.MOVEMENT_SPEED, 0.58F);
+        		.add(Attributes.MOVEMENT_SPEED, 0.5F);
     }
     
     @Override

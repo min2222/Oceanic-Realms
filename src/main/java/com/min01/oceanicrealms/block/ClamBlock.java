@@ -5,8 +5,10 @@ import com.min01.oceanicrealms.blockentity.NoRotationLimitBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.FaceAttachedHorizontalDirectionalBlock;
@@ -87,8 +89,10 @@ public class ClamBlock extends FaceAttachedHorizontalDirectionalBlock implements
 	public BlockState getStateForPlacement(BlockPlaceContext p_54302_)
 	{
 		BlockState state = super.getStateForPlacement(p_54302_);
+		Level level = p_54302_.getLevel();
+		RandomSource random = level.random;
 		FluidState fluidState = p_54302_.getLevel().getFluidState(p_54302_.getClickedPos());
-		return state != null ? state.setValue(WATERLOGGED, fluidState.is(FluidTags.WATER)) : state;
+		return state != null ? state.setValue(WATERLOGGED, fluidState.is(FluidTags.WATER)).setValue(VARIANT, random.nextInt(1, 5)) : state;
 	}
 	
     @Override

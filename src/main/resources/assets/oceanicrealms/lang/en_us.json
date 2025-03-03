@@ -9,8 +9,6 @@
 	"entity.oceanicrealms.hammerhead_shark": "Hammerhead Shark",
 	"entity.oceanicrealms.float_kelp_leaves": "Float Kelp Leaves",
 	"block.oceanicrealms.crab_hole": "Crab Hole",
-	"block.oceanicrealms.float_kelp_plant": "Float Kelp",
-	"block.oceanicrealms.float_kelp": "Float Kelp",
 	"block.oceanicrealms.sedimentary_sandstone": "Sedimentary Sandstone",
 	"block.oceanicrealms.hard_sedimentary_sandstone": "Hard Sedimentary Sandstone",
 	"block.oceanicrealms.clam": "Clam",
@@ -25,5 +23,9 @@
 	"item.oceanicrealms.cooked_crab_claw": "Cooked Crab Claw",
 	"item.oceanicrealms.raw_tuna": "Raw Tuna",
 	"item.oceanicrealms.raw_dolphinfish": "Raw Dolphinfish",
-	"item.oceanicrealms.fish_fillet": "Fish Fillet"
+	"item.oceanicrealms.fish_fillet": "Fish Fillet",
+	"item.oceanicrealms.mackerel_fish": "Mackerel fish",
+	"item.oceanicrealms.cooked_mackerel_fish": "Cooked Mackerel fish",
+	"item.oceanicrealms.silver_pomfret_fish": "Silver Pomfret Fish",
+	"item.oceanicrealms.cooked_silver_pomfret_fish": "Cooked Silver Pomfret Fish"
 }

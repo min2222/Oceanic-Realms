@@ -37,7 +37,7 @@ public class ReefRockShallowFeature extends Feature<ListFeatureConfiguration>
 				StructureTemplateManager manager = level.getLevel().getStructureManager();
 				StructureTemplate template = manager.getOrCreate(location);
 		    	StructurePlaceSettings settings = (new StructurePlaceSettings()).setMirror(Mirror.values()[random.nextInt(2)]).setRotation(Rotation.getRandom(random));
-		    	template.placeInWorld(level, pos, pos, settings, random, 3);
+		    	template.placeInWorld(level, pos.below(), pos.below(), settings, random, 3);
 				return true;
 			}
 		}

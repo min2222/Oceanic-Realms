@@ -22,6 +22,18 @@ import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 
 public class OceanicUtil
 {
+	public static Vec3 fromToVector(Vec3 from, Vec3 to, float scale)
+	{
+		Vec3 motion = to.subtract(from).normalize();
+		return motion.scale(scale);
+	}
+	
+	public static Vec3 fromToVector(Vec3 from, Vec3 to)
+	{
+		Vec3 motion = to.subtract(from).normalize();
+		return motion;
+	}
+	
 	public static void fishFlopping(LivingEntity entity)
 	{
 		fishFlopping(entity, SoundEvents.COD_FLOP, 1.0F, 0.5F);
