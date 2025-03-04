@@ -2,14 +2,15 @@ package com.min01.oceanicrealms.event;
 
 import com.min01.oceanicrealms.OceanicRealms;
 import com.min01.oceanicrealms.entity.OceanicEntities;
-import com.min01.oceanicrealms.entity.living.EntityPorbeagleShark;
 import com.min01.oceanicrealms.entity.living.EntityCrab;
 import com.min01.oceanicrealms.entity.living.EntityDolphinfish;
 import com.min01.oceanicrealms.entity.living.EntityGreatWhiteShark;
 import com.min01.oceanicrealms.entity.living.EntityHammerheadShark;
+import com.min01.oceanicrealms.entity.living.EntityPorbeagleShark;
 import com.min01.oceanicrealms.entity.living.EntityTuna;
 
 import net.minecraft.world.entity.SpawnPlacements;
+import net.minecraft.world.entity.animal.Salmon;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
@@ -29,6 +30,8 @@ public class EventHandler
     	event.put(OceanicEntities.TUNA.get(), EntityTuna.createAttributes().build());
     	event.put(OceanicEntities.DOLPHINFISH.get(), EntityDolphinfish.createAttributes().build());
     	event.put(OceanicEntities.HAMMERHEAD_SHARK.get(), EntityHammerheadShark.createAttributes().build());
+    	event.put(OceanicEntities.MACKEREL_FISH.get(), Salmon.createAttributes().build());
+    	event.put(OceanicEntities.SILVER_POMFRET_FISH.get(), Salmon.createAttributes().build());
     }
     
 	@SubscribeEvent

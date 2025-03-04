@@ -3,6 +3,7 @@ package com.min01.oceanicrealms.entity.living;
 import java.util.function.Predicate;
 
 import com.min01.oceanicrealms.entity.AbstractOceanicShark;
+import com.min01.oceanicrealms.entity.IBoid;
 
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.world.entity.AnimationState;
@@ -88,7 +89,7 @@ public class EntityGreatWhiteShark extends AbstractOceanicShark
 	@Override
 	public <T extends Entity> Predicate<? super T> getPredicate()
 	{
-		return t -> !(t instanceof EntityGreatWhiteShark);
+		return t -> !(t instanceof EntityGreatWhiteShark) && !(t instanceof IBoid);
 	}
 	
 	@Override

@@ -116,7 +116,7 @@ public abstract class AbstractOceanicShark extends AbstractOceanicCreature
 		        Vec3 vec3 = DefaultRandomPos.getPosAway(t, 16, 7, this.position());
 		        if(vec3 != null)
 		        {
-		            t.getNavigation().moveTo(vec3.x, vec3.y, vec3.z, 0.8F);
+		            t.getNavigation().moveTo(vec3.x, vec3.y, vec3.z, 0.5F);
 		        }
 			}
 		});
@@ -124,7 +124,7 @@ public abstract class AbstractOceanicShark extends AbstractOceanicCreature
     
     public <T extends Entity> Predicate<? super T> getPredicate()
     {
-    	return t -> !(t instanceof AbstractOceanicShark);
+    	return t -> !(t instanceof AbstractOceanicShark) && !(t instanceof IBoid);
     }
 	
 	@Override

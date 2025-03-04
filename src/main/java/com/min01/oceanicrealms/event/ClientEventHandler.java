@@ -9,13 +9,17 @@ import com.min01.oceanicrealms.entity.model.ModelCrab;
 import com.min01.oceanicrealms.entity.model.ModelDolphinfish;
 import com.min01.oceanicrealms.entity.model.ModelGreatWhiteShark;
 import com.min01.oceanicrealms.entity.model.ModelHammerheadShark;
+import com.min01.oceanicrealms.entity.model.ModelMackerelFish;
 import com.min01.oceanicrealms.entity.model.ModelPorbeagleShark;
+import com.min01.oceanicrealms.entity.model.ModelSilverPomfretFish;
 import com.min01.oceanicrealms.entity.model.ModelTuna;
 import com.min01.oceanicrealms.entity.renderer.CrabRenderer;
 import com.min01.oceanicrealms.entity.renderer.DolphinfishRenderer;
 import com.min01.oceanicrealms.entity.renderer.GreatWhiteSharkRenderer;
 import com.min01.oceanicrealms.entity.renderer.HammerheadSharkRenderer;
+import com.min01.oceanicrealms.entity.renderer.MackerelFishRenderer;
 import com.min01.oceanicrealms.entity.renderer.PorbeagleSharkRenderer;
+import com.min01.oceanicrealms.entity.renderer.SilverPomfretFishRenderer;
 import com.min01.oceanicrealms.entity.renderer.TunaRenderer;
 
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
@@ -52,6 +56,8 @@ public class ClientEventHandler
     	event.registerLayerDefinition(ModelDolphinfish.LAYER_LOCATION, ModelDolphinfish::createBodyLayer);
     	event.registerLayerDefinition(ModelHammerheadShark.LAYER_LOCATION, ModelHammerheadShark::createBodyLayer);
     	event.registerLayerDefinition(ModelClam.LAYER_LOCATION, ModelClam::createBodyLayer);
+    	event.registerLayerDefinition(ModelMackerelFish.LAYER_LOCATION, ModelMackerelFish::createBodyLayer);
+    	event.registerLayerDefinition(ModelSilverPomfretFish.LAYER_LOCATION, ModelSilverPomfretFish::createBodyLayer);
     }
     
     @SubscribeEvent
@@ -63,5 +69,7 @@ public class ClientEventHandler
     	event.registerEntityRenderer(OceanicEntities.TUNA.get(), TunaRenderer::new);
     	event.registerEntityRenderer(OceanicEntities.DOLPHINFISH.get(), DolphinfishRenderer::new);
     	event.registerEntityRenderer(OceanicEntities.HAMMERHEAD_SHARK.get(), HammerheadSharkRenderer::new);
+    	event.registerEntityRenderer(OceanicEntities.MACKEREL_FISH.get(), MackerelFishRenderer::new);
+    	event.registerEntityRenderer(OceanicEntities.SILVER_POMFRET_FISH.get(), SilverPomfretFishRenderer::new);
     }
 }
