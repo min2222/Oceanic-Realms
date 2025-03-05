@@ -9,6 +9,7 @@ import com.min01.oceanicrealms.world.feature.ReefRockDeepFeature;
 import com.min01.oceanicrealms.world.feature.ReefRockShallowFeature;
 import com.min01.oceanicrealms.world.feature.SandstoneArchFeature;
 import com.min01.oceanicrealms.world.feature.SandstonePillarFeature;
+import com.min01.oceanicrealms.world.feature.SeaAnemoneFeature;
 import com.min01.oceanicrealms.world.feature.SeaUrchinFeature;
 
 import net.minecraft.world.level.levelgen.feature.Feature;
@@ -29,4 +30,5 @@ public class OceanicFeatures
     public static final RegistryObject<Feature<ListFeatureConfiguration>> REEF_ROCK_DEEP = FEATURES.register("reef_rock_deep", () -> new ReefRockDeepFeature(ListFeatureConfiguration.CODEC));
     public static final RegistryObject<Feature<NoneFeatureConfiguration>> SEA_URCHIN = FEATURES.register("sea_urchin", () -> new SeaUrchinFeature(NoneFeatureConfiguration.CODEC));
     public static final RegistryObject<Feature<NoneFeatureConfiguration>> CLAM = FEATURES.register("clam", () -> new ClamFeature(NoneFeatureConfiguration.CODEC));
+    public static final RegistryObject<Feature<NoneFeatureConfiguration>> SEA_ANEMONE = FEATURES.register("sea_anemone", () -> new SeaAnemoneFeature(NoneFeatureConfiguration.CODEC));
 }

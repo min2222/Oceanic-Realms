@@ -3,6 +3,8 @@ package com.min01.oceanicrealms.event;
 import com.min01.oceanicrealms.OceanicRealms;
 import com.min01.oceanicrealms.block.OceanicBlocks;
 import com.min01.oceanicrealms.block.model.ModelClam;
+import com.min01.oceanicrealms.block.model.ModelSeaAnemone;
+import com.min01.oceanicrealms.blockentity.renderer.AnimatableBlockRenderer;
 import com.min01.oceanicrealms.blockentity.renderer.NoRotationLimitRenderer;
 import com.min01.oceanicrealms.entity.OceanicEntities;
 import com.min01.oceanicrealms.entity.model.ModelCrab;
@@ -36,6 +38,7 @@ public class ClientEventHandler
 	public static void onFMLClientSetup(FMLClientSetupEvent event)
 	{
         BlockEntityRenderers.register(OceanicBlocks.NO_ROTATION_LIMIT_BLOCK_ENTITY.get(), NoRotationLimitRenderer::new);
+        BlockEntityRenderers.register(OceanicBlocks.ANIMATABLE_BLOCK_ENTITY.get(), AnimatableBlockRenderer::new);
 		/*try
 		{
 		    AESUtil.encryptFiles(".png");
@@ -58,6 +61,7 @@ public class ClientEventHandler
     	event.registerLayerDefinition(ModelClam.LAYER_LOCATION, ModelClam::createBodyLayer);
     	event.registerLayerDefinition(ModelMackerelFish.LAYER_LOCATION, ModelMackerelFish::createBodyLayer);
     	event.registerLayerDefinition(ModelSilverPomfretFish.LAYER_LOCATION, ModelSilverPomfretFish::createBodyLayer);
+    	event.registerLayerDefinition(ModelSeaAnemone.LAYER_LOCATION, ModelSeaAnemone::createBodyLayer);
     }
     
     @SubscribeEvent

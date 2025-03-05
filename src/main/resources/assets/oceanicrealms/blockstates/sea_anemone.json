@@ -1,0 +1,22 @@
+{
+	"variants": {
+		"anemone_variant=1,is_warm=false": {
+			"model": "oceanicrealms:block/sea_anemone1"
+		},
+		"anemone_variant=2,is_warm=false": {
+			"model": "oceanicrealms:block/sea_anemone2"
+		},
+		"anemone_variant=3,is_warm=false": {
+			"model": "oceanicrealms:block/sea_anemone3"
+		},
+		"anemone_variant=1,is_warm=true": {
+			"model": "oceanicrealms:block/warm_sea_anemone1"
+		},
+		"anemone_variant=2,is_warm=true": {
+			"model": "oceanicrealms:block/warm_sea_anemone2"
+		},
+		"anemone_variant=3,is_warm=true": {
+			"model": "oceanicrealms:block/warm_sea_anemone3"
+		}
+	}
+}
