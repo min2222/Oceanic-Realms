@@ -1,13 +1,21 @@
 package com.min01.oceanicrealms.entity.living;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
 
 import com.min01.oceanicrealms.entity.AbstractOceanicShark;
+import com.min01.oceanicrealms.entity.IAvoid;
 import com.min01.oceanicrealms.entity.OceanicEntities;
+import com.min01.oceanicrealms.misc.Boid;
+import com.min01.oceanicrealms.misc.Boid.Bounds;
 import com.min01.oceanicrealms.util.OceanicUtil;
 
 import net.minecraft.core.BlockPos;
@@ -15,6 +23,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.util.Mth;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.EntityType;
@@ -26,14 +35,25 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.Dolphin;
 import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.pathfinder.Path;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 
 public class EntityHammerheadShark extends AbstractOceanicShark
 {	
 	public static final EntityDataAccessor<Optional<UUID>> LEADER_UUID = SynchedEntityData.defineId(EntityHammerheadShark.class, EntityDataSerializers.OPTIONAL_UUID);
 	public static final EntityDataAccessor<Boolean> IS_LEADER = SynchedEntityData.defineId(EntityHammerheadShark.class, EntityDataSerializers.BOOLEAN);
+
+	public static final Vec3 BOUND_SIZE = new Vec3(4, 4, 4);
+	
+	public Bounds bounds;
+	public final Collection<Boid.Obstacle> obstacles = new ArrayList<Boid.Obstacle>();
+	public final Map<EntityHammerheadShark, Boid> boids = new HashMap<EntityHammerheadShark, Boid>();
 	
 	public final AnimationState attackAnimationState = new AnimationState();
 	public final AnimationState eatingAnimationState = new AnimationState();
@@ -55,7 +75,7 @@ public class EntityHammerheadShark extends AbstractOceanicShark
     protected void registerGoals() 
     {
     	super.registerGoals();
-    	this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, WaterAnimal.class, false, t -> t.isInWater() && !(t instanceof Dolphin) && !(t instanceof AbstractOceanicShark))
+    	this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, WaterAnimal.class, false, t -> t.isInWater() && !(t instanceof Dolphin) && !(t instanceof AbstractOceanicShark) && !(t instanceof IAvoid))
     	{
     		@Override
     		public boolean canUse() 
@@ -112,57 +132,147 @@ public class EntityHammerheadShark extends AbstractOceanicShark
 	public void tick() 
 	{
 		super.tick();
-		if(this.isLeader())
+		if(this.isLeader() && this.isInWater())
 		{
-			if(this.tickCount % 20 == 0)
+			if(this.tickCount % 60 == 0)
 			{
-				List<EntityHammerheadShark> list = this.level.getEntitiesOfClass(EntityHammerheadShark.class, this.getBoundingBox().inflate(5.0F), t -> !t.isLeader() && t.getLeader() == null);
-				list.forEach(t -> 
+				this.recreateBounds();
+			}
+			
+			for(Entry<EntityHammerheadShark, Boid> entry : this.boids.entrySet())
+			{
+				EntityHammerheadShark shark = entry.getKey();
+				Boid boid = entry.getValue();
+				Vec3 direction = boid.direction;
+				BlockPos pos = BlockPos.containing(shark.position().add(direction));
+				boid.update(this.boids.values(), this.obstacles, true, true, true, 2.5F, 0.25F);
+				if(this.bounds != null)
 				{
-					t.setLeader(this);
-				});
+					boid.bounds = this.bounds;
+				}
+				while(shark.level.getBlockState(pos.above()).isAir())
+				{
+					direction = direction.subtract(0.0F, 0.5F, 0.0F);
+					pos = BlockPos.containing(shark.position().add(direction));
+				}
+				shark.setDeltaMovement(direction);
+				shark.setYRot(-(float)(Mth.atan2(direction.x, direction.z) * (double)(180.0F / (float)Math.PI)));
+				shark.setYHeadRot(shark.getYRot());
+				shark.setYBodyRot(shark.getYRot());
+				shark.setXRot(-(float)(Mth.atan2(direction.y, direction.horizontalDistance()) * (double)(180.0F / (float)Math.PI)));
 			}
 		}
-		else if(this.getLeader() != null)
+		
+		if(this.bounds != null)
 		{
-			EntityHammerheadShark leader = this.getLeader();
-			if(this.distanceTo(leader) > 2.5F)
+			for(int x = (int)this.bounds.minX(); x < this.bounds.maxX(); x++) 
 			{
-				this.getNavigation().moveTo(leader, 0.45F);
-			}
-			else
-			{
-				if(leader.getNavigation().getPath() != null)
+				for(int y = (int)this.bounds.minY(); y < this.bounds.maxY(); y++)
 				{
-					BlockPos pos = leader.getNavigation().getPath().getTarget();
-					Path path = this.getNavigation().createPath(pos, 1);
-					this.getNavigation().moveTo(path, 0.45F);
+					for(int z = (int)this.bounds.minZ(); z < this.bounds.maxZ(); z++)
+					{
+						BlockPos pos = new BlockPos(x, y, z);
+						if(this.level.getBlockState(pos).isCollisionShapeFullBlock(this.level, pos) || this.level.getBlockState(pos).isAir()) 
+						{
+							this.obstacles.add(new Boid.Obstacle(Vec3.atCenterOf(pos), 5, 0.1F));
+						}
+					}
 				}
-				if(leader.getTarget() != null)
+			}
+			
+			List<EntityGreatWhiteShark> list = this.level.getEntitiesOfClass(EntityGreatWhiteShark.class, this.getBoundingBox().inflate(2.0F));
+			list.forEach(t -> 
+			{
+				if(this.bounds.contains(t.position()))
 				{
-					this.setTarget(leader.getTarget());
+					this.obstacles.add(new Boid.Obstacle(t.position(), 5, 0.1F));
+				}
+			});
+		}
+		
+		if(!this.level.isClientSide)
+		{
+			if(this.getLeader() != null)
+			{
+				EntityHammerheadShark leader = this.getLeader();
+				if(!leader.boids.containsKey(this))
+				{
+					Bounds bounds = Bounds.fromCenter(leader.position(), BOUND_SIZE);
+					Vec3 pos = new Vec3(bounds.minX() + Math.random() * bounds.size.x, bounds.minY() + Math.random() * bounds.size.y, bounds.minZ() + Math.random() * bounds.size.z);
+					leader.boids.put(this, new Boid(pos, bounds));
+				}
+			}
+			if(this.isLeader())
+			{
+				if(!this.boids.containsKey(this))
+				{
+					Bounds bounds = Bounds.fromCenter(this.position(), BOUND_SIZE);
+					Vec3 pos = new Vec3(bounds.minX() + Math.random() * bounds.size.x, bounds.minY() + Math.random() * bounds.size.y, bounds.minZ() + Math.random() * bounds.size.z);
+					this.bounds = bounds;
+					this.boids.put(this, new Boid(pos, bounds));
 				}
 			}
 		}
 	}
 	
+    public void recreateBounds() 
+    {
+        Level world = this.level;
+        if(!this.hasTarget())
+        {
+            int radius = 8;
+            
+            for(int i = 0; i < 10; i++)
+            {
+            	Vec3 pos = OceanicUtil.getRandomPosition(this, radius);
+            	HitResult hitResult = this.level.clip(new ClipContext(this.position(), pos, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
+            	if(hitResult instanceof BlockHitResult blockHit)
+            	{
+                    BlockPos targetPos = blockHit.getBlockPos();
+                    BlockState blockState = world.getBlockState(targetPos);
+                    BlockState blockState2 = world.getBlockState(targetPos.above());
+                    
+                    if(blockState.is(Blocks.WATER) && blockState2.is(Blocks.WATER))
+                    {
+        				this.bounds = Bounds.fromCenter(pos, BOUND_SIZE);
+                    	break;
+                    }
+            	}
+            }
+        }
+        else
+        {
+        	if(this.getTarget() != null)
+        	{
+    			this.bounds = Bounds.fromCenter(this.getTarget().position(), BOUND_SIZE);
+        	}
+        }
+    }
+	
 	@SuppressWarnings("deprecation")
 	@Override
 	public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_21434_, DifficultyInstance p_21435_, MobSpawnType p_21436_, SpawnGroupData p_21437_, CompoundTag p_21438_) 
 	{
-		if(p_21436_ == MobSpawnType.NATURAL)
-		{
-			this.setLeader(true);
-			int schoolSize = this.random.nextInt(0, 4);
-			for(int i = 0; i < schoolSize; i++)
-			{
-				EntityHammerheadShark shark = new EntityHammerheadShark(OceanicEntities.HAMMERHEAD_SHARK.get(), this.level);
-				shark.setPos(this.position());
-				shark.setLeader(this);
-				this.level.addFreshEntity(shark);
-			}
-		}
+		this.setLeader(true);
+		Bounds bounds = Bounds.fromCenter(this.position(), BOUND_SIZE);
+		Vec3 pos = new Vec3(bounds.minX() + Math.random() * bounds.size.x, bounds.minY() + Math.random() * bounds.size.y, bounds.minZ() + Math.random() * bounds.size.z);
+		this.boids.put(this, new Boid(pos, bounds));
+		this.bounds = bounds;
+		this.createBoid(pos, bounds);
 		return super.finalizeSpawn(p_21434_, p_21435_, p_21436_, p_21437_, p_21438_);
+	}
+	
+	public void createBoid(Vec3 pos, Bounds bounds)
+	{
+		int schoolSize = this.random.nextInt(1, 4);
+		for(int i = 0; i < schoolSize; i++)
+		{
+			EntityHammerheadShark shark = new EntityHammerheadShark(OceanicEntities.HAMMERHEAD_SHARK.get(), this.level);
+			shark.setPos(this.position());
+			shark.setLeader(this);
+			this.boids.put(shark, new Boid(pos, bounds));
+			this.level.addFreshEntity(shark);
+		}
 	}
 	
     @Override
@@ -193,7 +303,7 @@ public class EntityHammerheadShark extends AbstractOceanicShark
     @Override
     public boolean canRandomSwim() 
     {
-    	return super.canRandomSwim() && this.getLeader() == null;
+    	return false;
     }
     
     @Override

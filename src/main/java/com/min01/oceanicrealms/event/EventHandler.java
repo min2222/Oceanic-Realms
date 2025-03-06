@@ -6,6 +6,7 @@ import com.min01.oceanicrealms.entity.living.EntityCrab;
 import com.min01.oceanicrealms.entity.living.EntityDolphinfish;
 import com.min01.oceanicrealms.entity.living.EntityGreatWhiteShark;
 import com.min01.oceanicrealms.entity.living.EntityHammerheadShark;
+import com.min01.oceanicrealms.entity.living.EntityLionfish;
 import com.min01.oceanicrealms.entity.living.EntityPorbeagleShark;
 import com.min01.oceanicrealms.entity.living.EntityTuna;
 
@@ -32,6 +33,7 @@ public class EventHandler
     	event.put(OceanicEntities.HAMMERHEAD_SHARK.get(), EntityHammerheadShark.createAttributes().build());
     	event.put(OceanicEntities.MACKEREL_FISH.get(), Salmon.createAttributes().build());
     	event.put(OceanicEntities.SILVER_POMFRET_FISH.get(), Salmon.createAttributes().build());
+    	event.put(OceanicEntities.LIONFISH.get(), EntityLionfish.createAttributes().build());
     }
     
 	@SubscribeEvent

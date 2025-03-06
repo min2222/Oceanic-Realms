@@ -56,7 +56,7 @@ public class ModelSilverPomfretFish extends HierarchicalModel<EntitySilverPomfre
 		OceanicClientUtil.animateHead(this.root, netHeadYaw, headPitch);
 		this.root.zRot += Math.toRadians(entity.getRollAngle());
 		this.animate(entity.dryAnimationState, SilverPomfretFishAnimation.SILVER_POMFRET_FISH_DRY, ageInTicks);
-		this.animateWalk(SilverPomfretFishAnimation.SILVER_POMFRET_FISH_SWIM, limbSwing, limbSwingAmount, 3.5F, 2.5F);
+		this.animateWalk(SilverPomfretFishAnimation.SILVER_POMFRET_FISH_SWIM, limbSwing, limbSwingAmount, 1.5F, 2.5F);
 	}
 	
 	@Override

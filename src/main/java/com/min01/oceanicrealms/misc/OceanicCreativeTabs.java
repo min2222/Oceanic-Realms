@@ -27,6 +27,7 @@ public class OceanicCreativeTabs
     			output.accept(OceanicItems.HAMMERHEAD_SHARK_SPAWN_EGG.get());
     			output.accept(OceanicItems.MACKEREL_FISH_SPAWN_EGG.get());
     			output.accept(OceanicItems.SILVER_POMFRET_FISH_SPAWN_EGG.get());
+    			output.accept(OceanicItems.LIONFISH_SPAWN_EGG.get());
     			output.accept(OceanicItems.CRAB_CLAW.get());
     			output.accept(OceanicItems.COOKED_CRAB_CLAW.get());
     			output.accept(OceanicItems.RAW_TUNA.get());

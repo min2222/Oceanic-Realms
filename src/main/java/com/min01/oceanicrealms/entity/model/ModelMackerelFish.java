@@ -61,7 +61,7 @@ public class ModelMackerelFish extends HierarchicalModel<EntityMackerelFish>
 		OceanicClientUtil.animateHead(this.root, netHeadYaw, headPitch);
 		this.root.zRot += Math.toRadians(entity.getRollAngle());
 		this.animate(entity.dryAnimationState, MackerelFishAnimation.MACKEREL_FISH_DRY, ageInTicks);
-		this.animateWalk(MackerelFishAnimation.MACKEREL_FISH_SWIM, limbSwing, limbSwingAmount, 3.5F, 2.5F);
+		this.animateWalk(MackerelFishAnimation.MACKEREL_FISH_SWIM, limbSwing, limbSwingAmount, 1.5F, 2.5F);
 	}
 	
 	@Override

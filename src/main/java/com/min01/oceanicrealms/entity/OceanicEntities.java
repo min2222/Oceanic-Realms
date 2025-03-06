@@ -1,13 +1,14 @@
 package com.min01.oceanicrealms.entity;
 
 import com.min01.oceanicrealms.OceanicRealms;
-import com.min01.oceanicrealms.entity.living.EntityPorbeagleShark;
-import com.min01.oceanicrealms.entity.living.EntitySilverPomfretFish;
 import com.min01.oceanicrealms.entity.living.EntityCrab;
 import com.min01.oceanicrealms.entity.living.EntityDolphinfish;
 import com.min01.oceanicrealms.entity.living.EntityGreatWhiteShark;
 import com.min01.oceanicrealms.entity.living.EntityHammerheadShark;
+import com.min01.oceanicrealms.entity.living.EntityLionfish;
 import com.min01.oceanicrealms.entity.living.EntityMackerelFish;
+import com.min01.oceanicrealms.entity.living.EntityPorbeagleShark;
+import com.min01.oceanicrealms.entity.living.EntitySilverPomfretFish;
 import com.min01.oceanicrealms.entity.living.EntityTuna;
 
 import net.minecraft.resources.ResourceLocation;
@@ -30,6 +31,7 @@ public class OceanicEntities
 	public static final RegistryObject<EntityType<EntityHammerheadShark>> HAMMERHEAD_SHARK = registerEntity("hammerhead_shark", createBuilder(EntityHammerheadShark::new, MobCategory.WATER_AMBIENT).sized(0.625F, 0.875F));
 	public static final RegistryObject<EntityType<EntityMackerelFish>> MACKEREL_FISH = registerEntity("mackerel_fish", createBuilder(EntityMackerelFish::new, MobCategory.WATER_AMBIENT).sized(0.6F, 0.6F));
 	public static final RegistryObject<EntityType<EntitySilverPomfretFish>> SILVER_POMFRET_FISH = registerEntity("silver_pomfret_fish", createBuilder(EntitySilverPomfretFish::new, MobCategory.WATER_AMBIENT).sized(0.3F, 0.3F));
+	public static final RegistryObject<EntityType<EntityLionfish>> LIONFISH = registerEntity("lionfish", createBuilder(EntityLionfish::new, MobCategory.WATER_AMBIENT).sized(0.4F, 0.4F));
 	
 	public static <T extends Entity> EntityType.Builder<T> createBuilder(EntityType.EntityFactory<T> factory, MobCategory category)
 	{
