@@ -4,6 +4,7 @@ import com.min01.oceanicrealms.OceanicRealms;
 import com.min01.oceanicrealms.block.OceanicBlocks;
 import com.min01.oceanicrealms.block.model.ModelClam;
 import com.min01.oceanicrealms.block.model.ModelSeaAnemone;
+import com.min01.oceanicrealms.block.model.ModelStarfish;
 import com.min01.oceanicrealms.blockentity.renderer.AnimatableBlockRenderer;
 import com.min01.oceanicrealms.blockentity.renderer.NoRotationLimitRenderer;
 import com.min01.oceanicrealms.entity.OceanicEntities;
@@ -62,6 +63,7 @@ public class ClientEventHandler
     	event.registerLayerDefinition(ModelMackerelFish.LAYER_LOCATION, ModelMackerelFish::createBodyLayer);
     	event.registerLayerDefinition(ModelSilverPomfretFish.LAYER_LOCATION, ModelSilverPomfretFish::createBodyLayer);
     	event.registerLayerDefinition(ModelSeaAnemone.LAYER_LOCATION, ModelSeaAnemone::createBodyLayer);
+    	event.registerLayerDefinition(ModelStarfish.LAYER_LOCATION, ModelStarfish::createBodyLayer);
     }
     
     @SubscribeEvent

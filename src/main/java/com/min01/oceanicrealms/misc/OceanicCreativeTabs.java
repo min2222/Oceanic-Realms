@@ -42,5 +42,6 @@ public class OceanicCreativeTabs
     			output.accept(OceanicItems.CLAM.get());
     			output.accept(OceanicItems.SEA_URCHIN.get());
     			output.accept(OceanicItems.SEA_ANEMONE.get());
+    			output.accept(OceanicItems.STARFISH.get());
     		}).build());
 }

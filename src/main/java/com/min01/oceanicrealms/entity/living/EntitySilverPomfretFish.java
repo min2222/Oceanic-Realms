@@ -13,7 +13,6 @@ import javax.annotation.Nullable;
 
 import com.min01.oceanicrealms.entity.AbstractOceanicCreature;
 import com.min01.oceanicrealms.entity.AbstractOceanicShark;
-import com.min01.oceanicrealms.entity.IBoid;
 import com.min01.oceanicrealms.entity.OceanicEntities;
 import com.min01.oceanicrealms.misc.Boid;
 import com.min01.oceanicrealms.misc.Boid.Bounds;
@@ -35,7 +34,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.Vec3;
 
-public class EntitySilverPomfretFish extends AbstractOceanicCreature implements IBoid
+public class EntitySilverPomfretFish extends AbstractOceanicCreature
 {	
 	public static final EntityDataAccessor<Optional<UUID>> LEADER_UUID = SynchedEntityData.defineId(EntitySilverPomfretFish.class, EntityDataSerializers.OPTIONAL_UUID);
 	public static final EntityDataAccessor<Boolean> IS_LEADER = SynchedEntityData.defineId(EntitySilverPomfretFish.class, EntityDataSerializers.BOOLEAN);

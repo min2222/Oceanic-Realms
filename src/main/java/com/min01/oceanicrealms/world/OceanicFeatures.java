@@ -11,6 +11,7 @@ import com.min01.oceanicrealms.world.feature.SandstoneArchFeature;
 import com.min01.oceanicrealms.world.feature.SandstonePillarFeature;
 import com.min01.oceanicrealms.world.feature.SeaAnemoneFeature;
 import com.min01.oceanicrealms.world.feature.SeaUrchinFeature;
+import com.min01.oceanicrealms.world.feature.StarfishFeature;
 
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
@@ -31,4 +32,5 @@ public class OceanicFeatures
     public static final RegistryObject<Feature<NoneFeatureConfiguration>> SEA_URCHIN = FEATURES.register("sea_urchin", () -> new SeaUrchinFeature(NoneFeatureConfiguration.CODEC));
     public static final RegistryObject<Feature<NoneFeatureConfiguration>> CLAM = FEATURES.register("clam", () -> new ClamFeature(NoneFeatureConfiguration.CODEC));
     public static final RegistryObject<Feature<NoneFeatureConfiguration>> SEA_ANEMONE = FEATURES.register("sea_anemone", () -> new SeaAnemoneFeature(NoneFeatureConfiguration.CODEC));
+    public static final RegistryObject<Feature<NoneFeatureConfiguration>> STARFISH = FEATURES.register("starfish", () -> new StarfishFeature(NoneFeatureConfiguration.CODEC));
 }

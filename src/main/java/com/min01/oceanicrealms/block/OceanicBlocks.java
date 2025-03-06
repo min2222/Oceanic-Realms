@@ -24,6 +24,7 @@ public class OceanicBlocks
     public static final RegistryObject<Block> CLAM = BLOCKS.register("clam", () -> new ClamBlock());
     public static final RegistryObject<Block> SEA_URCHIN = BLOCKS.register("sea_urchin", () -> new SeaUrchinBlock());
     public static final RegistryObject<Block> SEA_ANEMONE = BLOCKS.register("sea_anemone", () -> new SeaAnemoneBlock());
+    public static final RegistryObject<Block> STARFISH = BLOCKS.register("starfish", () -> new StarfishBlock());
 
     public static final RegistryObject<BlockEntityType<CrabHoleBlockEntity>> CRAB_HOLE_BLOCK_ENTITY = BLOCK_ENTITIES.register("crab_hole", () -> BlockEntityType.Builder.of(CrabHoleBlockEntity::new, OceanicBlocks.CRAB_HOLE.get()).build(null));
     
@@ -31,5 +32,6 @@ public class OceanicBlocks
     		OceanicBlocks.CLAM.get()).build(null));
     
     public static final RegistryObject<BlockEntityType<AnimatableBlockEntity>> ANIMATABLE_BLOCK_ENTITY = BLOCK_ENTITIES.register("animatable", () -> BlockEntityType.Builder.of(AnimatableBlockEntity::new, 
-    		OceanicBlocks.SEA_ANEMONE.get()).build(null));
+    		OceanicBlocks.SEA_ANEMONE.get(),
+    		OceanicBlocks.STARFISH.get()).build(null));
 }

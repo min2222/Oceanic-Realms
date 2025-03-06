@@ -1,0 +1,31 @@
+{
+	"variants": {
+		"starfish_variant=1": {
+			"model": "oceanicrealms:block/starfish1"
+		},
+		"starfish_variant=2": {
+			"model": "oceanicrealms:block/starfish2"
+		},
+		"starfish_variant=3": {
+			"model": "oceanicrealms:block/starfish3"
+		},
+		"starfish_variant=4": {
+			"model": "oceanicrealms:block/starfish4"
+		},
+		"starfish_variant=5": {
+			"model": "oceanicrealms:block/starfish5"
+		},
+		"starfish_variant=6": {
+			"model": "oceanicrealms:block/starfish6"
+		},
+		"starfish_variant=7": {
+			"model": "oceanicrealms:block/starfish7"
+		},
+		"starfish_variant=8": {
+			"model": "oceanicrealms:block/starfish8"
+		},
+		"starfish_variant=9": {
+			"model": "oceanicrealms:block/starfish9"
+		}
+	}
+}

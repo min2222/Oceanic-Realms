@@ -1,13 +1,21 @@
 package com.min01.oceanicrealms.entity.living;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
 
 import com.min01.oceanicrealms.entity.AbstractOceanicCreature;
+import com.min01.oceanicrealms.entity.AbstractOceanicShark;
 import com.min01.oceanicrealms.entity.OceanicEntities;
+import com.min01.oceanicrealms.misc.Boid;
+import com.min01.oceanicrealms.misc.Boid.Bounds;
 import com.min01.oceanicrealms.misc.OceanicTags;
 import com.min01.oceanicrealms.util.OceanicUtil;
 
@@ -16,6 +24,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.util.Mth;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.EntityType;
@@ -27,13 +36,17 @@ import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.pathfinder.Path;
+import net.minecraft.world.phys.Vec3;
 
 public class EntityTuna extends AbstractOceanicCreature
 {
 	public static final EntityDataAccessor<Optional<UUID>> LEADER_UUID = SynchedEntityData.defineId(EntityTuna.class, EntityDataSerializers.OPTIONAL_UUID);
 	public static final EntityDataAccessor<Boolean> IS_LEADER = SynchedEntityData.defineId(EntityTuna.class, EntityDataSerializers.BOOLEAN);
 	public static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(EntityTuna.class, EntityDataSerializers.INT);
+	
+	public Bounds bounds;
+	public final Collection<Boid.Obstacle> obstacles = new ArrayList<Boid.Obstacle>();
+	public final Map<EntityTuna, Boid> boids = new HashMap<EntityTuna, Boid>();
 	
 	public final AnimationState dryAnimationState = new AnimationState();
 	
@@ -70,36 +83,65 @@ public class EntityTuna extends AbstractOceanicCreature
 		
 		OceanicUtil.fishFlopping(this);
 		
-		if(this.isLeader())
+		if(this.isLeader() && this.isInWater())
 		{
-			if(this.tickCount % 20 == 0)
+			if(this.tickCount % 60 == 0)
 			{
-				List<EntityTuna> list = this.level.getEntitiesOfClass(EntityTuna.class, this.getBoundingBox().inflate(5.0F), t -> !t.isLeader() && t.getLeader() == null);
-				list.forEach(t -> 
+				this.bounds = Bounds.fromCenter(this.position(), new Vec3(4, 4, 4));
+			}
+			for(Entry<EntityTuna, Boid> entry : this.boids.entrySet())
+			{
+				EntityTuna fish = entry.getKey();
+				Boid boid = entry.getValue();
+				Vec3 direction = boid.direction;
+				boid.update(this.boids.values(), this.obstacles, true, true, true, 2.5F, 0.25F);
+				if(this.bounds != null)
 				{
-					t.setLeader(this);
-				});
+					boid.bounds = this.bounds;
+				}
+				fish.setDeltaMovement(direction);
+				fish.setYRot(-(float)(Mth.atan2(direction.x, direction.z) * (double)(180.0F / (float)Math.PI)));
+				fish.setYHeadRot(fish.getYRot());
+				fish.setYBodyRot(fish.getYRot());
+				fish.setXRot(-(float)(Mth.atan2(direction.y, direction.horizontalDistance()) * (double)(180.0F / (float)Math.PI)));
 			}
 		}
-		else if(this.getLeader() != null)
+		
+		if(this.bounds != null)
+		{
+			for(int x = (int)this.bounds.minX(); x < this.bounds.maxX(); x++) 
+			{
+				for(int y = (int)this.bounds.minY(); y < this.bounds.maxY(); y++)
+				{
+					for(int z = (int)this.bounds.minZ(); z < this.bounds.maxZ(); z++)
+					{
+						BlockPos pos = new BlockPos(x, y, z);
+						if(this.level.getBlockState(pos).isCollisionShapeFullBlock(this.level, pos) || this.level.getBlockState(pos).isAir()) 
+						{
+							this.obstacles.add(new Boid.Obstacle(Vec3.atCenterOf(pos), 5, 0.1F));
+						}
+					}
+				}
+			}
+			
+			List<AbstractOceanicShark> list = this.level.getEntitiesOfClass(AbstractOceanicShark.class, this.getBoundingBox().inflate(5.0F));
+			list.forEach(t -> 
+			{
+				if(this.bounds.contains(t.position()))
+				{
+					this.obstacles.add(new Boid.Obstacle(t.position(), 5, 0.1F));
+				}
+			});
+		}
+		
+		if(this.getLeader() != null && !this.level.isClientSide)
 		{
 			EntityTuna leader = this.getLeader();
-			if(this.distanceTo(leader) > 2.5F)
+			if(!leader.boids.containsKey(this))
 			{
-				this.getNavigation().moveTo(leader, 0.58F);
-			}
-			else
-			{
-				if(leader.getNavigation().getPath() != null)
-				{
-					BlockPos pos = leader.getNavigation().getPath().getTarget();
-					Path path = this.getNavigation().createPath(pos, 1);
-					this.getNavigation().moveTo(path, 0.58F);
-				}
-				if(leader.getTarget() != null)
-				{
-					this.setTarget(leader.getTarget());
-				}
+				Bounds bounds = Bounds.fromCenter(leader.position(), new Vec3(8, 8, 8));
+				Vec3 pos = new Vec3(bounds.minX() + Math.random() * bounds.size.x, bounds.minY() + Math.random() * bounds.size.y, bounds.minZ() + Math.random() * bounds.size.z);
+				leader.boids.put(this, new Boid(pos, bounds));
 			}
 		}
 	}
@@ -108,27 +150,34 @@ public class EntityTuna extends AbstractOceanicCreature
 	@Override
 	public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_21434_, DifficultyInstance p_21435_, MobSpawnType p_21436_, SpawnGroupData p_21437_, CompoundTag p_21438_) 
 	{
-		if(p_21436_ == MobSpawnType.NATURAL)
-		{
-			this.setLeader(true);
-			int schoolSize = this.random.nextInt(3, 7);
-			for(int i = 0; i < schoolSize; i++)
-			{
-				EntityTuna tuna = new EntityTuna(OceanicEntities.TUNA.get(), this.level);
-				tuna.setPos(this.position());
-				tuna.setLeader(this);
-		    	if(p_21434_.getBiome(tuna.blockPosition()).is(OceanicTags.OceanicBiomes.COLD_OCEANS))
-		    	{
-		    		tuna.setVariant(2);
-		    	}
-				this.level.addFreshEntity(tuna);
-			}
-		}
+		this.setLeader(true);
+		Bounds bounds = Bounds.fromCenter(this.position(), new Vec3(4, 4, 4));
+		Vec3 pos = new Vec3(bounds.minX() + Math.random() * bounds.size.x, bounds.minY() + Math.random() * bounds.size.y, bounds.minZ() + Math.random() * bounds.size.z);
+		this.boids.put(this, new Boid(pos, bounds));
+		this.bounds = bounds;
+		this.createBoid(pos, bounds, p_21434_.getBiome(this.blockPosition()).is(OceanicTags.OceanicBiomes.COLD_OCEANS));
     	if(p_21434_.getBiome(this.blockPosition()).is(OceanicTags.OceanicBiomes.COLD_OCEANS))
     	{
     		this.setVariant(2);
     	}
 		return super.finalizeSpawn(p_21434_, p_21435_, p_21436_, p_21437_, p_21438_);
+	}
+	
+	public void createBoid(Vec3 pos, Bounds bounds, boolean isCold)
+	{
+		int schoolSize = this.random.nextInt(3, 7);
+		for(int i = 0; i < schoolSize; i++)
+		{
+			EntityTuna tuna = new EntityTuna(OceanicEntities.TUNA.get(), this.level);
+			tuna.setPos(this.position());
+			tuna.setLeader(this);
+			if(isCold)
+			{
+				tuna.setVariant(2);
+			}
+			this.boids.put(tuna, new Boid(pos, bounds));
+			this.level.addFreshEntity(tuna);
+		}
 	}
     
 	@Override
@@ -170,7 +219,7 @@ public class EntityTuna extends AbstractOceanicCreature
     @Override
     public boolean canRandomSwim() 
     {
-    	return super.canRandomSwim() && this.getLeader() == null;
+    	return false;
     }
     
     public void setVariant(int value)
