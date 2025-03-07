@@ -16,6 +16,7 @@ import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.FaceAttachedHorizontalDirectionalBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -45,8 +46,8 @@ public class StarfishBlock extends FaceAttachedHorizontalDirectionalBlock implem
 	
 	public StarfishBlock() 
 	{
-		super(BlockBehaviour.Properties.of().noOcclusion());
-		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(FACE, AttachFace.FLOOR).setValue(VARIANT, 1).setValue(WATERLOGGED, false));
+		super(BlockBehaviour.Properties.of().noOcclusion().sound(SoundType.SLIME_BLOCK));
+		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(FACE, AttachFace.FLOOR).setValue(VARIANT, 1));
 	}
 	
 	@Override

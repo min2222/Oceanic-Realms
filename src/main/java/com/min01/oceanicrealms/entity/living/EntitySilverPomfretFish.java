@@ -26,6 +26,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.util.Mth;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
@@ -86,6 +87,7 @@ public class EntitySilverPomfretFish extends AbstractOceanicCreature
 			{
 				this.recreateBounds();
 			}
+			
 			for(Entry<EntitySilverPomfretFish, Boid> entry : this.boids.entrySet())
 			{
 				EntitySilverPomfretFish fish = entry.getKey();
@@ -108,17 +110,14 @@ public class EntitySilverPomfretFish extends AbstractOceanicCreature
 				fish.setYBodyRot(fish.getYRot());
 				fish.setXRot(-(float)(Mth.atan2(direction.y, direction.horizontalDistance()) * (double)(180.0F / (float)Math.PI)));
 			}
-		}
-		
-		if(this.bounds != null)
-		{
-			for(int x = (int)this.bounds.minX(); x < this.bounds.maxX(); x++) 
+			
+			for(int x = -1; x < 1; x++) 
 			{
-				for(int y = (int)this.bounds.minY(); y < this.bounds.maxY(); y++)
+				for(int y = -1; y < 1; y++)
 				{
-					for(int z = (int)this.bounds.minZ(); z < this.bounds.maxZ(); z++)
+					for(int z = -1; z < 1; z++)
 					{
-						BlockPos pos = new BlockPos(x, y, z);
+						BlockPos pos = this.blockPosition().offset(x, y, z);
 						if(this.level.getBlockState(pos).isCollisionShapeFullBlock(this.level, pos) || this.level.getBlockState(pos).isAir()) 
 						{
 							this.obstacles.add(new Boid.Obstacle(Vec3.atCenterOf(pos), 5, 0.1F));
@@ -126,7 +125,10 @@ public class EntitySilverPomfretFish extends AbstractOceanicCreature
 					}
 				}
 			}
-			
+		}
+		
+		if(this.bounds != null)
+		{
 			List<AbstractOceanicCreature> list = this.level.getEntitiesOfClass(AbstractOceanicCreature.class, this.getBoundingBox().inflate(3.0F), t -> t instanceof AbstractOceanicShark || t instanceof IAvoid);
 			list.forEach(t -> 
 			{
@@ -185,6 +187,30 @@ public class EntitySilverPomfretFish extends AbstractOceanicCreature
                 }
         	}
         }
+    }
+    
+    @Override
+    public void die(DamageSource p_21014_) 
+    {
+    	super.die(p_21014_);
+    	if(this.isLeader())
+    	{
+			int rand = (int) Math.floor(Math.random() * this.boids.keySet().size());
+			EntitySilverPomfretFish silverPomfretFish = this.boids.keySet().stream().toList().get(rand);
+    		Bounds bounds = Bounds.fromCenter(this.position(), BOUND_SIZE);
+    		silverPomfretFish.setLeader(true);
+    		silverPomfretFish.setLeader(null);
+    		silverPomfretFish.bounds = bounds;
+    		silverPomfretFish.boids.putAll(this.boids);
+			for(Entry<EntitySilverPomfretFish, Boid> entry : silverPomfretFish.boids.entrySet())
+			{
+				EntitySilverPomfretFish fish = entry.getKey();
+				if(!fish.isLeader())
+				{
+					fish.setLeader(silverPomfretFish);
+				}
+			}
+    	}
     }
 	
 	@SuppressWarnings("deprecation")

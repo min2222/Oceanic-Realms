@@ -61,7 +61,7 @@ public class ModelLionfish extends HierarchicalModel<EntityLionfish>
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 		OceanicClientUtil.animateHead(this.root, netHeadYaw, headPitch);
 		this.root.zRot += Math.toRadians(entity.getRollAngle());
-		this.animateWalk(LionfishAnimation.LIONFISH_SWIM, limbSwing, limbSwingAmount, 2.5F, 2.5F);
+		this.animateWalk(LionfishAnimation.LIONFISH_SWIM, limbSwing, limbSwingAmount, 8.5F, 2.5F);
 	}
 	
 	@Override

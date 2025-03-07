@@ -26,6 +26,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.util.Mth;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
@@ -94,6 +95,7 @@ public class EntityDolphinfish extends AbstractOceanicCreature
 			{
 				this.recreateBounds();
 			}
+			
 			for(Entry<EntityDolphinfish, Boid> entry : this.boids.entrySet())
 			{
 				EntityDolphinfish fish = entry.getKey();
@@ -111,22 +113,21 @@ public class EntityDolphinfish extends AbstractOceanicCreature
 					pos = BlockPos.containing(fish.position().add(direction));
 				}
 				fish.setDeltaMovement(direction);
-				fish.setYRot(-(float)(Mth.atan2(direction.x, direction.z) * (double)(180.0F / (float)Math.PI)));
+				float yRot = -(float)(Mth.atan2(direction.x, direction.z) * (double)(180.0F / (float)Math.PI));
+				float xRot = -(float)(Mth.atan2(direction.y, direction.horizontalDistance()) * (double)(180.0F / (float)Math.PI));
+				fish.setYRot(OceanicUtil.rotlerp(this.getYRot(), yRot, (float)this.getBodyRotationSpeed()));
 				fish.setYHeadRot(fish.getYRot());
 				fish.setYBodyRot(fish.getYRot());
-				fish.setXRot(-(float)(Mth.atan2(direction.y, direction.horizontalDistance()) * (double)(180.0F / (float)Math.PI)));
+				fish.setXRot(OceanicUtil.rotlerp(this.getXRot(), xRot, (float)this.getBodyRotationSpeed()));
 			}
-		}
-		
-		if(this.bounds != null)
-		{
-			for(int x = (int)this.bounds.minX(); x < this.bounds.maxX(); x++) 
+			
+			for(int x = -1; x < 1; x++) 
 			{
-				for(int y = (int)this.bounds.minY(); y < this.bounds.maxY(); y++)
+				for(int y = -1; y < 1; y++)
 				{
-					for(int z = (int)this.bounds.minZ(); z < this.bounds.maxZ(); z++)
+					for(int z = -1; z < 1; z++)
 					{
-						BlockPos pos = new BlockPos(x, y, z);
+						BlockPos pos = this.blockPosition().offset(x, y, z);
 						if(this.level.getBlockState(pos).isCollisionShapeFullBlock(this.level, pos) || this.level.getBlockState(pos).isAir()) 
 						{
 							this.obstacles.add(new Boid.Obstacle(Vec3.atCenterOf(pos), 5, 0.1F));
@@ -134,7 +135,10 @@ public class EntityDolphinfish extends AbstractOceanicCreature
 					}
 				}
 			}
-			
+		}
+		
+		if(this.bounds != null)
+		{
 			List<AbstractOceanicCreature> list = this.level.getEntitiesOfClass(AbstractOceanicCreature.class, this.getBoundingBox().inflate(2.0F), t -> t instanceof AbstractOceanicShark || t instanceof IAvoid);
 			list.forEach(t -> 
 			{
@@ -193,6 +197,30 @@ public class EntityDolphinfish extends AbstractOceanicCreature
                 }
         	}
         }
+    }
+    
+    @Override
+    public void die(DamageSource p_21014_) 
+    {
+    	super.die(p_21014_);
+    	if(this.isLeader())
+    	{
+			int rand = (int) Math.floor(Math.random() * this.boids.keySet().size());
+			EntityDolphinfish dolphinFish = this.boids.keySet().stream().toList().get(rand);
+    		Bounds bounds = Bounds.fromCenter(this.position(), BOUND_SIZE);
+    		dolphinFish.setLeader(true);
+    		dolphinFish.setLeader(null);
+    		dolphinFish.bounds = bounds;
+    		dolphinFish.boids.putAll(this.boids);
+			for(Entry<EntityDolphinfish, Boid> entry : dolphinFish.boids.entrySet())
+			{
+				EntityDolphinfish fish = entry.getKey();
+				if(!fish.isLeader())
+				{
+					fish.setLeader(dolphinFish);
+				}
+			}
+    	}
     }
 	
 	@SuppressWarnings("deprecation")

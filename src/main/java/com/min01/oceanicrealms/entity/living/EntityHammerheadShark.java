@@ -25,6 +25,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.util.Mth;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
@@ -156,22 +157,21 @@ public class EntityHammerheadShark extends AbstractOceanicShark
 					pos = BlockPos.containing(shark.position().add(direction));
 				}
 				shark.setDeltaMovement(direction);
-				shark.setYRot(-(float)(Mth.atan2(direction.x, direction.z) * (double)(180.0F / (float)Math.PI)));
+				float yRot = -(float)(Mth.atan2(direction.x, direction.z) * (double)(180.0F / (float)Math.PI));
+				float xRot = -(float)(Mth.atan2(direction.y, direction.horizontalDistance()) * (double)(180.0F / (float)Math.PI));
+				shark.setYRot(OceanicUtil.rotlerp(this.getYRot(), yRot, (float)this.getBodyRotationSpeed()));
 				shark.setYHeadRot(shark.getYRot());
 				shark.setYBodyRot(shark.getYRot());
-				shark.setXRot(-(float)(Mth.atan2(direction.y, direction.horizontalDistance()) * (double)(180.0F / (float)Math.PI)));
+				shark.setXRot(OceanicUtil.rotlerp(this.getXRot(), xRot, (float)this.getBodyRotationSpeed()));
 			}
-		}
-		
-		if(this.bounds != null)
-		{
-			for(int x = (int)this.bounds.minX(); x < this.bounds.maxX(); x++) 
+			
+			for(int x = -1; x < 1; x++) 
 			{
-				for(int y = (int)this.bounds.minY(); y < this.bounds.maxY(); y++)
+				for(int y = -1; y < 1; y++)
 				{
-					for(int z = (int)this.bounds.minZ(); z < this.bounds.maxZ(); z++)
+					for(int z = -1; z < 1; z++)
 					{
-						BlockPos pos = new BlockPos(x, y, z);
+						BlockPos pos = this.blockPosition().offset(x, y, z);
 						if(this.level.getBlockState(pos).isCollisionShapeFullBlock(this.level, pos) || this.level.getBlockState(pos).isAir()) 
 						{
 							this.obstacles.add(new Boid.Obstacle(Vec3.atCenterOf(pos), 5, 0.1F));
@@ -179,7 +179,10 @@ public class EntityHammerheadShark extends AbstractOceanicShark
 					}
 				}
 			}
-			
+		}
+		
+		if(this.bounds != null)
+		{
 			List<EntityGreatWhiteShark> list = this.level.getEntitiesOfClass(EntityGreatWhiteShark.class, this.getBoundingBox().inflate(2.0F));
 			list.forEach(t -> 
 			{
@@ -247,6 +250,30 @@ public class EntityHammerheadShark extends AbstractOceanicShark
     			this.bounds = Bounds.fromCenter(this.getTarget().position(), BOUND_SIZE);
         	}
         }
+    }
+    
+    @Override
+    public void die(DamageSource p_21014_) 
+    {
+    	super.die(p_21014_);
+    	if(this.isLeader())
+    	{
+			int rand = (int) Math.floor(Math.random() * this.boids.keySet().size());
+			EntityHammerheadShark hammerHeadShark = this.boids.keySet().stream().toList().get(rand);
+    		Bounds bounds = Bounds.fromCenter(this.position(), BOUND_SIZE);
+    		hammerHeadShark.setLeader(true);
+			hammerHeadShark.setLeader(null);
+			hammerHeadShark.bounds = bounds;
+			hammerHeadShark.boids.putAll(this.boids);
+			for(Entry<EntityHammerheadShark, Boid> entry : hammerHeadShark.boids.entrySet())
+			{
+				EntityHammerheadShark fish = entry.getKey();
+				if(!fish.isLeader())
+				{
+					fish.setLeader(hammerHeadShark);
+				}
+			}
+    	}
     }
 	
 	@SuppressWarnings("deprecation")

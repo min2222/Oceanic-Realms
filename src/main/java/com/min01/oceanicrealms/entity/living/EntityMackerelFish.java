@@ -26,6 +26,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.util.Mth;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
@@ -84,6 +85,7 @@ public class EntityMackerelFish extends AbstractOceanicCreature
 			{
 				this.recreateBounds();
 			}
+			
 			for(Entry<EntityMackerelFish, Boid> entry : this.boids.entrySet())
 			{
 				EntityMackerelFish fish = entry.getKey();
@@ -107,32 +109,32 @@ public class EntityMackerelFish extends AbstractOceanicCreature
 				fish.setXRot(-(float)(Mth.atan2(direction.y, direction.horizontalDistance()) * (double)(180.0F / (float)Math.PI)));
 			}
 			
-			if(this.bounds != null)
+			for(int x = -1; x < 1; x++) 
 			{
-				for(int x = (int)this.bounds.minX(); x < this.bounds.maxX(); x++) 
+				for(int y = -1; y < 1; y++)
 				{
-					for(int y = (int)this.bounds.minY(); y < this.bounds.maxY(); y++)
+					for(int z = -1; z < 1; z++)
 					{
-						for(int z = (int)this.bounds.minZ(); z < this.bounds.maxZ(); z++)
+						BlockPos pos = this.blockPosition().offset(x, y, z);
+						if(this.level.getBlockState(pos).isCollisionShapeFullBlock(this.level, pos) || this.level.getBlockState(pos).isAir()) 
 						{
-							BlockPos pos = new BlockPos(x, y, z);
-							if(this.level.getBlockState(pos).isCollisionShapeFullBlock(this.level, pos) || this.level.getBlockState(pos).isAir()) 
-							{
-								this.obstacles.add(new Boid.Obstacle(Vec3.atCenterOf(pos), 5, 0.1F));
-							}
+							this.obstacles.add(new Boid.Obstacle(Vec3.atCenterOf(pos), 5, 0.1F));
 						}
 					}
 				}
-				
-				List<AbstractOceanicCreature> list = this.level.getEntitiesOfClass(AbstractOceanicCreature.class, this.getBoundingBox().inflate(3.0F), t -> t instanceof AbstractOceanicShark || t instanceof IAvoid);
-				list.forEach(t -> 
-				{
-					if(this.bounds.contains(t.position()))
-					{
-						this.obstacles.add(new Boid.Obstacle(t.position(), 5, 0.1F));
-					}
-				});
 			}
+		}
+		
+		if(this.bounds != null)
+		{	
+			List<AbstractOceanicCreature> list = this.level.getEntitiesOfClass(AbstractOceanicCreature.class, this.getBoundingBox().inflate(3.0F), t -> t instanceof AbstractOceanicShark || t instanceof IAvoid);
+			list.forEach(t -> 
+			{
+				if(this.bounds.contains(t.position()))
+				{
+					this.obstacles.add(new Boid.Obstacle(t.position(), 5, 0.1F));
+				}
+			});
 		}
 		
 		if(!this.level.isClientSide)
@@ -183,6 +185,30 @@ public class EntityMackerelFish extends AbstractOceanicCreature
                 }
         	}
         }
+    }
+    
+    @Override
+    public void die(DamageSource p_21014_) 
+    {
+    	super.die(p_21014_);
+    	if(this.isLeader())
+    	{
+			int rand = (int) Math.floor(Math.random() * this.boids.keySet().size());
+			EntityMackerelFish mackerelFish = this.boids.keySet().stream().toList().get(rand);
+    		Bounds bounds = Bounds.fromCenter(this.position(), BOUND_SIZE);
+    		mackerelFish.setLeader(true);
+    		mackerelFish.setLeader(null);
+    		mackerelFish.bounds = bounds;
+    		mackerelFish.boids.putAll(this.boids);
+			for(Entry<EntityMackerelFish, Boid> entry : mackerelFish.boids.entrySet())
+			{
+				EntityMackerelFish fish = entry.getKey();
+				if(!fish.isLeader())
+				{
+					fish.setLeader(mackerelFish);
+				}
+			}
+    	}
     }
 	
 	@SuppressWarnings("deprecation")
