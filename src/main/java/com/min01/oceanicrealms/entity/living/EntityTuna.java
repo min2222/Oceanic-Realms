@@ -133,7 +133,7 @@ public class EntityTuna extends AbstractOceanicCreature
 						BlockPos pos = this.blockPosition().offset(x, y, z);
 						if(this.level.getBlockState(pos).isCollisionShapeFullBlock(this.level, pos) || this.level.getBlockState(pos).isAir()) 
 						{
-							this.obstacles.add(new Boid.Obstacle(Vec3.atCenterOf(pos), 5, 0.1F));
+							this.obstacles.add(new Boid.Obstacle(Vec3.atCenterOf(pos), 12, 0.1F));
 						}
 					}
 				}
@@ -147,7 +147,7 @@ public class EntityTuna extends AbstractOceanicCreature
 			{
 				if(this.bounds.contains(t.position()))
 				{
-					this.obstacles.add(new Boid.Obstacle(t.position(), 5, 0.1F));
+					this.obstacles.add(new Boid.Obstacle(t.position(), 12, 0.1F));
 				}
 			});
 		}
@@ -208,21 +208,7 @@ public class EntityTuna extends AbstractOceanicCreature
     	super.die(p_21014_);
     	if(this.isLeader())
     	{
-			int rand = (int) Math.floor(Math.random() * this.boids.keySet().size());
-			EntityTuna tuna = this.boids.keySet().stream().toList().get(rand);
-    		Bounds bounds = Bounds.fromCenter(this.position(), BOUND_SIZE);
-			tuna.setLeader(true);
-			tuna.setLeader(null);
-			tuna.bounds = bounds;
-			tuna.boids.putAll(this.boids);
-			for(Entry<EntityTuna, Boid> entry : tuna.boids.entrySet())
-			{
-				EntityTuna fish = entry.getKey();
-				if(!fish.isLeader())
-				{
-					fish.setLeader(tuna);
-				}
-			}
+    		
     	}
     }
 	

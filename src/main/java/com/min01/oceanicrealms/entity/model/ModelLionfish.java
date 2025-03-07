@@ -48,9 +48,9 @@ public class ModelLionfish extends HierarchicalModel<EntityLionfish>
 
 		bone.addOrReplaceChild("bone3", CubeListBuilder.create().texOffs(0, 16).addBox(0.0F, -3.0F, -1.0F, 0.0F, 5.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 3.0F));
 
-		bone2.addOrReplaceChild("left", CubeListBuilder.create().texOffs(29, 35).addBox(0.0F, -6.0F, 0.0F, 0.0F, 12.0F, 12.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.0F, 0.0F, -1.0F, -0.0873F, -0.2618F, 0.0F));
+		bone2.addOrReplaceChild("left", CubeListBuilder.create().texOffs(29, 35).addBox(0.0F, -6.0F, 0.0F, 0.0F, 12.0F, 12.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.0F, 0.0F, -1.0F, -0.7854F, -0.0698F, 1.1345F));
 
-		bone2.addOrReplaceChild("right", CubeListBuilder.create().texOffs(29, 35).mirror().addBox(0.0F, -6.0F, 0.0F, 0.0F, 12.0F, 12.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(2.0F, 0.0F, -1.0F, -0.0873F, 0.2618F, 0.0F));
+		bone2.addOrReplaceChild("right", CubeListBuilder.create().texOffs(29, 35).mirror().addBox(0.0F, -6.0F, 0.0F, 0.0F, 12.0F, 12.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(2.0F, 0.0F, -1.0F, -0.7854F, 0.0698F, -1.1345F));
 
 		return LayerDefinition.create(meshdefinition, 64, 64);
 	}

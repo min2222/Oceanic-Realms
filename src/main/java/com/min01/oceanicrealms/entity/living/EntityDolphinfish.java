@@ -130,7 +130,7 @@ public class EntityDolphinfish extends AbstractOceanicCreature
 						BlockPos pos = this.blockPosition().offset(x, y, z);
 						if(this.level.getBlockState(pos).isCollisionShapeFullBlock(this.level, pos) || this.level.getBlockState(pos).isAir()) 
 						{
-							this.obstacles.add(new Boid.Obstacle(Vec3.atCenterOf(pos), 5, 0.1F));
+							this.obstacles.add(new Boid.Obstacle(Vec3.atCenterOf(pos), 12, 0.1F));
 						}
 					}
 				}
@@ -144,7 +144,7 @@ public class EntityDolphinfish extends AbstractOceanicCreature
 			{
 				if(this.bounds.contains(t.position()))
 				{
-					this.obstacles.add(new Boid.Obstacle(t.position(), 5, 0.1F));
+					this.obstacles.add(new Boid.Obstacle(t.position(), 12, 0.1F));
 				}
 			});
 		}
@@ -205,21 +205,7 @@ public class EntityDolphinfish extends AbstractOceanicCreature
     	super.die(p_21014_);
     	if(this.isLeader())
     	{
-			int rand = (int) Math.floor(Math.random() * this.boids.keySet().size());
-			EntityDolphinfish dolphinFish = this.boids.keySet().stream().toList().get(rand);
-    		Bounds bounds = Bounds.fromCenter(this.position(), BOUND_SIZE);
-    		dolphinFish.setLeader(true);
-    		dolphinFish.setLeader(null);
-    		dolphinFish.bounds = bounds;
-    		dolphinFish.boids.putAll(this.boids);
-			for(Entry<EntityDolphinfish, Boid> entry : dolphinFish.boids.entrySet())
-			{
-				EntityDolphinfish fish = entry.getKey();
-				if(!fish.isLeader())
-				{
-					fish.setLeader(dolphinFish);
-				}
-			}
+    		
     	}
     }
 	

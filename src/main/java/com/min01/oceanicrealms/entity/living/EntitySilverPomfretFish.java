@@ -195,21 +195,7 @@ public class EntitySilverPomfretFish extends AbstractOceanicCreature
     	super.die(p_21014_);
     	if(this.isLeader())
     	{
-			int rand = (int) Math.floor(Math.random() * this.boids.keySet().size());
-			EntitySilverPomfretFish silverPomfretFish = this.boids.keySet().stream().toList().get(rand);
-    		Bounds bounds = Bounds.fromCenter(this.position(), BOUND_SIZE);
-    		silverPomfretFish.setLeader(true);
-    		silverPomfretFish.setLeader(null);
-    		silverPomfretFish.bounds = bounds;
-    		silverPomfretFish.boids.putAll(this.boids);
-			for(Entry<EntitySilverPomfretFish, Boid> entry : silverPomfretFish.boids.entrySet())
-			{
-				EntitySilverPomfretFish fish = entry.getKey();
-				if(!fish.isLeader())
-				{
-					fish.setLeader(silverPomfretFish);
-				}
-			}
+    		
     	}
     }
 	

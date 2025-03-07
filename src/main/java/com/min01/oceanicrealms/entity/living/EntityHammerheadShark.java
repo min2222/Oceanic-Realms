@@ -174,7 +174,7 @@ public class EntityHammerheadShark extends AbstractOceanicShark
 						BlockPos pos = this.blockPosition().offset(x, y, z);
 						if(this.level.getBlockState(pos).isCollisionShapeFullBlock(this.level, pos) || this.level.getBlockState(pos).isAir()) 
 						{
-							this.obstacles.add(new Boid.Obstacle(Vec3.atCenterOf(pos), 5, 0.1F));
+							this.obstacles.add(new Boid.Obstacle(Vec3.atCenterOf(pos), 12, 0.1F));
 						}
 					}
 				}
@@ -188,7 +188,7 @@ public class EntityHammerheadShark extends AbstractOceanicShark
 			{
 				if(this.bounds.contains(t.position()))
 				{
-					this.obstacles.add(new Boid.Obstacle(t.position(), 5, 0.1F));
+					this.obstacles.add(new Boid.Obstacle(t.position(), 12, 0.1F));
 				}
 			});
 		}
@@ -258,21 +258,7 @@ public class EntityHammerheadShark extends AbstractOceanicShark
     	super.die(p_21014_);
     	if(this.isLeader())
     	{
-			int rand = (int) Math.floor(Math.random() * this.boids.keySet().size());
-			EntityHammerheadShark hammerHeadShark = this.boids.keySet().stream().toList().get(rand);
-    		Bounds bounds = Bounds.fromCenter(this.position(), BOUND_SIZE);
-    		hammerHeadShark.setLeader(true);
-			hammerHeadShark.setLeader(null);
-			hammerHeadShark.bounds = bounds;
-			hammerHeadShark.boids.putAll(this.boids);
-			for(Entry<EntityHammerheadShark, Boid> entry : hammerHeadShark.boids.entrySet())
-			{
-				EntityHammerheadShark fish = entry.getKey();
-				if(!fish.isLeader())
-				{
-					fish.setLeader(hammerHeadShark);
-				}
-			}
+    		
     	}
     }
 	

@@ -193,21 +193,7 @@ public class EntityMackerelFish extends AbstractOceanicCreature
     	super.die(p_21014_);
     	if(this.isLeader())
     	{
-			int rand = (int) Math.floor(Math.random() * this.boids.keySet().size());
-			EntityMackerelFish mackerelFish = this.boids.keySet().stream().toList().get(rand);
-    		Bounds bounds = Bounds.fromCenter(this.position(), BOUND_SIZE);
-    		mackerelFish.setLeader(true);
-    		mackerelFish.setLeader(null);
-    		mackerelFish.bounds = bounds;
-    		mackerelFish.boids.putAll(this.boids);
-			for(Entry<EntityMackerelFish, Boid> entry : mackerelFish.boids.entrySet())
-			{
-				EntityMackerelFish fish = entry.getKey();
-				if(!fish.isLeader())
-				{
-					fish.setLeader(mackerelFish);
-				}
-			}
+    		
     	}
     }
 	
