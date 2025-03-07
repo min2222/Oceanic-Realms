@@ -104,16 +104,16 @@ public class EntityTuna extends AbstractOceanicCreature
 				EntityTuna fish = entry.getKey();
 				Boid boid = entry.getValue();
 				Vec3 direction = boid.direction;
-				BlockPos pos = BlockPos.containing(fish.position().add(direction));
-				boid.update(this.boids.values(), this.obstacles, true, true, true, 2.5F, 0.25F);
+				BlockPos blockPos = BlockPos.containing(fish.position().add(direction));
+				boid.update(this.boids.values(), fish.obstacles, true, true, true, 2.5F, 0.25F);
 				if(this.bounds != null)
 				{
 					boid.bounds = this.bounds;
 				}
-				while(fish.level.getBlockState(pos.above()).isAir())
+				while(fish.level.getBlockState(blockPos.above()).isAir())
 				{
 					direction = direction.subtract(0.0F, 0.5F, 0.0F);
-					pos = BlockPos.containing(fish.position().add(direction));
+					blockPos = BlockPos.containing(fish.position().add(direction));
 				}
 				fish.setDeltaMovement(direction);
 				float yRot = -(float)(Mth.atan2(direction.x, direction.z) * (double)(180.0F / (float)Math.PI));
@@ -121,19 +121,19 @@ public class EntityTuna extends AbstractOceanicCreature
 				fish.setYRot(OceanicUtil.rotlerp(this.getYRot(), yRot, (float)this.getBodyRotationSpeed()));
 				fish.setYHeadRot(fish.getYRot());
 				fish.setYBodyRot(fish.getYRot());
-				fish.setXRot(OceanicUtil.rotlerp(this.getXRot(), xRot, (float)this.getBodyRotationSpeed()));
-			}
-
-			for(int x = -1; x < 1; x++) 
-			{
-				for(int y = -1; y < 1; y++)
+				fish.setXRot(OceanicUtil.rotlerp(this.getXRot(), xRot, 65));
+				
+				for(int x = -1; x < 1; x++) 
 				{
-					for(int z = -1; z < 1; z++)
+					for(int y = -1; y < 1; y++)
 					{
-						BlockPos pos = this.blockPosition().offset(x, y, z);
-						if(this.level.getBlockState(pos).isCollisionShapeFullBlock(this.level, pos) || this.level.getBlockState(pos).isAir()) 
+						for(int z = -1; z < 1; z++)
 						{
-							this.obstacles.add(new Boid.Obstacle(Vec3.atCenterOf(pos), 12, 0.1F));
+							BlockPos pos = fish.blockPosition().offset(x, y, z);
+							if(this.level.getBlockState(pos).isCollisionShapeFullBlock(this.level, pos) || this.level.getBlockState(pos).isAir()) 
+							{
+								fish.obstacles.add(new Boid.Obstacle(Vec3.atCenterOf(pos), 5, 0.1F));
+							}
 						}
 					}
 				}
@@ -147,7 +147,7 @@ public class EntityTuna extends AbstractOceanicCreature
 			{
 				if(this.bounds.contains(t.position()))
 				{
-					this.obstacles.add(new Boid.Obstacle(t.position(), 12, 0.1F));
+					this.obstacles.add(new Boid.Obstacle(t.position(), 5, 0.1F));
 				}
 			});
 		}
@@ -191,9 +191,8 @@ public class EntityTuna extends AbstractOceanicCreature
         	{
                 BlockPos targetPos = blockHit.getBlockPos();
                 BlockState blockState = world.getBlockState(targetPos);
-                BlockState blockState2 = world.getBlockState(targetPos.above());
                 
-                if(blockState.is(Blocks.WATER) && blockState2.is(Blocks.WATER))
+                if(blockState.is(Blocks.WATER))
                 {
     				this.bounds = Bounds.fromCenter(pos, BOUND_SIZE);
                 	break;

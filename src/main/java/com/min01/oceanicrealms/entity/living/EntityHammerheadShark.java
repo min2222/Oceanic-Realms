@@ -62,6 +62,8 @@ public class EntityHammerheadShark extends AbstractOceanicShark
 	public EntityHammerheadShark(EntityType<? extends WaterAnimal> p_33002_, Level p_33003_) 
 	{
 		super(p_33002_, p_33003_);
+		this.setCanMove(false);
+		this.setCanLook(false);
 	}
 	
     public static AttributeSupplier.Builder createAttributes()
@@ -76,7 +78,7 @@ public class EntityHammerheadShark extends AbstractOceanicShark
     protected void registerGoals() 
     {
     	super.registerGoals();
-    	this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, WaterAnimal.class, false, t -> t.isInWater() && !(t instanceof Dolphin) && !(t instanceof AbstractOceanicShark) && !(t instanceof IAvoid))
+    	this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, WaterAnimal.class, false, t -> t.isInWater() && !(t instanceof Dolphin) && !(t instanceof AbstractOceanicShark) && !(t instanceof IAvoid) && !(t instanceof EntityDolphinfish) && !(t instanceof EntityTuna))
     	{
     		@Override
     		public boolean canUse() 
@@ -145,16 +147,16 @@ public class EntityHammerheadShark extends AbstractOceanicShark
 				EntityHammerheadShark shark = entry.getKey();
 				Boid boid = entry.getValue();
 				Vec3 direction = boid.direction;
-				BlockPos pos = BlockPos.containing(shark.position().add(direction));
-				boid.update(this.boids.values(), this.obstacles, true, true, true, 2.5F, 0.25F);
+				BlockPos blockPos = BlockPos.containing(shark.position().add(direction));
+				boid.update(this.boids.values(), shark.obstacles, true, true, true, 2.5F, 0.25F);
 				if(this.bounds != null)
 				{
 					boid.bounds = this.bounds;
 				}
-				while(shark.level.getBlockState(pos.above()).isAir())
+				while(shark.level.getBlockState(blockPos.above()).isAir())
 				{
 					direction = direction.subtract(0.0F, 0.5F, 0.0F);
-					pos = BlockPos.containing(shark.position().add(direction));
+					blockPos = BlockPos.containing(shark.position().add(direction));
 				}
 				shark.setDeltaMovement(direction);
 				float yRot = -(float)(Mth.atan2(direction.x, direction.z) * (double)(180.0F / (float)Math.PI));
@@ -162,19 +164,19 @@ public class EntityHammerheadShark extends AbstractOceanicShark
 				shark.setYRot(OceanicUtil.rotlerp(this.getYRot(), yRot, (float)this.getBodyRotationSpeed()));
 				shark.setYHeadRot(shark.getYRot());
 				shark.setYBodyRot(shark.getYRot());
-				shark.setXRot(OceanicUtil.rotlerp(this.getXRot(), xRot, (float)this.getBodyRotationSpeed()));
-			}
-			
-			for(int x = -1; x < 1; x++) 
-			{
-				for(int y = -1; y < 1; y++)
+				shark.setXRot(OceanicUtil.rotlerp(this.getXRot(), xRot, 65));
+				
+				for(int x = -1; x < 1; x++) 
 				{
-					for(int z = -1; z < 1; z++)
+					for(int y = -1; y < 1; y++)
 					{
-						BlockPos pos = this.blockPosition().offset(x, y, z);
-						if(this.level.getBlockState(pos).isCollisionShapeFullBlock(this.level, pos) || this.level.getBlockState(pos).isAir()) 
+						for(int z = -1; z < 1; z++)
 						{
-							this.obstacles.add(new Boid.Obstacle(Vec3.atCenterOf(pos), 12, 0.1F));
+							BlockPos pos = shark.blockPosition().offset(x, y, z);
+							if(this.level.getBlockState(pos).isCollisionShapeFullBlock(this.level, pos) || this.level.getBlockState(pos).isAir()) 
+							{
+								shark.obstacles.add(new Boid.Obstacle(Vec3.atCenterOf(pos), 5, 0.1F));
+							}
 						}
 					}
 				}
@@ -188,7 +190,7 @@ public class EntityHammerheadShark extends AbstractOceanicShark
 			{
 				if(this.bounds.contains(t.position()))
 				{
-					this.obstacles.add(new Boid.Obstacle(t.position(), 12, 0.1F));
+					this.obstacles.add(new Boid.Obstacle(t.position(), 5, 0.1F));
 				}
 			});
 		}
@@ -221,33 +223,22 @@ public class EntityHammerheadShark extends AbstractOceanicShark
     public void recreateBounds() 
     {
         Level world = this.level;
-        if(!this.hasTarget())
+        int radius = 8;
+        
+        for(int i = 0; i < 10; i++)
         {
-            int radius = 8;
-            
-            for(int i = 0; i < 10; i++)
-            {
-            	Vec3 pos = OceanicUtil.getRandomPosition(this, radius);
-            	HitResult hitResult = this.level.clip(new ClipContext(this.position(), pos, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
-            	if(hitResult instanceof BlockHitResult blockHit)
-            	{
-                    BlockPos targetPos = blockHit.getBlockPos();
-                    BlockState blockState = world.getBlockState(targetPos);
-                    BlockState blockState2 = world.getBlockState(targetPos.above());
-                    
-                    if(blockState.is(Blocks.WATER) && blockState2.is(Blocks.WATER))
-                    {
-        				this.bounds = Bounds.fromCenter(pos, BOUND_SIZE);
-                    	break;
-                    }
-            	}
-            }
-        }
-        else
-        {
-        	if(this.getTarget() != null)
+        	Vec3 pos = OceanicUtil.getRandomPosition(this, radius);
+        	HitResult hitResult = this.level.clip(new ClipContext(this.position(), pos, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
+        	if(hitResult instanceof BlockHitResult blockHit)
         	{
-    			this.bounds = Bounds.fromCenter(this.getTarget().position(), BOUND_SIZE);
+                BlockPos targetPos = blockHit.getBlockPos();
+                BlockState blockState = world.getBlockState(targetPos);
+                
+                if(blockState.is(Blocks.WATER))
+                {
+    				this.bounds = Bounds.fromCenter(pos, BOUND_SIZE);
+                	break;
+                }
         	}
         }
     }

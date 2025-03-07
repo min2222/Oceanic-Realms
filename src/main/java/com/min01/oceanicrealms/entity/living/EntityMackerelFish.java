@@ -91,34 +91,34 @@ public class EntityMackerelFish extends AbstractOceanicCreature
 				EntityMackerelFish fish = entry.getKey();
 				Boid boid = entry.getValue();
 				Vec3 direction = boid.direction;
-				BlockPos pos = BlockPos.containing(fish.position().add(direction));
-				boid.update(this.boids.values(), this.obstacles, true, true, true, 2.5F, 0.25F);
+				BlockPos blockPos = BlockPos.containing(fish.position().add(direction));
+				boid.update(this.boids.values(), fish.obstacles, true, true, true, 2.5F, 0.25F);
 				if(this.bounds != null)
 				{
 					boid.bounds = this.bounds;
 				}
-				while(fish.level.getBlockState(pos.above()).isAir())
+				while(fish.level.getBlockState(blockPos.above()).isAir())
 				{
 					direction = direction.subtract(0.0F, 0.5F, 0.0F);
-					pos = BlockPos.containing(fish.position().add(direction));
+					blockPos = BlockPos.containing(fish.position().add(direction));
 				}
 				fish.setDeltaMovement(direction);
 				fish.setYRot(-(float)(Mth.atan2(direction.x, direction.z) * (double)(180.0F / (float)Math.PI)));
 				fish.setYHeadRot(fish.getYRot());
 				fish.setYBodyRot(fish.getYRot());
 				fish.setXRot(-(float)(Mth.atan2(direction.y, direction.horizontalDistance()) * (double)(180.0F / (float)Math.PI)));
-			}
-			
-			for(int x = -1; x < 1; x++) 
-			{
-				for(int y = -1; y < 1; y++)
+				
+				for(int x = -1; x < 1; x++) 
 				{
-					for(int z = -1; z < 1; z++)
+					for(int y = -1; y < 1; y++)
 					{
-						BlockPos pos = this.blockPosition().offset(x, y, z);
-						if(this.level.getBlockState(pos).isCollisionShapeFullBlock(this.level, pos) || this.level.getBlockState(pos).isAir()) 
+						for(int z = -1; z < 1; z++)
 						{
-							this.obstacles.add(new Boid.Obstacle(Vec3.atCenterOf(pos), 5, 0.1F));
+							BlockPos pos = fish.blockPosition().offset(x, y, z);
+							if(this.level.getBlockState(pos).isCollisionShapeFullBlock(this.level, pos) || this.level.getBlockState(pos).isAir()) 
+							{
+								fish.obstacles.add(new Boid.Obstacle(Vec3.atCenterOf(pos), 5, 0.1F));
+							}
 						}
 					}
 				}
@@ -176,9 +176,8 @@ public class EntityMackerelFish extends AbstractOceanicCreature
         	{
                 BlockPos targetPos = blockHit.getBlockPos();
                 BlockState blockState = world.getBlockState(targetPos);
-                BlockState blockState2 = world.getBlockState(targetPos.above());
                 
-                if(blockState.is(Blocks.WATER) && blockState2.is(Blocks.WATER))
+                if(blockState.is(Blocks.WATER))
                 {
     				this.bounds = Bounds.fromCenter(pos, BOUND_SIZE);
                 	break;
