@@ -6,12 +6,15 @@ import com.min01.oceanicrealms.OceanicRealms;
 import com.min01.oceanicrealms.block.OceanicBlocks;
 import com.min01.oceanicrealms.entity.OceanicEntities;
 
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.MobBucketItem;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -49,6 +52,9 @@ public class OceanicItems
 	public static final RegistryObject<Item> SEA_URCHIN = registerBlockItem("sea_urchin", () -> OceanicBlocks.SEA_URCHIN.get(), new Item.Properties());
 	public static final RegistryObject<Item> SEA_ANEMONE = registerBlockItem("sea_anemone", () -> OceanicBlocks.SEA_ANEMONE.get(), new Item.Properties());
 	public static final RegistryObject<Item> STARFISH = registerBlockItem("starfish", () -> OceanicBlocks.STARFISH.get(), new Item.Properties());
+	
+	public static final RegistryObject<Item> MACKEREL_FISH_BUCKET = ITEMS.register("mackerel_fish_bucket", () -> new MobBucketItem(() -> OceanicEntities.MACKEREL_FISH.get(), () -> Fluids.WATER, () -> SoundEvents.BUCKET_EMPTY_FISH, new Item.Properties().stacksTo(1)));
+	public static final RegistryObject<Item> SILVER_POMFRET_FISH_BUCKET = ITEMS.register("silver_pomfret_fish_bucket", () -> new MobBucketItem(() -> OceanicEntities.SILVER_POMFRET_FISH.get(), () -> Fluids.WATER, () -> SoundEvents.BUCKET_EMPTY_FISH, new Item.Properties().stacksTo(1)));
 	
 	public static RegistryObject<Item> registerBlockItem(String name, Supplier<Block> block, Item.Properties properties)
 	{
