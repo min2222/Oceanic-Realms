@@ -210,7 +210,7 @@ public class EntityMackerelFish extends AbstractOceanicCreature implements Bucke
 	@Override
 	public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_21434_, DifficultyInstance p_21435_, MobSpawnType p_21436_, SpawnGroupData p_21437_, CompoundTag p_21438_) 
 	{
-		if(!this.fromBucket())
+		if(!this.fromBucket() && p_21436_ != MobSpawnType.BUCKET)
 		{
 			this.setLeader(true);
 			Bounds bounds = Bounds.fromCenter(this.position(), BOUND_SIZE);

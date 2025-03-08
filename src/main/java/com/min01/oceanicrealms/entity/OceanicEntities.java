@@ -10,6 +10,7 @@ import com.min01.oceanicrealms.entity.living.EntityMackerelFish;
 import com.min01.oceanicrealms.entity.living.EntityPorbeagleShark;
 import com.min01.oceanicrealms.entity.living.EntitySilverPomfretFish;
 import com.min01.oceanicrealms.entity.living.EntityTuna;
+import com.min01.oceanicrealms.entity.living.EntityWhaleshark;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
@@ -32,6 +33,7 @@ public class OceanicEntities
 	public static final RegistryObject<EntityType<EntityMackerelFish>> MACKEREL_FISH = registerEntity("mackerel_fish", createBuilder(EntityMackerelFish::new, MobCategory.WATER_AMBIENT).sized(0.6F, 0.6F));
 	public static final RegistryObject<EntityType<EntitySilverPomfretFish>> SILVER_POMFRET_FISH = registerEntity("silver_pomfret_fish", createBuilder(EntitySilverPomfretFish::new, MobCategory.WATER_AMBIENT).sized(0.3F, 0.3F));
 	public static final RegistryObject<EntityType<EntityLionfish>> LIONFISH = registerEntity("lionfish", createBuilder(EntityLionfish::new, MobCategory.WATER_AMBIENT).sized(0.4F, 0.4F));
+	public static final RegistryObject<EntityType<EntityWhaleshark>> WHALESHARK = registerEntity("whaleshark", createBuilder(EntityWhaleshark::new, MobCategory.WATER_AMBIENT).sized(3.0F, 2.25F));
 	
 	public static <T extends Entity> EntityType.Builder<T> createBuilder(EntityType.EntityFactory<T> factory, MobCategory category)
 	{

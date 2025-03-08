@@ -17,6 +17,7 @@ import com.min01.oceanicrealms.entity.model.ModelMackerelFish;
 import com.min01.oceanicrealms.entity.model.ModelPorbeagleShark;
 import com.min01.oceanicrealms.entity.model.ModelSilverPomfretFish;
 import com.min01.oceanicrealms.entity.model.ModelTuna;
+import com.min01.oceanicrealms.entity.model.ModelWhaleshark;
 import com.min01.oceanicrealms.entity.renderer.CrabRenderer;
 import com.min01.oceanicrealms.entity.renderer.DolphinfishRenderer;
 import com.min01.oceanicrealms.entity.renderer.GreatWhiteSharkRenderer;
@@ -26,6 +27,7 @@ import com.min01.oceanicrealms.entity.renderer.MackerelFishRenderer;
 import com.min01.oceanicrealms.entity.renderer.PorbeagleSharkRenderer;
 import com.min01.oceanicrealms.entity.renderer.SilverPomfretFishRenderer;
 import com.min01.oceanicrealms.entity.renderer.TunaRenderer;
+import com.min01.oceanicrealms.entity.renderer.WhalesharkRenderer;
 
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraftforge.api.distmarker.Dist;
@@ -67,6 +69,7 @@ public class ClientEventHandler
     	event.registerLayerDefinition(ModelSeaAnemone.LAYER_LOCATION, ModelSeaAnemone::createBodyLayer);
     	event.registerLayerDefinition(ModelStarfish.LAYER_LOCATION, ModelStarfish::createBodyLayer);
     	event.registerLayerDefinition(ModelLionfish.LAYER_LOCATION, ModelLionfish::createBodyLayer);
+    	event.registerLayerDefinition(ModelWhaleshark.LAYER_LOCATION, ModelWhaleshark::createBodyLayer);
     }
     
     @SubscribeEvent
@@ -81,5 +84,6 @@ public class ClientEventHandler
     	event.registerEntityRenderer(OceanicEntities.MACKEREL_FISH.get(), MackerelFishRenderer::new);
     	event.registerEntityRenderer(OceanicEntities.SILVER_POMFRET_FISH.get(), SilverPomfretFishRenderer::new);
     	event.registerEntityRenderer(OceanicEntities.LIONFISH.get(), LionfishRenderer::new);
+    	event.registerEntityRenderer(OceanicEntities.WHALESHARK.get(), WhalesharkRenderer::new);
     }
 }

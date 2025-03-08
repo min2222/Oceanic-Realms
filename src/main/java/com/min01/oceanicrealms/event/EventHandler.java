@@ -9,6 +9,7 @@ import com.min01.oceanicrealms.entity.living.EntityHammerheadShark;
 import com.min01.oceanicrealms.entity.living.EntityLionfish;
 import com.min01.oceanicrealms.entity.living.EntityPorbeagleShark;
 import com.min01.oceanicrealms.entity.living.EntityTuna;
+import com.min01.oceanicrealms.entity.living.EntityWhaleshark;
 
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.animal.Salmon;
@@ -34,6 +35,7 @@ public class EventHandler
     	event.put(OceanicEntities.MACKEREL_FISH.get(), Salmon.createAttributes().build());
     	event.put(OceanicEntities.SILVER_POMFRET_FISH.get(), Salmon.createAttributes().build());
     	event.put(OceanicEntities.LIONFISH.get(), EntityLionfish.createAttributes().build());
+    	event.put(OceanicEntities.WHALESHARK.get(), EntityWhaleshark.createAttributes().build());
     }
     
 	@SubscribeEvent
