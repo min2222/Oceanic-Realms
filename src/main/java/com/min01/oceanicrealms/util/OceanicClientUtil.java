@@ -20,7 +20,7 @@ public class OceanicClientUtil
 	public static void renderWormSegment(PoseStack stack, MultiBufferSource source, int packedLight, ModelPart part, LivingEntity entity, Worm worm, float partialTicks, ResourceLocation texture)
 	{
 		stack.pushPose();
-		Vec3 pos = worm.position();
+		Vec3 pos = worm.position(partialTicks);
 		Vec2 rot = worm.getRot(partialTicks);
 		stack.scale(-1.0F, -1.0F, 1.0F);
 		stack.translate(-pos.x, -pos.y, pos.z);

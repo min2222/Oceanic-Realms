@@ -30,8 +30,9 @@ public class EntityWhaleshark extends AbstractOceanicCreature
     @Override
     public void tick()
     {
-    	super.tick();
+    	this.worm.setOldPosAndRot();
     	WormChain.tick(this.worm, this, 2.8F, 0.45F);
+    	super.tick();
     }
     
 	@Override
