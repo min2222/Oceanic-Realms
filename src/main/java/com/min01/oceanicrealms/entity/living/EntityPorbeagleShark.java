@@ -56,7 +56,7 @@ public class EntityPorbeagleShark extends AbstractOceanicShark
     {
     	super.registerGoals();
         this.goalSelector.addGoal(9, new AvoidEntityGoal<>(this, EntityGreatWhiteShark.class, 8.0F, 1.0D, 1.0D));
-    	this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, WaterAnimal.class, false, t -> t.isInWater() && !(t instanceof Dolphin) && !(t instanceof AbstractOceanicShark) && !(t instanceof IAvoid))
+    	this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, WaterAnimal.class, false, t -> t.isInWater() && !(t instanceof Dolphin) && !(t instanceof AbstractOceanicShark) && !(t instanceof IAvoid) && !(t instanceof EntityWhaleshark))
     	{
     		@Override
     		public boolean canUse() 

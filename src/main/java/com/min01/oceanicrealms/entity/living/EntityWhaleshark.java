@@ -33,4 +33,10 @@ public class EntityWhaleshark extends AbstractOceanicCreature
     	super.tick();
     	WormChain.tick(this.worm, this, 2.8F, 0.45F);
     }
+    
+	@Override
+	public int getBodyRotationSpeed() 
+	{
+		return 2;
+	}
 }
