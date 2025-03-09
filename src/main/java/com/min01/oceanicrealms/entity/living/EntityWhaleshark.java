@@ -13,8 +13,7 @@ import net.minecraft.world.level.Level;
 
 public class EntityWhaleshark extends AbstractOceanicCreature
 {
-	public final Worm wormFront = new Worm();
-	public final Worm wormBack = new Worm();
+	public final Worm worm = new Worm();
 	
 	public EntityWhaleshark(EntityType<? extends WaterAnimal> p_33002_, Level p_33003_)
 	{
@@ -32,7 +31,6 @@ public class EntityWhaleshark extends AbstractOceanicCreature
     public void tick()
     {
     	super.tick();
-    	WormChain.tick(this.wormFront, this, 0.01F, 0.5F);
-    	WormChain.tick(this.wormBack, this.wormFront, 2.8F, 0.5F);
+    	WormChain.tick(this.worm, this, 2.8F, 0.45F);
     }
 }

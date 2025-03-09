@@ -22,12 +22,14 @@ public class ModelWhaleshark extends HierarchicalModel<EntityWhaleshark>
 {
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(OceanicRealms.MODID, "whaleshark"), "main");
 	private final ModelPart root;
+	public final ModelPart bone;
 	public final ModelPart back;
 	public final ModelPart back_body;
 
 	public ModelWhaleshark(ModelPart root) 
 	{
 		this.root = root.getChild("root");
+		this.bone = this.root.getChild("bone");
 		this.back = this.root.getChild("back");
 		this.back_body = this.back.getChild("back_body");
 	}
@@ -39,9 +41,9 @@ public class ModelWhaleshark extends HierarchicalModel<EntityWhaleshark>
 
 		PartDefinition root = partdefinition.addOrReplaceChild("root", CubeListBuilder.create(), PartPose.offset(0.0F, 24.0F, 0.0F));
 
-		PartDefinition front = root.addOrReplaceChild("front", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
+		PartDefinition bone = root.addOrReplaceChild("bone", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
 
-		PartDefinition front_body = front.addOrReplaceChild("front_body", CubeListBuilder.create().texOffs(0, 0).addBox(-24.0F, -18.0F, -22.0F, 48.0F, 36.0F, 45.0F, new CubeDeformation(0.0F))
+		PartDefinition front_body = bone.addOrReplaceChild("front_body", CubeListBuilder.create().texOffs(0, 0).addBox(-24.0F, -18.0F, -22.0F, 48.0F, 36.0F, 45.0F, new CubeDeformation(0.0F))
 		.texOffs(260, 84).addBox(-21.0F, -15.0F, -59.0F, 42.0F, 28.0F, 37.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -18.0F, -1.0F));
 
 		front_body.addOrReplaceChild("bone5", CubeListBuilder.create().texOffs(36, 289).addBox(0.0F, -2.0F, -7.0F, 40.0F, 3.0F, 19.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(24.0F, 11.0F, 4.0F, 0.1309F, -0.1309F, 0.4363F));
@@ -50,9 +52,9 @@ public class ModelWhaleshark extends HierarchicalModel<EntityWhaleshark>
 
 		PartDefinition back = root.addOrReplaceChild("back", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
 
-		PartDefinition back_body = back.addOrReplaceChild("back_body", CubeListBuilder.create(), PartPose.offset(0.0F, -18.0F, -1.0F));
+		PartDefinition back_body = back.addOrReplaceChild("back_body", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
 
-		PartDefinition bone2 = back_body.addOrReplaceChild("bone2", CubeListBuilder.create().texOffs(0, 142).addBox(-16.0F, -14.0F, 0.0F, 32.0F, 28.0F, 38.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -2.0F, -22.0F));
+		PartDefinition bone2 = back_body.addOrReplaceChild("bone2", CubeListBuilder.create().texOffs(0, 142).addBox(-16.0F, -14.0F, 0.0F, 32.0F, 28.0F, 38.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -20.0F, -24.0F));
 
 		bone2.addOrReplaceChild("cube_r1", CubeListBuilder.create().texOffs(0, 208).addBox(-2.0F, -23.0F, 1.0F, 4.0F, 22.0F, 16.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -13.0F, 20.0F, -0.1745F, 0.0F, 0.0F));
 
@@ -77,8 +79,8 @@ public class ModelWhaleshark extends HierarchicalModel<EntityWhaleshark>
 	public void setupAnim(EntityWhaleshark entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) 
 	{
 		this.root().getAllParts().forEach(ModelPart::resetPose);
-		OceanicClientUtil.animateHead(this.root, netHeadYaw, headPitch);
-		this.root.zRot += Math.toRadians(entity.getRollAngle());
+		OceanicClientUtil.animateHead(this.bone, netHeadYaw, headPitch);
+		//this.root.zRot += Math.toRadians(entity.getRollAngle());
 		this.back.visible = false;
 		this.animateWalk(WhalesharkAnimation.WHALESHARK_SWIM, limbSwing, limbSwingAmount, 2.5F, 2.5F);
 	}
