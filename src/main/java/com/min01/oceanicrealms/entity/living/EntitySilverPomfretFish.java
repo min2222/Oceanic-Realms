@@ -10,10 +10,13 @@ import java.util.UUID;
 import javax.annotation.Nullable;
 
 import com.min01.oceanicrealms.entity.AbstractOceanicCreature;
+import com.min01.oceanicrealms.entity.AbstractOceanicShark;
+import com.min01.oceanicrealms.entity.IAvoid;
 import com.min01.oceanicrealms.entity.IBoid;
 import com.min01.oceanicrealms.item.OceanicItems;
 import com.min01.oceanicrealms.misc.Boid;
 import com.min01.oceanicrealms.misc.Boid.Bounds;
+import com.min01.oceanicrealms.misc.Boid.Obstacle;
 import com.min01.oceanicrealms.util.OceanicUtil;
 
 import net.minecraft.nbt.CompoundTag;
@@ -78,7 +81,7 @@ public class EntitySilverPomfretFish extends AbstractOceanicCreature implements 
 		}
 		
 		OceanicUtil.fishFlopping(this);
-		OceanicUtil.avoid(this, this.bounds, this.obstacles, 3.0F);
+		OceanicUtil.avoid(this, this.bounds, this.obstacles, 3.0F, t -> t instanceof AbstractOceanicShark || t instanceof IAvoid);
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -168,33 +171,9 @@ public class EntitySilverPomfretFish extends AbstractOceanicCreature implements 
 	}
 	
 	@Override
-	public void setBound(Bounds bounds)
-	{
-		this.bounds = bounds;
-	}
-	
-	@Override
-	public void addBoid(EntitySilverPomfretFish entity, Boid boid)
-	{
-		this.boids.put(entity, boid);
-	}
-	
-	@Override
 	public Vec3 getBoundSize()
 	{
 		return new Vec3(8, 8, 8);
-	}
-	
-	@Override
-	public void recreateBounds() 
-	{
-		OceanicUtil.recreateBounds(this, 8);
-	}
-	
-	@Override
-	public void tickBoid() 
-	{
-		OceanicUtil.tickBoid(this, this.bounds, this.obstacles, this.boids);
 	}
 	
 	@Override
@@ -204,9 +183,21 @@ public class EntitySilverPomfretFish extends AbstractOceanicCreature implements 
 	}
 	
 	@Override
-	public void loadBoid() 
+	public Collection<Obstacle> getObstacle() 
 	{
-		OceanicUtil.loadBoid(this);
+		return this.obstacles;
+	}
+	
+	@Override
+	public Bounds getBounds() 
+	{
+		return this.bounds;
+	}
+    
+	@Override
+	public void setBound(Bounds bounds)
+	{
+		this.bounds = bounds;
 	}
     
     public void setVariant(int value)

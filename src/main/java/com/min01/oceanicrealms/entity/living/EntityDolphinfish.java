@@ -1,16 +1,23 @@
 package com.min01.oceanicrealms.entity.living;
 
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
 
 import com.min01.oceanicrealms.entity.AbstractOceanicCreature;
-import com.min01.oceanicrealms.entity.OceanicEntities;
+import com.min01.oceanicrealms.entity.AbstractOceanicShark;
+import com.min01.oceanicrealms.entity.IAvoid;
+import com.min01.oceanicrealms.entity.IBoid;
+import com.min01.oceanicrealms.misc.Boid;
+import com.min01.oceanicrealms.misc.Boid.Bounds;
+import com.min01.oceanicrealms.misc.Boid.Obstacle;
 import com.min01.oceanicrealms.util.OceanicUtil;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -26,13 +33,17 @@ import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.pathfinder.Path;
+import net.minecraft.world.phys.Vec3;
 
-public class EntityDolphinfish extends AbstractOceanicCreature
+public class EntityDolphinfish extends AbstractOceanicCreature implements IBoid<EntityDolphinfish>
 {	
 	public static final EntityDataAccessor<Optional<UUID>> LEADER_UUID = SynchedEntityData.defineId(EntityDolphinfish.class, EntityDataSerializers.OPTIONAL_UUID);
 	public static final EntityDataAccessor<Boolean> IS_LEADER = SynchedEntityData.defineId(EntityDolphinfish.class, EntityDataSerializers.BOOLEAN);
 
+	public Bounds bounds;
+	public final Collection<Boid.Obstacle> obstacles = new ArrayList<Boid.Obstacle>();
+	public final Map<EntityDolphinfish, Boid> boids = new HashMap<EntityDolphinfish, Boid>();
+	
 	public final AnimationState dryAnimationState = new AnimationState();
 	
 	public EntityDolphinfish(EntityType<? extends WaterAnimal> p_33002_, Level p_33003_)
@@ -66,54 +77,15 @@ public class EntityDolphinfish extends AbstractOceanicCreature
 		}
 		
 		OceanicUtil.fishFlopping(this);
-		
-		if(this.isLeader())
-		{
-			if(this.tickCount % 20 == 0)
-			{
-				List<EntityDolphinfish> list = this.level.getEntitiesOfClass(EntityDolphinfish.class, this.getBoundingBox().inflate(5.0F), t -> !t.isLeader() && t.getLeader() == null);
-				list.forEach(t -> 
-				{
-					t.setLeader(this);
-				});
-			}
-		}
-		else if(this.getLeader() != null)
-		{
-			EntityDolphinfish leader = this.getLeader();
-			if(this.distanceTo(leader) > 2.5F)
-			{
-				this.getNavigation().moveTo(leader, 0.5F);
-			}
-			else
-			{
-				if(leader.getNavigation().getPath() != null)
-				{
-					BlockPos pos = leader.getNavigation().getPath().getTarget();
-					Path path = this.getNavigation().createPath(pos, 1);
-					this.getNavigation().moveTo(path, 0.5F);
-				}
-				if(leader.getTarget() != null)
-				{
-					this.setTarget(leader.getTarget());
-				}
-			}
-		}
+		OceanicUtil.avoid(this, this.bounds, this.obstacles, 5.0F, t -> t instanceof AbstractOceanicShark || t instanceof IAvoid);
 	}
 	
 	@SuppressWarnings("deprecation")
 	@Override
 	public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_21434_, DifficultyInstance p_21435_, MobSpawnType p_21436_, SpawnGroupData p_21437_, CompoundTag p_21438_) 
 	{
-		this.setLeader(true);
 		int schoolSize = this.random.nextInt(3, 7);
-		for(int i = 0; i < schoolSize; i++)
-		{
-			EntityDolphinfish fish = new EntityDolphinfish(OceanicEntities.DOLPHINFISH.get(), this.level);
-			fish.setPos(this.position());
-			fish.setLeader(this);
-			this.level.addFreshEntity(fish);
-		}
+		OceanicUtil.spawnWithBoid(this, schoolSize);
 		return super.finalizeSpawn(p_21434_, p_21435_, p_21436_, p_21437_, p_21438_);
 	}
     
@@ -149,27 +121,61 @@ public class EntityDolphinfish extends AbstractOceanicCreature
     }
     
     @Override
-    public boolean canRandomSwim() 
+    public boolean rotLerp() 
     {
-    	return super.canRandomSwim() && this.getLeader() == null;
+    	return true;
     }
+	
+	@Override
+	public Vec3 getBoundSize()
+	{
+		return new Vec3(4, 4, 4);
+	}
+	
+	@Override
+	public Map<EntityDolphinfish, Boid> getBoid() 
+	{
+		return this.boids;
+	}
+	
+	@Override
+	public Collection<Obstacle> getObstacle() 
+	{
+		return this.obstacles;
+	}
+	
+	@Override
+	public Bounds getBounds() 
+	{
+		return this.bounds;
+	}
     
+	@Override
+	public void setBound(Bounds bounds)
+	{
+		this.bounds = bounds;
+	}
+
+	@Override
     public void setLeader(boolean value)
     {
     	this.entityData.set(IS_LEADER, value);
     }
     
+	@Override
     public boolean isLeader()
     {
     	return this.entityData.get(IS_LEADER);
     }
 	
+	@Override
 	public void setLeader(EntityDolphinfish leader)
 	{
 		this.entityData.set(LEADER_UUID, Optional.of(leader.getUUID()));
 	}
 	
 	@Nullable
+	@Override
 	public EntityDolphinfish getLeader() 
 	{
 		if(this.entityData.get(LEADER_UUID).isPresent()) 

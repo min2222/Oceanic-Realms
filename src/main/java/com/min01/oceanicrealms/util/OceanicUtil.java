@@ -7,12 +7,11 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 import org.joml.Math;
 
 import com.min01.oceanicrealms.entity.AbstractOceanicCreature;
-import com.min01.oceanicrealms.entity.AbstractOceanicShark;
-import com.min01.oceanicrealms.entity.IAvoid;
 import com.min01.oceanicrealms.entity.IBoid;
 import com.min01.oceanicrealms.misc.Boid;
 import com.min01.oceanicrealms.misc.Boid.Bounds;
@@ -39,11 +38,11 @@ import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 
 public class OceanicUtil
 {
-	public static <T extends LivingEntity & IBoid<T>, A extends Entity> void avoid(T entity, Bounds bounds, Collection<Boid.Obstacle> obstacles, float radius)
+	public static <T extends LivingEntity & IBoid<T>> void avoid(T entity, Bounds bounds, Collection<Boid.Obstacle> obstacles, float radius, Predicate<? super Entity> predicate)
 	{
 		if(bounds != null)
 		{
-			List<AbstractOceanicCreature> list = entity.level.getEntitiesOfClass(AbstractOceanicCreature.class, entity.getBoundingBox().inflate(radius), t -> t instanceof AbstractOceanicShark || t instanceof IAvoid);
+			List<AbstractOceanicCreature> list = entity.level.getEntitiesOfClass(AbstractOceanicCreature.class, entity.getBoundingBox().inflate(radius), predicate);
 			list.forEach(t -> 
 			{
 				if(bounds.contains(t.position()))
@@ -65,7 +64,7 @@ public class OceanicUtil
 				{
 					Bounds bounds = Bounds.fromCenter(leader.position(), entity.getBoundSize());
 					Vec3 pos = new Vec3(bounds.minX() + Math.random() * bounds.size.x, bounds.minY() + Math.random() * bounds.size.y, bounds.minZ() + Math.random() * bounds.size.z);
-					leader.addBoid(entity, new Boid(pos, bounds));
+					leader.getBoid().put(entity, new Boid(pos, bounds));
 				}
 			}
 			
@@ -76,21 +75,22 @@ public class OceanicUtil
 					Bounds bounds = Bounds.fromCenter(entity.position(), entity.getBoundSize());
 					Vec3 pos = new Vec3(bounds.minX() + Math.random() * bounds.size.x, bounds.minY() + Math.random() * bounds.size.y, bounds.minZ() + Math.random() * bounds.size.z);
 					entity.setBound(bounds);
-					entity.addBoid(entity, new Boid(pos, bounds));
+					entity.getBoid().put(entity, new Boid(pos, bounds));
 				}
 			}
 		}
 	}
 	
-    public static <T extends AbstractOceanicCreature & IBoid<T>> void tickBoid(T entity, Bounds bounds, Collection<Boid.Obstacle> obstacles, Map<T, Boid> boids) 
+    public static <T extends AbstractOceanicCreature & IBoid<T>> void tickBoid(T entity, Bounds bounds, Map<T, Boid> boids) 
     {
 		for(Entry<T, Boid> entry : boids.entrySet())
 		{
+			BlockPos.MutableBlockPos mutable = new BlockPos.MutableBlockPos();
 			T fish = entry.getKey();
 			Boid boid = entry.getValue();
 			Vec3 direction = boid.direction;
 			BlockPos blockPos = BlockPos.containing(fish.position().add(direction));
-			boid.update(boids.values(), obstacles, true, true, true, 2.5F, 0.25F);
+			boid.update(boids.values(), fish.getObstacle(), true, true, true, 2.5F, 0.25F);
 			if(bounds != null)
 			{
 				boid.bounds = bounds;
@@ -108,13 +108,13 @@ public class OceanicUtil
 				fish.setYHeadRot(fish.getYRot());
 				fish.setYBodyRot(fish.getYRot());
 				fish.setXRot(OceanicUtil.rotlerp(fish.getXRot(), xRot, 65));
-				if(!obstacles.isEmpty())
+				if(!mutable.equals(BlockPos.ZERO))
 				{
-					//FIXME
-					if(Math.abs(fish.getYRot() - yRot) < 0.1F && Math.abs(fish.getXRot() - xRot) < 0.1F) 
+					boolean lerpDone = Math.abs(fish.getYRot() - yRot) < 0.01F && Math.abs(fish.getXRot() - xRot) < 0.01F;
+					if(lerpDone)
 					{
-						System.out.println("Lerp finished, applying movement...");
 						fish.setDeltaMovement(direction);
+						mutable.set(BlockPos.ZERO);
 					}
 				}
 				else
@@ -140,7 +140,8 @@ public class OceanicUtil
 						BlockPos pos = fish.blockPosition().offset(x, y, z);
 						if(entity.level.getBlockState(pos).isCollisionShapeFullBlock(entity.level, pos) || entity.level.getBlockState(pos).isAir()) 
 						{
-							obstacles.add(new Boid.Obstacle(Vec3.atCenterOf(pos), 5, 0.1F));
+							fish.getObstacle().add(new Boid.Obstacle(Vec3.atCenterOf(pos), 5, 0.1F));
+							mutable.set(pos);
 						}
 					}
 				}
@@ -175,7 +176,7 @@ public class OceanicUtil
 		entity.setLeader(true);
 		Bounds bounds = Bounds.fromCenter(entity.position(), entity.getBoundSize());
 		Vec3 pos = new Vec3(bounds.minX() + Math.random() * bounds.size.x, bounds.minY() + Math.random() * bounds.size.y, bounds.minZ() + Math.random() * bounds.size.z);
-		entity.addBoid(entity, new Boid(pos, bounds));
+		entity.getBoid().put(entity, new Boid(pos, bounds));
 		entity.setBound(bounds);
 		createBoid(pos, bounds, schoolSize, entity);
 	}
@@ -188,7 +189,7 @@ public class OceanicUtil
 			T fish = (T) entity.getType().create(entity.level);
 			fish.setPos(entity.position());
 			fish.setLeader(entity);
-			entity.addBoid(fish, new Boid(pos, bounds));
+			entity.getBoid().put(fish, new Boid(pos, bounds));
 			entity.level.addFreshEntity(fish);
 		}
 	}

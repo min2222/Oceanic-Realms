@@ -1,5 +1,6 @@
 package com.min01.oceanicrealms.entity;
 
+import java.util.Collection;
 import java.util.Map;
 
 import com.min01.oceanicrealms.misc.Boid;
@@ -27,13 +28,9 @@ public interface IBoid<T extends LivingEntity>
 	
 	public Map<T, Boid> getBoid();
 	
+	public Collection<Boid.Obstacle> getObstacle();
+	
+	public Bounds getBounds();
+	
 	public void setBound(Bounds bound);
-	
-	public void addBoid(T entity, Boid boid);
-	
-	public void tickBoid();
-	
-	public void recreateBounds();
-	
-	public void loadBoid();
 }

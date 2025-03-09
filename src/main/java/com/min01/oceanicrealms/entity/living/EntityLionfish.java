@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.min01.oceanicrealms.entity.AbstractOceanicCreature;
 import com.min01.oceanicrealms.entity.IAvoid;
+import com.min01.oceanicrealms.entity.IBoid;
 
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -46,7 +47,7 @@ public class EntityLionfish extends AbstractOceanicCreature implements IAvoid
     public void tick() 
     {
     	super.tick();
-		List<WaterAnimal> list = this.level.getEntitiesOfClass(WaterAnimal.class, this.getBoundingBox().inflate(5.0F));
+		List<WaterAnimal> list = this.level.getEntitiesOfClass(WaterAnimal.class, this.getBoundingBox().inflate(5.0F), t -> !(t instanceof IBoid<?>));
 		list.forEach(t -> 
 		{
 			if(this.tickCount % 20 == 0)

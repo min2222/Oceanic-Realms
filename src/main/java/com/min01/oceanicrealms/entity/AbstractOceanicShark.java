@@ -124,7 +124,7 @@ public abstract class AbstractOceanicShark extends AbstractOceanicCreature
     
     public <T extends Entity> Predicate<? super T> getPredicate()
     {
-    	return t -> !(t instanceof AbstractOceanicShark);
+    	return t -> !(t instanceof AbstractOceanicShark) && !(t instanceof IBoid<?>);
     }
 	
 	@Override

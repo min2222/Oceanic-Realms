@@ -1,6 +1,9 @@
 package com.min01.oceanicrealms.entity.living;
 
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -8,10 +11,12 @@ import javax.annotation.Nullable;
 
 import com.min01.oceanicrealms.entity.AbstractOceanicShark;
 import com.min01.oceanicrealms.entity.IAvoid;
-import com.min01.oceanicrealms.entity.OceanicEntities;
+import com.min01.oceanicrealms.entity.IBoid;
+import com.min01.oceanicrealms.misc.Boid;
+import com.min01.oceanicrealms.misc.Boid.Bounds;
+import com.min01.oceanicrealms.misc.Boid.Obstacle;
 import com.min01.oceanicrealms.util.OceanicUtil;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -29,13 +34,17 @@ import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.pathfinder.Path;
+import net.minecraft.world.phys.Vec3;
 
-public class EntityHammerheadShark extends AbstractOceanicShark
+public class EntityHammerheadShark extends AbstractOceanicShark implements IBoid<EntityHammerheadShark>
 {	
 	public static final EntityDataAccessor<Optional<UUID>> LEADER_UUID = SynchedEntityData.defineId(EntityHammerheadShark.class, EntityDataSerializers.OPTIONAL_UUID);
 	public static final EntityDataAccessor<Boolean> IS_LEADER = SynchedEntityData.defineId(EntityHammerheadShark.class, EntityDataSerializers.BOOLEAN);
 
+	public Bounds bounds;
+	public final Collection<Boid.Obstacle> obstacles = new ArrayList<Boid.Obstacle>();
+	public final Map<EntityHammerheadShark, Boid> boids = new HashMap<EntityHammerheadShark, Boid>();
+	
 	public final AnimationState attackAnimationState = new AnimationState();
 	public final AnimationState eatingAnimationState = new AnimationState();
 	
@@ -115,37 +124,11 @@ public class EntityHammerheadShark extends AbstractOceanicShark
 	public void tick() 
 	{
 		super.tick();
-		if(this.isLeader())
+		OceanicUtil.avoid(this, this.bounds, this.obstacles, 5.0F, t -> t instanceof EntityGreatWhiteShark || t instanceof IAvoid);
+		
+		if(this.getTarget() != null)
 		{
-			if(this.tickCount % 20 == 0)
-			{
-				List<EntityHammerheadShark> list = this.level.getEntitiesOfClass(EntityHammerheadShark.class, this.getBoundingBox().inflate(5.0F), t -> !t.isLeader() && t.getLeader() == null);
-				list.forEach(t -> 
-				{
-					t.setLeader(this);
-				});
-			}
-		}
-		else if(this.getLeader() != null)
-		{
-			EntityHammerheadShark leader = this.getLeader();
-			if(this.distanceTo(leader) > 2.5F)
-			{
-				this.getNavigation().moveTo(leader, 0.5F);
-			}
-			else
-			{
-				if(leader.getNavigation().getPath() != null)
-				{
-					BlockPos pos = leader.getNavigation().getPath().getTarget();
-					Path path = this.getNavigation().createPath(pos, 1);
-					this.getNavigation().moveTo(path, 0.5F);
-				}
-				if(leader.getTarget() != null)
-				{
-					this.setTarget(leader.getTarget());
-				}
-			}
+			this.bounds = Bounds.fromCenter(this.getTarget().position(), new Vec3(2, 2, 2));
 		}
 	}
 	
@@ -153,15 +136,8 @@ public class EntityHammerheadShark extends AbstractOceanicShark
 	@Override
 	public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_21434_, DifficultyInstance p_21435_, MobSpawnType p_21436_, SpawnGroupData p_21437_, CompoundTag p_21438_) 
 	{
-		this.setLeader(true);
 		int schoolSize = this.random.nextInt(1, 4);
-		for(int i = 0; i < schoolSize; i++)
-		{
-			EntityHammerheadShark shark = new EntityHammerheadShark(OceanicEntities.HAMMERHEAD_SHARK.get(), this.level);
-			shark.setPos(this.position());
-			shark.setLeader(this);
-			this.level.addFreshEntity(shark);
-		}
+		OceanicUtil.spawnWithBoid(this, schoolSize);
 		return super.finalizeSpawn(p_21434_, p_21435_, p_21436_, p_21437_, p_21438_);
 	}
 	
@@ -191,33 +167,67 @@ public class EntityHammerheadShark extends AbstractOceanicShark
     }
     
     @Override
-    public boolean canRandomSwim() 
-    {
-    	return super.canRandomSwim() && this.getLeader() == null;
-    }
-    
-    @Override
     public float getHeadDistance() 
     {
     	return 0.8F;
     }
     
+    @Override
+    public boolean rotLerp() 
+    {
+    	return true;
+    }
+    
+	@Override
+	public Vec3 getBoundSize()
+	{
+		return new Vec3(8, 8, 8);
+	}
+	
+	@Override
+	public Map<EntityHammerheadShark, Boid> getBoid() 
+	{
+		return this.boids;
+	}
+	
+	@Override
+	public Collection<Obstacle> getObstacle() 
+	{
+		return this.obstacles;
+	}
+	
+	@Override
+	public Bounds getBounds() 
+	{
+		return this.bounds;
+	}
+    
+	@Override
+	public void setBound(Bounds bounds)
+	{
+		this.bounds = bounds;
+	}
+    
+    @Override
     public void setLeader(boolean value)
     {
     	this.entityData.set(IS_LEADER, value);
     }
-    
+
+    @Override
     public boolean isLeader()
     {
     	return this.entityData.get(IS_LEADER);
     }
-	
+
+    @Override
 	public void setLeader(EntityHammerheadShark leader)
 	{
 		this.entityData.set(LEADER_UUID, Optional.of(leader.getUUID()));
 	}
 	
 	@Nullable
+    @Override
 	public EntityHammerheadShark getLeader() 
 	{
 		if(this.entityData.get(LEADER_UUID).isPresent()) 
