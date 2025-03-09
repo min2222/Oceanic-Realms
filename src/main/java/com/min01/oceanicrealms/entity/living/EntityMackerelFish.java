@@ -5,33 +5,27 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
 
 import com.min01.oceanicrealms.entity.AbstractOceanicCreature;
-import com.min01.oceanicrealms.entity.AbstractOceanicShark;
-import com.min01.oceanicrealms.entity.IAvoid;
-import com.min01.oceanicrealms.entity.OceanicEntities;
+import com.min01.oceanicrealms.entity.IBoid;
 import com.min01.oceanicrealms.item.OceanicItems;
 import com.min01.oceanicrealms.misc.Boid;
 import com.min01.oceanicrealms.misc.Boid.Bounds;
 import com.min01.oceanicrealms.util.OceanicUtil;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.util.Mth;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
@@ -40,22 +34,15 @@ import net.minecraft.world.entity.animal.Bucketable;
 import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
-public class EntityMackerelFish extends AbstractOceanicCreature implements Bucketable
+public class EntityMackerelFish extends AbstractOceanicCreature implements Bucketable, IBoid<EntityMackerelFish>
 {	
 	public static final EntityDataAccessor<Optional<UUID>> LEADER_UUID = SynchedEntityData.defineId(EntityMackerelFish.class, EntityDataSerializers.OPTIONAL_UUID);
 	public static final EntityDataAccessor<Boolean> IS_LEADER = SynchedEntityData.defineId(EntityMackerelFish.class, EntityDataSerializers.BOOLEAN);
 	public static final EntityDataAccessor<Boolean> FROM_BUCKET = SynchedEntityData.defineId(EntityMackerelFish.class, EntityDataSerializers.BOOLEAN);
-
-	public static final Vec3 BOUND_SIZE = new Vec3(8, 8, 8);
 	
 	public Bounds bounds;
 	public final Collection<Boid.Obstacle> obstacles = new ArrayList<Boid.Obstacle>();
@@ -88,123 +75,14 @@ public class EntityMackerelFish extends AbstractOceanicCreature implements Bucke
 		}
 		
 		OceanicUtil.fishFlopping(this);
+		OceanicUtil.avoid(this, this.bounds, this.obstacles, 3.0F);
 		
-		if(this.isLeader() && this.isInWater())
+		List<EntityWhaleshark> list = this.level.getEntitiesOfClass(EntityWhaleshark.class, this.getBoundingBox().inflate(10.0F));
+		if(!list.isEmpty())
 		{
-			if(this.tickCount % 60 == 0)
-			{
-				this.recreateBounds();
-			}
-			
-			for(Entry<EntityMackerelFish, Boid> entry : this.boids.entrySet())
-			{
-				EntityMackerelFish fish = entry.getKey();
-				Boid boid = entry.getValue();
-				Vec3 direction = boid.direction;
-				BlockPos blockPos = BlockPos.containing(fish.position().add(direction));
-				boid.update(this.boids.values(), fish.obstacles, true, true, true, 2.5F, 0.25F);
-				if(this.bounds != null)
-				{
-					boid.bounds = this.bounds;
-				}
-				while(fish.level.getBlockState(blockPos.above()).isAir())
-				{
-					direction = direction.subtract(0.0F, 0.5F, 0.0F);
-					blockPos = BlockPos.containing(fish.position().add(direction));
-				}
-				fish.setDeltaMovement(direction);
-				fish.setYRot(-(float)(Mth.atan2(direction.x, direction.z) * (double)(180.0F / (float)Math.PI)));
-				fish.setYHeadRot(fish.getYRot());
-				fish.setYBodyRot(fish.getYRot());
-				fish.setXRot(-(float)(Mth.atan2(direction.y, direction.horizontalDistance()) * (double)(180.0F / (float)Math.PI)));
-				
-				for(int x = -1; x < 1; x++) 
-				{
-					for(int y = -1; y < 1; y++)
-					{
-						for(int z = -1; z < 1; z++)
-						{
-							BlockPos pos = fish.blockPosition().offset(x, y, z);
-							if(this.level.getBlockState(pos).isCollisionShapeFullBlock(this.level, pos) || this.level.getBlockState(pos).isAir()) 
-							{
-								fish.obstacles.add(new Boid.Obstacle(Vec3.atCenterOf(pos), 5, 0.1F));
-							}
-						}
-					}
-				}
-			}
-		}
-		
-		if(this.bounds != null)
-		{	
-			List<AbstractOceanicCreature> list = this.level.getEntitiesOfClass(AbstractOceanicCreature.class, this.getBoundingBox().inflate(3.0F), t -> t instanceof AbstractOceanicShark || t instanceof IAvoid);
-			list.forEach(t -> 
-			{
-				if(this.bounds.contains(t.position()))
-				{
-					this.obstacles.add(new Boid.Obstacle(t.position(), 5, 0.1F));
-				}
-			});
-		}
-		
-		if(!this.level.isClientSide)
-		{
-			if(this.getLeader() != null)
-			{
-				EntityMackerelFish leader = this.getLeader();
-				if(!leader.boids.containsKey(this))
-				{
-					Bounds bounds = Bounds.fromCenter(leader.position(), BOUND_SIZE);
-					Vec3 pos = new Vec3(bounds.minX() + Math.random() * bounds.size.x, bounds.minY() + Math.random() * bounds.size.y, bounds.minZ() + Math.random() * bounds.size.z);
-					leader.boids.put(this, new Boid(pos, bounds));
-				}
-			}
-			
-			if(this.isLeader())
-			{
-				if(!this.boids.containsKey(this))
-				{
-					Bounds bounds = Bounds.fromCenter(this.position(), BOUND_SIZE);
-					Vec3 pos = new Vec3(bounds.minX() + Math.random() * bounds.size.x, bounds.minY() + Math.random() * bounds.size.y, bounds.minZ() + Math.random() * bounds.size.z);
-					this.bounds = bounds;
-					this.boids.put(this, new Boid(pos, bounds));
-				}
-			}
+			this.bounds = Bounds.fromCenter(list.get(0).position(), new Vec3(2, 2, 2));
 		}
 	}
-	
-    public void recreateBounds() 
-    {
-        Level world = this.level;
-        int radius = 8;
-        
-        for(int i = 0; i < 10; i++)
-        {
-        	Vec3 pos = OceanicUtil.getRandomPosition(this, radius);
-        	HitResult hitResult = this.level.clip(new ClipContext(this.position(), pos, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
-        	if(hitResult instanceof BlockHitResult blockHit)
-        	{
-                BlockPos targetPos = blockHit.getBlockPos();
-                BlockState blockState = world.getBlockState(targetPos);
-                
-                if(blockState.is(Blocks.WATER))
-                {
-    				this.bounds = Bounds.fromCenter(pos, BOUND_SIZE);
-                	break;
-                }
-        	}
-        }
-    }
-    
-    @Override
-    public void die(DamageSource p_21014_) 
-    {
-    	super.die(p_21014_);
-    	if(this.isLeader())
-    	{
-    		
-    	}
-    }
 	
 	@SuppressWarnings("deprecation")
 	@Override
@@ -212,27 +90,10 @@ public class EntityMackerelFish extends AbstractOceanicCreature implements Bucke
 	{
 		if(!this.fromBucket() && p_21436_ != MobSpawnType.BUCKET)
 		{
-			this.setLeader(true);
-			Bounds bounds = Bounds.fromCenter(this.position(), BOUND_SIZE);
-			Vec3 pos = new Vec3(bounds.minX() + Math.random() * bounds.size.x, bounds.minY() + Math.random() * bounds.size.y, bounds.minZ() + Math.random() * bounds.size.z);
-			this.boids.put(this, new Boid(pos, bounds));
-			this.bounds = bounds;
-			this.createBoid(pos, bounds);
+			int schoolSize = this.random.nextInt(6, 11);
+			OceanicUtil.spawnWithBoid(this, schoolSize);
 		}
 		return super.finalizeSpawn(p_21434_, p_21435_, p_21436_, p_21437_, p_21438_);
-	}
-	
-	public void createBoid(Vec3 pos, Bounds bounds)
-	{
-		int schoolSize = this.random.nextInt(6, 11);
-		for(int i = 0; i < schoolSize; i++)
-		{
-			EntityMackerelFish fish = new EntityMackerelFish(OceanicEntities.MACKEREL_FISH.get(), this.level);
-			fish.setPos(this.position());
-			fish.setLeader(this);
-			this.boids.put(fish, new Boid(pos, bounds));
-			this.level.addFreshEntity(fish);
-		}
 	}
 	
     @Override
@@ -303,29 +164,69 @@ public class EntityMackerelFish extends AbstractOceanicCreature implements Bucke
 	{
 		return SoundEvents.BUCKET_FILL_FISH;
 	}
+	
+	@Override
+	public void setBound(Bounds bounds)
+	{
+		this.bounds = bounds;
+	}
+	
+	@Override
+	public void addBoid(EntityMackerelFish entity, Boid boid)
+	{
+		this.boids.put(entity, boid);
+	}
+	
+	@Override
+	public Vec3 getBoundSize()
+	{
+		return new Vec3(8, 8, 8);
+	}
+	
+	@Override
+	public void recreateBounds() 
+	{
+		OceanicUtil.recreateBounds(this, 8);
+	}
+	
+	@Override
+	public void tickBoid() 
+	{
+		OceanicUtil.tickBoid(this, this.bounds, this.obstacles, this.boids);
+	}
+	
+	@Override
+	public Map<EntityMackerelFish, Boid> getBoid() 
+	{
+		return this.boids;
+	}
+	
+	@Override
+	public void loadBoid() 
+	{
+		OceanicUtil.loadBoid(this);
+	}
     
     @Override
-    public boolean canRandomSwim() 
-    {
-    	return false;
-    }
-    
     public void setLeader(boolean value)
     {
     	this.entityData.set(IS_LEADER, value);
     }
     
+    @Override
     public boolean isLeader()
     {
     	return this.entityData.get(IS_LEADER);
     }
-	
+
+    @Override
 	public void setLeader(EntityMackerelFish leader)
 	{
 		this.entityData.set(LEADER_UUID, Optional.of(leader.getUUID()));
 	}
 	
 	@Nullable
+	@Override
 	public EntityMackerelFish getLeader() 
 	{
 		if(this.entityData.get(LEADER_UUID).isPresent()) 

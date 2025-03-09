@@ -151,7 +151,7 @@ public class EntityDolphinfish extends AbstractOceanicCreature
     @Override
     public boolean canRandomSwim() 
     {
-    	return false;
+    	return super.canRandomSwim() && this.getLeader() == null;
     }
     
     public void setLeader(boolean value)

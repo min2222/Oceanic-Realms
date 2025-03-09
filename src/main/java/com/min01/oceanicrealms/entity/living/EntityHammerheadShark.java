@@ -193,7 +193,7 @@ public class EntityHammerheadShark extends AbstractOceanicShark
     @Override
     public boolean canRandomSwim() 
     {
-    	return false;
+    	return super.canRandomSwim() && this.getLeader() == null;
     }
     
     @Override

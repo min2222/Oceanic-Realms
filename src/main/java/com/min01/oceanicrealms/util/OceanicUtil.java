@@ -1,19 +1,36 @@
 package com.min01.oceanicrealms.util;
 
 import java.lang.reflect.Method;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.UUID;
 import java.util.function.Consumer;
 
 import org.joml.Math;
 
+import com.min01.oceanicrealms.entity.AbstractOceanicCreature;
+import com.min01.oceanicrealms.entity.AbstractOceanicShark;
+import com.min01.oceanicrealms.entity.IAvoid;
+import com.min01.oceanicrealms.entity.IBoid;
+import com.min01.oceanicrealms.misc.Boid;
+import com.min01.oceanicrealms.misc.Boid.Bounds;
+
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.entity.LevelEntityGetter;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.util.LogicalSidedProvider;
@@ -22,6 +39,160 @@ import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 
 public class OceanicUtil
 {
+	public static <T extends LivingEntity & IBoid<T>, A extends Entity> void avoid(T entity, Bounds bounds, Collection<Boid.Obstacle> obstacles, float radius)
+	{
+		if(bounds != null)
+		{
+			List<AbstractOceanicCreature> list = entity.level.getEntitiesOfClass(AbstractOceanicCreature.class, entity.getBoundingBox().inflate(radius), t -> t instanceof AbstractOceanicShark || t instanceof IAvoid);
+			list.forEach(t -> 
+			{
+				if(bounds.contains(t.position()))
+				{
+					obstacles.add(new Boid.Obstacle(t.position(), 5, 0.1F));
+				}
+			});
+		}
+	}
+	
+	public static <T extends LivingEntity & IBoid<T>> void loadBoid(T entity) 
+	{
+		if(!entity.level.isClientSide)
+		{
+			if(entity.getLeader() != null)
+			{
+				T leader = entity.getLeader();
+				if(!leader.getBoid().containsKey(entity))
+				{
+					Bounds bounds = Bounds.fromCenter(leader.position(), entity.getBoundSize());
+					Vec3 pos = new Vec3(bounds.minX() + Math.random() * bounds.size.x, bounds.minY() + Math.random() * bounds.size.y, bounds.minZ() + Math.random() * bounds.size.z);
+					leader.addBoid(entity, new Boid(pos, bounds));
+				}
+			}
+			
+			if(entity.isLeader())
+			{
+				if(!entity.getBoid().containsKey(entity))
+				{
+					Bounds bounds = Bounds.fromCenter(entity.position(), entity.getBoundSize());
+					Vec3 pos = new Vec3(bounds.minX() + Math.random() * bounds.size.x, bounds.minY() + Math.random() * bounds.size.y, bounds.minZ() + Math.random() * bounds.size.z);
+					entity.setBound(bounds);
+					entity.addBoid(entity, new Boid(pos, bounds));
+				}
+			}
+		}
+	}
+	
+    public static <T extends AbstractOceanicCreature & IBoid<T>> void tickBoid(T entity, Bounds bounds, Collection<Boid.Obstacle> obstacles, Map<T, Boid> boids) 
+    {
+		for(Entry<T, Boid> entry : boids.entrySet())
+		{
+			T fish = entry.getKey();
+			Boid boid = entry.getValue();
+			Vec3 direction = boid.direction;
+			BlockPos blockPos = BlockPos.containing(fish.position().add(direction));
+			boid.update(boids.values(), obstacles, true, true, true, 2.5F, 0.25F);
+			if(bounds != null)
+			{
+				boid.bounds = bounds;
+			}
+			while(fish.level.getBlockState(blockPos.above()).isAir())
+			{
+				direction = direction.subtract(0.0F, 0.5F, 0.0F);
+				blockPos = BlockPos.containing(fish.position().add(direction));
+			}
+			if(fish.rotLerp())
+			{
+				float yRot = -(float)(Mth.atan2(direction.x, direction.z) * (double)(180.0F / (float)Math.PI));
+				float xRot = -(float)(Mth.atan2(direction.y, direction.horizontalDistance()) * (double)(180.0F / (float)Math.PI));
+				fish.setYRot(OceanicUtil.rotlerp(fish.getYRot(), yRot, (float)fish.getBodyRotationSpeed()));
+				fish.setYHeadRot(fish.getYRot());
+				fish.setYBodyRot(fish.getYRot());
+				fish.setXRot(OceanicUtil.rotlerp(fish.getXRot(), xRot, 65));
+				if(!obstacles.isEmpty())
+				{
+					//FIXME
+					if(Math.abs(fish.getYRot() - yRot) < 0.1F && Math.abs(fish.getXRot() - xRot) < 0.1F) 
+					{
+						System.out.println("Lerp finished, applying movement...");
+						fish.setDeltaMovement(direction);
+					}
+				}
+				else
+				{
+					fish.setDeltaMovement(direction);
+				}
+			}
+			else
+			{
+				fish.setDeltaMovement(direction);
+				fish.setYRot(-(float)(Mth.atan2(direction.x, direction.z) * (double)(180.0F / (float)Math.PI)));
+				fish.setYHeadRot(fish.getYRot());
+				fish.setYBodyRot(fish.getYRot());
+				fish.setXRot(-(float)(Mth.atan2(direction.y, direction.horizontalDistance()) * (double)(180.0F / (float)Math.PI)));
+			}
+			
+			for(int x = -1; x < 1; x++) 
+			{
+				for(int y = -1; y < 1; y++)
+				{
+					for(int z = -1; z < 1; z++)
+					{
+						BlockPos pos = fish.blockPosition().offset(x, y, z);
+						if(entity.level.getBlockState(pos).isCollisionShapeFullBlock(entity.level, pos) || entity.level.getBlockState(pos).isAir()) 
+						{
+							obstacles.add(new Boid.Obstacle(Vec3.atCenterOf(pos), 5, 0.1F));
+						}
+					}
+				}
+			}
+		}
+    }
+    
+    public static <T extends LivingEntity & IBoid<T>> void recreateBounds(T entity, int radius) 
+    {
+        Level world = entity.level;
+        
+        for(int i = 0; i < 10; i++)
+        {
+        	Vec3 pos = OceanicUtil.getRandomPosition(entity, radius);
+        	HitResult hitResult = entity.level.clip(new ClipContext(entity.position(), pos, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, entity));
+        	if(hitResult instanceof BlockHitResult blockHit)
+        	{
+                BlockPos targetPos = blockHit.getBlockPos();
+                BlockState blockState = world.getBlockState(targetPos);
+                
+                if(blockState.is(Blocks.WATER))
+                {
+    				entity.setBound(Bounds.fromCenter(pos, entity.getBoundSize()));
+                	break;
+                }
+        	}
+        }
+    }
+    
+	public static <T extends LivingEntity & IBoid<T>> void spawnWithBoid(T entity, int schoolSize)
+	{
+		entity.setLeader(true);
+		Bounds bounds = Bounds.fromCenter(entity.position(), entity.getBoundSize());
+		Vec3 pos = new Vec3(bounds.minX() + Math.random() * bounds.size.x, bounds.minY() + Math.random() * bounds.size.y, bounds.minZ() + Math.random() * bounds.size.z);
+		entity.addBoid(entity, new Boid(pos, bounds));
+		entity.setBound(bounds);
+		createBoid(pos, bounds, schoolSize, entity);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static <T extends LivingEntity & IBoid<T>> void createBoid(Vec3 pos, Bounds bounds, int schoolSize, T entity)
+	{
+		for(int i = 0; i < schoolSize; i++)
+		{
+			T fish = (T) entity.getType().create(entity.level);
+			fish.setPos(entity.position());
+			fish.setLeader(entity);
+			entity.addBoid(fish, new Boid(pos, bounds));
+			entity.level.addFreshEntity(fish);
+		}
+	}
+	
 	public static Vec3 fromToVector(Vec3 from, Vec3 to, float scale)
 	{
 		Vec3 motion = to.subtract(from).normalize();

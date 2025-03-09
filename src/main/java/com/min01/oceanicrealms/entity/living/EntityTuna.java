@@ -1,17 +1,24 @@
 package com.min01.oceanicrealms.entity.living;
 
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
 
+import org.joml.Math;
+
 import com.min01.oceanicrealms.entity.AbstractOceanicCreature;
+import com.min01.oceanicrealms.entity.IBoid;
 import com.min01.oceanicrealms.entity.OceanicEntities;
+import com.min01.oceanicrealms.misc.Boid;
 import com.min01.oceanicrealms.misc.OceanicTags;
+import com.min01.oceanicrealms.misc.Boid.Bounds;
 import com.min01.oceanicrealms.util.OceanicUtil;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -27,13 +34,17 @@ import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.pathfinder.Path;
+import net.minecraft.world.phys.Vec3;
 
-public class EntityTuna extends AbstractOceanicCreature
+public class EntityTuna extends AbstractOceanicCreature implements IBoid<EntityTuna>
 {
 	public static final EntityDataAccessor<Optional<UUID>> LEADER_UUID = SynchedEntityData.defineId(EntityTuna.class, EntityDataSerializers.OPTIONAL_UUID);
 	public static final EntityDataAccessor<Boolean> IS_LEADER = SynchedEntityData.defineId(EntityTuna.class, EntityDataSerializers.BOOLEAN);
 	public static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(EntityTuna.class, EntityDataSerializers.INT);
+	
+	public Bounds bounds;
+	public final Collection<Boid.Obstacle> obstacles = new ArrayList<Boid.Obstacle>();
+	public final Map<EntityTuna, Boid> boids = new HashMap<EntityTuna, Boid>();
 	
 	public final AnimationState dryAnimationState = new AnimationState();
 	
@@ -69,39 +80,7 @@ public class EntityTuna extends AbstractOceanicCreature
 		}
 		
 		OceanicUtil.fishFlopping(this);
-		
-		if(this.isLeader())
-		{
-			if(this.tickCount % 20 == 0)
-			{
-				List<EntityTuna> list = this.level.getEntitiesOfClass(EntityTuna.class, this.getBoundingBox().inflate(5.0F), t -> !t.isLeader() && t.getLeader() == null);
-				list.forEach(t -> 
-				{
-					t.setLeader(this);
-				});
-			}
-		}
-		else if(this.getLeader() != null)
-		{
-			EntityTuna leader = this.getLeader();
-			if(this.distanceTo(leader) > 2.5F)
-			{
-				this.getNavigation().moveTo(leader, 0.5F);
-			}
-			else
-			{
-				if(leader.getNavigation().getPath() != null)
-				{
-					BlockPos pos = leader.getNavigation().getPath().getTarget();
-					Path path = this.getNavigation().createPath(pos, 1);
-					this.getNavigation().moveTo(path, 0.5F);
-				}
-				if(leader.getTarget() != null)
-				{
-					this.setTarget(leader.getTarget());
-				}
-			}
-		}
+		OceanicUtil.avoid(this, this.bounds, this.obstacles, 5.0F);
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -109,7 +88,11 @@ public class EntityTuna extends AbstractOceanicCreature
 	public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_21434_, DifficultyInstance p_21435_, MobSpawnType p_21436_, SpawnGroupData p_21437_, CompoundTag p_21438_) 
 	{
 		this.setLeader(true);
-		this.spawnSwarm(p_21434_.getBiome(this.blockPosition()).is(OceanicTags.OceanicBiomes.COLD_OCEANS));
+		Bounds bounds = Bounds.fromCenter(this.position(), this.getBoundSize());
+		Vec3 pos = new Vec3(bounds.minX() + Math.random() * bounds.size.x, bounds.minY() + Math.random() * bounds.size.y, bounds.minZ() + Math.random() * bounds.size.z);
+		this.boids.put(this, new Boid(pos, bounds));
+		this.bounds = bounds;
+		this.createBoid(pos, bounds, p_21434_.getBiome(this.blockPosition()).is(OceanicTags.OceanicBiomes.COLD_OCEANS));
     	if(p_21434_.getBiome(this.blockPosition()).is(OceanicTags.OceanicBiomes.COLD_OCEANS))
     	{
     		this.setVariant(2);
@@ -117,7 +100,7 @@ public class EntityTuna extends AbstractOceanicCreature
 		return super.finalizeSpawn(p_21434_, p_21435_, p_21436_, p_21437_, p_21438_);
 	}
 	
-	public void spawnSwarm(boolean isCold)
+	public void createBoid(Vec3 pos, Bounds bounds, boolean isCold)
 	{
 		int schoolSize = this.random.nextInt(3, 7);
 		for(int i = 0; i < schoolSize; i++)
@@ -125,6 +108,7 @@ public class EntityTuna extends AbstractOceanicCreature
 			EntityTuna tuna = new EntityTuna(OceanicEntities.TUNA.get(), this.level);
 			tuna.setPos(this.position());
 			tuna.setLeader(this);
+			this.boids.put(tuna, new Boid(pos, bounds));
 			if(isCold)
 			{
 				tuna.setVariant(2);
@@ -169,12 +153,6 @@ public class EntityTuna extends AbstractOceanicCreature
 		}
     }
     
-    @Override
-    public boolean canRandomSwim() 
-    {
-    	return false;
-    }
-    
     public void setVariant(int value)
     {
     	this.entityData.set(VARIANT, value);
@@ -185,22 +163,74 @@ public class EntityTuna extends AbstractOceanicCreature
     	return this.entityData.get(VARIANT);
     }
     
+    @Override
+    public boolean rotLerp() 
+    {
+    	return true;
+    }
+    
+	@Override
+	public void setBound(Bounds bounds)
+	{
+		this.bounds = bounds;
+	}
+	
+	@Override
+	public void addBoid(EntityTuna entity, Boid boid)
+	{
+		this.boids.put(entity, boid);
+	}
+	
+	@Override
+	public Vec3 getBoundSize()
+	{
+		return new Vec3(4, 4, 4);
+	}
+	
+	@Override
+	public void recreateBounds() 
+	{
+		OceanicUtil.recreateBounds(this, 8);
+	}
+	
+	@Override
+	public void tickBoid() 
+	{
+		OceanicUtil.tickBoid(this, this.bounds, this.obstacles, this.boids);
+	}
+	
+	@Override
+	public Map<EntityTuna, Boid> getBoid() 
+	{
+		return this.boids;
+	}
+	
+	@Override
+	public void loadBoid() 
+	{
+		OceanicUtil.loadBoid(this);
+	}
+
+    @Override
     public void setLeader(boolean value)
     {
     	this.entityData.set(IS_LEADER, value);
     }
-    
+
+    @Override
     public boolean isLeader()
     {
     	return this.entityData.get(IS_LEADER);
     }
-	
+
+    @Override
 	public void setLeader(EntityTuna leader)
 	{
 		this.entityData.set(LEADER_UUID, Optional.of(leader.getUUID()));
 	}
 	
 	@Nullable
+    @Override
 	public EntityTuna getLeader() 
 	{
 		if(this.entityData.get(LEADER_UUID).isPresent()) 
