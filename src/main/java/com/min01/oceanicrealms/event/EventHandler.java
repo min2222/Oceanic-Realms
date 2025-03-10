@@ -51,5 +51,7 @@ public class EventHandler
     	event.register(OceanicEntities.HAMMERHEAD_SHARK.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EntityHammerheadShark::checkSharkSpawnRules, Operation.AND);
     	event.register(OceanicEntities.MACKEREL_FISH.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EntityMackerelFish::checkFishSpawnRules, Operation.AND);
     	event.register(OceanicEntities.SILVER_POMFRET_FISH.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EntitySilverPomfretFish::checkFishSpawnRules, Operation.AND);
+    	event.register(OceanicEntities.WHALESHARK.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EntityWhaleshark::checkFishSpawnRules, Operation.AND);
+    	event.register(OceanicEntities.LIONFISH.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EntityLionfish::checkFishSpawnRules, Operation.AND);
 	}
 }

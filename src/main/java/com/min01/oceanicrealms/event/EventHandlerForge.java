@@ -9,6 +9,7 @@ import com.min01.oceanicrealms.misc.Boid;
 import com.min01.oceanicrealms.util.OceanicUtil;
 
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -33,10 +34,18 @@ public class EventHandlerForge
 				}
 				OceanicUtil.tickBoid(fish, boid.getBounds(), (Map<T, Boid>) boid.getBoid());
 			}
-			if(!entity.isAlive())
-			{
-				OceanicUtil.transferLeader(fish);
-			}
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	@SubscribeEvent
+	public static <T extends AbstractOceanicCreature & IBoid<T>> void onLivingDeath(LivingDeathEvent event)
+	{
+		LivingEntity entity = event.getEntity();
+		if(entity instanceof IBoid<?>)
+		{
+			T fish = (T) entity;
+			OceanicUtil.transferLeader(fish);
 		}
 	}
 }

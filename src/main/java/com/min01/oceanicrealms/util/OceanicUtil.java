@@ -56,22 +56,26 @@ public class OceanicUtil
 	
 	public static <T extends LivingEntity & IBoid<T>> void transferLeader(T entity) 
 	{
-		if(entity.isLeader())
+		if(!entity.level.isClientSide)
 		{
-			Set<T> set = entity.getBoid().keySet();
-			List<T> list = set.stream().toList();
-			if(!list.isEmpty())
+			if(entity.isLeader())
 			{
-				T fish = list.get(0);
-				fish.setLeader(true);
-				
-				list.forEach(t -> 
+				Set<T> set = entity.getBoid().keySet();
+				List<T> list = set.stream().toList();
+				if(!list.isEmpty())
 				{
-					if(!t.isLeader())
+					T fish = list.get(list.size() - 1);
+					fish.setLeader(true);
+					fish.setBound(entity.getBounds());
+					fish.getBoid().putAll(entity.getBoid());
+					list.forEach(t -> 
 					{
-						t.setLeader(fish);
-					}
-				});
+						if(!t.isLeader())
+						{
+							t.setLeader(fish);
+						}
+					});
+				}
 			}
 		}
 	}
