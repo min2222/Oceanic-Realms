@@ -102,15 +102,15 @@ public class OceanicUtil
 			}
 			if(fish.rotLerp())
 			{
-				float yRot = -(float)(Mth.atan2(direction.x, direction.z) * (double)(180.0F / (float)Math.PI));
-				float xRot = -(float)(Mth.atan2(direction.y, direction.horizontalDistance()) * (double)(180.0F / (float)Math.PI));
-				fish.setYRot(OceanicUtil.rotlerp(fish.getYRot(), yRot, (float)fish.getBodyRotationSpeed()));
-				fish.setYHeadRot(fish.getYRot());
-				fish.setYBodyRot(fish.getYRot());
-				fish.setXRot(OceanicUtil.rotlerp(fish.getXRot(), xRot, 65));
 				if(!mutable.equals(BlockPos.ZERO))
 				{
-					boolean lerpDone = Math.abs(fish.getYRot() - yRot) < 0.01F && Math.abs(fish.getXRot() - xRot) < 0.01F;
+					float yRot = -(float)(Mth.atan2(direction.x, direction.z) * (double)(180.0F / (float)Math.PI));
+					float xRot = -(float)(Mth.atan2(direction.y, direction.horizontalDistance()) * (double)(180.0F / (float)Math.PI));
+					fish.setYRot(OceanicUtil.rotlerp(fish.getYRot(), yRot, (float)fish.getBodyRotationSpeed()));
+					fish.setYHeadRot(fish.getYRot());
+					fish.setYBodyRot(fish.getYRot());
+					fish.setXRot(OceanicUtil.rotlerp(fish.getXRot(), xRot, 65));
+					boolean lerpDone = Math.abs(fish.getYRot() - yRot) < 0.001F && Math.abs(fish.getXRot() - xRot) < 0.001F;
 					if(lerpDone)
 					{
 						fish.setDeltaMovement(direction);
@@ -120,6 +120,10 @@ public class OceanicUtil
 				else
 				{
 					fish.setDeltaMovement(direction);
+					fish.setYRot(-(float)(Mth.atan2(direction.x, direction.z) * (double)(180.0F / (float)Math.PI)));
+					fish.setYHeadRot(fish.getYRot());
+					fish.setYBodyRot(fish.getYRot());
+					fish.setXRot(-(float)(Mth.atan2(direction.y, direction.horizontalDistance()) * (double)(180.0F / (float)Math.PI)));
 				}
 			}
 			else
@@ -155,7 +159,7 @@ public class OceanicUtil
         
         for(int i = 0; i < 10; i++)
         {
-        	Vec3 pos = OceanicUtil.getRandomPosition(entity, radius);
+        	Vec3 pos = getRandomPosition(entity, radius);
         	HitResult hitResult = entity.level.clip(new ClipContext(entity.position(), pos, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, entity));
         	if(hitResult instanceof BlockHitResult blockHit)
         	{

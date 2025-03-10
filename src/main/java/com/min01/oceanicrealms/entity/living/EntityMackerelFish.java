@@ -30,6 +30,7 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.AnimationState;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnGroupData;
@@ -46,6 +47,7 @@ public class EntityMackerelFish extends AbstractOceanicCreature implements Bucke
 	public static final EntityDataAccessor<Optional<UUID>> LEADER_UUID = SynchedEntityData.defineId(EntityMackerelFish.class, EntityDataSerializers.OPTIONAL_UUID);
 	public static final EntityDataAccessor<Boolean> IS_LEADER = SynchedEntityData.defineId(EntityMackerelFish.class, EntityDataSerializers.BOOLEAN);
 	public static final EntityDataAccessor<Boolean> FROM_BUCKET = SynchedEntityData.defineId(EntityMackerelFish.class, EntityDataSerializers.BOOLEAN);
+	public static final EntityDataAccessor<Integer> FOLLOW_DURATION = SynchedEntityData.defineId(EntityMackerelFish.class, EntityDataSerializers.INT);
 	
 	public Bounds bounds;
 	public final Collection<Boid.Obstacle> obstacles = new ArrayList<Boid.Obstacle>();
@@ -65,6 +67,7 @@ public class EntityMackerelFish extends AbstractOceanicCreature implements Bucke
     	this.entityData.define(LEADER_UUID, Optional.empty());
     	this.entityData.define(IS_LEADER, false);
     	this.entityData.define(FROM_BUCKET, false);
+    	this.entityData.define(FOLLOW_DURATION, 1200);
     }
     
 	@Override
@@ -83,9 +86,26 @@ public class EntityMackerelFish extends AbstractOceanicCreature implements Bucke
 		List<EntityWhaleshark> list = this.level.getEntitiesOfClass(EntityWhaleshark.class, this.getBoundingBox().inflate(10.0F));
 		if(!list.isEmpty())
 		{
-			this.bounds = Bounds.fromCenter(list.get(0).position(), new Vec3(2, 2, 2));
+			if(this.getFollowDuration() > 0)
+			{
+				this.bounds = Bounds.fromCenter(list.get(0).position(), new Vec3(4, 4, 4));
+				this.setFollowDuration(this.getFollowDuration() - 1);
+			}
+		}
+		else
+		{
+			this.setFollowDuration(1200);
 		}
 	}
+	
+    @Override
+    protected void doPush(Entity p_20971_) 
+    {
+    	if(!(p_20971_ instanceof EntityWhaleshark))
+    	{
+    		super.doPush(p_20971_);
+    	}
+    }
 	
 	@SuppressWarnings("deprecation")
 	@Override
@@ -108,6 +128,7 @@ public class EntityMackerelFish extends AbstractOceanicCreature implements Bucke
 			p_21484_.putUUID("Leader", this.entityData.get(LEADER_UUID).get());
 		}
 		p_21484_.putBoolean("isLeader", this.isLeader());
+		p_21484_.putInt("FollowDuration", this.getFollowDuration());
     }
     
     @Override
@@ -121,6 +142,10 @@ public class EntityMackerelFish extends AbstractOceanicCreature implements Bucke
 		if(p_21450_.contains("isLeader")) 
 		{
 			this.setLeader(p_21450_.getBoolean("isLeader"));
+		}
+		if(p_21450_.contains("FollowDuration")) 
+		{
+			this.setFollowDuration(p_21450_.getInt("FollowDuration"));
 		}
     }
     
@@ -226,4 +251,14 @@ public class EntityMackerelFish extends AbstractOceanicCreature implements Bucke
 		}
 		return null;
 	}
+	
+    public void setFollowDuration(int value)
+    {
+    	this.entityData.set(FOLLOW_DURATION, value);
+    }
+    
+    public int getFollowDuration()
+    {
+    	return this.entityData.get(FOLLOW_DURATION);
+    }
 }

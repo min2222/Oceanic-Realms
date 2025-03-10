@@ -4,6 +4,7 @@ import com.min01.oceanicrealms.entity.AbstractOceanicCreature;
 import com.min01.oceanicrealms.misc.WormChain;
 import com.min01.oceanicrealms.misc.WormChain.Worm;
 
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -33,6 +34,15 @@ public class EntityWhaleshark extends AbstractOceanicCreature
     	this.worm.setOldPosAndRot();
     	WormChain.tick(this.worm, this, 2.8F, 0.45F);
     	super.tick();
+    }
+    
+    @Override
+    protected void doPush(Entity p_20971_) 
+    {
+    	if(!(p_20971_ instanceof EntityMackerelFish))
+    	{
+    		super.doPush(p_20971_);
+    	}
     }
     
 	@Override
