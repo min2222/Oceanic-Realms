@@ -45,6 +45,8 @@ public class OceanicCreativeTabs
     			output.accept(OceanicItems.SEA_URCHIN.get());
     			output.accept(OceanicItems.SEA_ANEMONE.get());
     			output.accept(OceanicItems.STARFISH.get());
+    			output.accept(OceanicItems.GIANT_KELP.get());
+    			output.accept(OceanicItems.RED_ALGAE.get());
     			output.accept(OceanicItems.MACKEREL_FISH_BUCKET.get());
     			output.accept(OceanicItems.SILVER_POMFRET_FISH_BUCKET.get());
     		}).build());

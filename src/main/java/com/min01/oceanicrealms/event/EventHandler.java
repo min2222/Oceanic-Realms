@@ -7,7 +7,9 @@ import com.min01.oceanicrealms.entity.living.EntityDolphinfish;
 import com.min01.oceanicrealms.entity.living.EntityGreatWhiteShark;
 import com.min01.oceanicrealms.entity.living.EntityHammerheadShark;
 import com.min01.oceanicrealms.entity.living.EntityLionfish;
+import com.min01.oceanicrealms.entity.living.EntityMackerelFish;
 import com.min01.oceanicrealms.entity.living.EntityPorbeagleShark;
+import com.min01.oceanicrealms.entity.living.EntitySilverPomfretFish;
 import com.min01.oceanicrealms.entity.living.EntityTuna;
 import com.min01.oceanicrealms.entity.living.EntityWhaleshark;
 
@@ -47,5 +49,7 @@ public class EventHandler
     	event.register(OceanicEntities.TUNA.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EntityTuna::checkFishSpawnRules, Operation.AND);
     	event.register(OceanicEntities.DOLPHINFISH.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EntityDolphinfish::checkFishSpawnRules, Operation.AND);
     	event.register(OceanicEntities.HAMMERHEAD_SHARK.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EntityHammerheadShark::checkSharkSpawnRules, Operation.AND);
+    	event.register(OceanicEntities.MACKEREL_FISH.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EntityMackerelFish::checkFishSpawnRules, Operation.AND);
+    	event.register(OceanicEntities.SILVER_POMFRET_FISH.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EntitySilverPomfretFish::checkFishSpawnRules, Operation.AND);
 	}
 }

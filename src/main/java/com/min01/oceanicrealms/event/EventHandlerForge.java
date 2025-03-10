@@ -33,6 +33,10 @@ public class EventHandlerForge
 				}
 				OceanicUtil.tickBoid(fish, boid.getBounds(), (Map<T, Boid>) boid.getBoid());
 			}
+			if(!entity.isAlive())
+			{
+				OceanicUtil.transferLeader(fish);
+			}
 		}
 	}
 }

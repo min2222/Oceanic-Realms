@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -53,6 +54,28 @@ public class OceanicUtil
 		}
 	}
 	
+	public static <T extends LivingEntity & IBoid<T>> void transferLeader(T entity) 
+	{
+		if(entity.isLeader())
+		{
+			Set<T> set = entity.getBoid().keySet();
+			List<T> list = set.stream().toList();
+			if(!list.isEmpty())
+			{
+				T fish = list.get(0);
+				fish.setLeader(true);
+				
+				list.forEach(t -> 
+				{
+					if(!t.isLeader())
+					{
+						t.setLeader(fish);
+					}
+				});
+			}
+		}
+	}
+	
 	public static <T extends LivingEntity & IBoid<T>> void loadBoid(T entity) 
 	{
 		if(!entity.level.isClientSide)
@@ -90,7 +113,7 @@ public class OceanicUtil
 			Boid boid = entry.getValue();
 			Vec3 direction = boid.direction;
 			BlockPos blockPos = BlockPos.containing(fish.position().add(direction));
-			boid.update(boids.values(), fish.getObstacle(), true, true, true, 2.5F, 0.25F);
+			boid.update(boids.values(), fish.getObstacle(), true, true, true, 2.5F, entity.rotLerp() ? 0.5F : 0.25F);
 			if(bounds != null)
 			{
 				boid.bounds = bounds;
