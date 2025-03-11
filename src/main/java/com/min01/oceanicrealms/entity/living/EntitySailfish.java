@@ -142,14 +142,20 @@ public class EntitySailfish extends AbstractOceanicCreature implements IAvoid
 				{
 					this.getNavigation().moveTo(this.getTarget(), 0.65F);
 					Vec3 lookPos = OceanicUtil.getLookPos(this.getRotationVector(), this.position(), 0.0F, 0.4F, 1.5F);
-					if(lookPos.distanceTo(this.getTarget().position()) <= 2.5F)
+					if(lookPos.distanceTo(this.getTarget().position()) <= 1.5F)
 					{
 						this.getTarget().startRiding(this);
 					}
 				}
 				else
 				{
-					this.getTarget().hurt(this.damageSources().mobAttack(this), 4.0F);
+					if(this.getTarget().hurt(this.damageSources().mobAttack(this), 4.0F))
+					{
+						if(!this.getTarget().isAlive())
+						{
+							this.setHungerCooldown(3600);
+						}
+					}
 				}
 			}
 			if(this.canLook())
