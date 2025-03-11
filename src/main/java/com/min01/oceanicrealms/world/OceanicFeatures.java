@@ -3,7 +3,9 @@ package com.min01.oceanicrealms.world;
 import com.min01.oceanicrealms.OceanicRealms;
 import com.min01.oceanicrealms.world.feature.ClamFeature;
 import com.min01.oceanicrealms.world.feature.CrabHoleFeature;
+import com.min01.oceanicrealms.world.feature.GiantKelpFeature;
 import com.min01.oceanicrealms.world.feature.ListFeatureConfiguration;
+import com.min01.oceanicrealms.world.feature.RedAlgaeFeature;
 import com.min01.oceanicrealms.world.feature.ReefRockBeachFeature;
 import com.min01.oceanicrealms.world.feature.ReefRockDeepFeature;
 import com.min01.oceanicrealms.world.feature.ReefRockShallowFeature;
@@ -33,4 +35,6 @@ public class OceanicFeatures
     public static final RegistryObject<Feature<NoneFeatureConfiguration>> CLAM = FEATURES.register("clam", () -> new ClamFeature(NoneFeatureConfiguration.CODEC));
     public static final RegistryObject<Feature<NoneFeatureConfiguration>> SEA_ANEMONE = FEATURES.register("sea_anemone", () -> new SeaAnemoneFeature(NoneFeatureConfiguration.CODEC));
     public static final RegistryObject<Feature<NoneFeatureConfiguration>> STARFISH = FEATURES.register("starfish", () -> new StarfishFeature(NoneFeatureConfiguration.CODEC));
+    public static final RegistryObject<Feature<NoneFeatureConfiguration>> RED_ALGAE = FEATURES.register("red_algae", () -> new RedAlgaeFeature(NoneFeatureConfiguration.CODEC));
+    public static final RegistryObject<Feature<NoneFeatureConfiguration>> GIANT_KELP = FEATURES.register("giant_kelp", () -> new GiantKelpFeature(NoneFeatureConfiguration.CODEC));
 }
