@@ -171,7 +171,14 @@ public class EntityDolphinfish extends AbstractOceanicCreature implements IBoid<
 	@Override
 	public void setLeader(EntityDolphinfish leader)
 	{
-		this.entityData.set(LEADER_UUID, Optional.of(leader.getUUID()));
+    	if(leader == null)
+    	{
+    		this.entityData.set(LEADER_UUID, Optional.empty());
+    	}
+    	else
+    	{
+    		this.entityData.set(LEADER_UUID, Optional.of(leader.getUUID()));
+    	}
 	}
 	
 	@Nullable

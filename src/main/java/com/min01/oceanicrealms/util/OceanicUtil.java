@@ -1,6 +1,7 @@
 package com.min01.oceanicrealms.util;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -61,20 +62,22 @@ public class OceanicUtil
 			if(entity.isLeader())
 			{
 				Set<T> set = entity.getBoid().keySet();
-				List<T> list = set.stream().toList();
+				List<T> list = new ArrayList<>(set);
+				list.removeIf(t -> !t.isAlive());
 				if(!list.isEmpty())
 				{
 					T fish = list.get(list.size() - 1);
 					fish.setLeader(true);
+					fish.setLeader(null);
 					fish.setBound(entity.getBounds());
-					fish.getBoid().putAll(entity.getBoid());
-					list.forEach(t -> 
+					for(Entry<T, Boid> entry : entity.getBoid().entrySet())
 					{
-						if(!t.isLeader())
+						fish.getBoid().put(entry.getKey(), entry.getValue());
+						if(!entry.getKey().isLeader())
 						{
-							t.setLeader(fish);
+							entry.getKey().setLeader(fish);
 						}
-					});
+					}
 				}
 			}
 		}

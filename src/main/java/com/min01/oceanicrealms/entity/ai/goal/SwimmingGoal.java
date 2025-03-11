@@ -53,9 +53,6 @@ public class SwimmingGoal extends Goal
     public void stop() 
     {
         this.mob.getNavigation().stop();
-        this.targetX = 0;
-        this.targetY = 0;
-        this.targetZ = 0;
     }
 
     private void generateNewTarget() 
@@ -71,13 +68,12 @@ public class SwimmingGoal extends Goal
         	{
                 BlockPos targetPos = blockHit.getBlockPos();
                 BlockState blockState = world.getBlockState(targetPos);
-                
                 if(blockState.is(Blocks.WATER) && this.prevTarget.distanceTo(Vec3.atCenterOf(targetPos)) >= radius)
                 {
-                	this.targetX = pos.x;
-                	this.targetY = pos.y;
-                	this.targetZ = pos.z;
-                	this.prevTarget = new Vec3(this.targetX, this.targetY, this.targetZ);
+                	this.targetX = targetPos.getX();
+                	this.targetY = targetPos.getY();
+                	this.targetZ = targetPos.getZ();
+                	this.prevTarget = Vec3.atCenterOf(targetPos);
                 	break;
                 }
         	}

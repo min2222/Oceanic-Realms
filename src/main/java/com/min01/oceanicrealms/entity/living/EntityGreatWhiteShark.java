@@ -87,12 +87,6 @@ public class EntityGreatWhiteShark extends AbstractOceanicShark
 	}
 	
 	@Override
-	public int getBodyRotationSpeed() 
-	{
-		return 4;
-	}
-	
-	@Override
 	public <T extends Entity> Predicate<? super T> getPredicate()
 	{
 		return t -> !(t instanceof EntityGreatWhiteShark) && !(t instanceof IBoid<?>);

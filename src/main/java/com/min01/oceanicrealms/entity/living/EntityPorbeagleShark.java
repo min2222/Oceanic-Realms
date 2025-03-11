@@ -39,7 +39,7 @@ public class EntityPorbeagleShark extends AbstractOceanicShark
     {
         return Monster.createMonsterAttributes()
         		.add(Attributes.MAX_HEALTH, 20.0F)
-        		.add(Attributes.MOVEMENT_SPEED, 0.5F)
+        		.add(Attributes.MOVEMENT_SPEED, 0.45F)
         		.add(Attributes.ARMOR, 2.0F)
         		.add(Attributes.ATTACK_DAMAGE, 4.0F);
     }

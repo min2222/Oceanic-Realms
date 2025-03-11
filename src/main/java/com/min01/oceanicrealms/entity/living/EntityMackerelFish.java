@@ -238,7 +238,14 @@ public class EntityMackerelFish extends AbstractOceanicCreature implements Bucke
     @Override
 	public void setLeader(EntityMackerelFish leader)
 	{
-		this.entityData.set(LEADER_UUID, Optional.of(leader.getUUID()));
+    	if(leader == null)
+    	{
+    		this.entityData.set(LEADER_UUID, Optional.empty());
+    	}
+    	else
+    	{
+    		this.entityData.set(LEADER_UUID, Optional.of(leader.getUUID()));
+    	}
 	}
 	
 	@Nullable
