@@ -53,7 +53,7 @@ public class EntitySailfish extends AbstractOceanicCreature implements IAvoid
     {
     	super.registerGoals();
     	this.goalSelector.addGoal(4, new SailfishEatingGoal(this));
-    	this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, WaterAnimal.class, false, OceanicUtil.TARGET_PREDICATE)
+    	this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, WaterAnimal.class, false, OceanicUtil.TARGET_PREDICATE2)
     	{
     		@Override
     		public boolean canUse() 

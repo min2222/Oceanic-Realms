@@ -16,6 +16,8 @@ import org.joml.Math;
 import com.min01.oceanicrealms.entity.AbstractOceanicCreature;
 import com.min01.oceanicrealms.entity.IAvoid;
 import com.min01.oceanicrealms.entity.IBoid;
+import com.min01.oceanicrealms.entity.living.EntityDolphinfish;
+import com.min01.oceanicrealms.entity.living.EntityTuna;
 import com.min01.oceanicrealms.entity.living.EntityWhaleshark;
 import com.min01.oceanicrealms.misc.Boid;
 import com.min01.oceanicrealms.misc.Boid.Bounds;
@@ -44,6 +46,7 @@ import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 public class OceanicUtil
 {
 	public static final Predicate<LivingEntity> TARGET_PREDICATE = t -> t.isInWater() && !(t instanceof Dolphin) && !(t instanceof EntityWhaleshark) && !(t instanceof IAvoid);
+	public static final Predicate<LivingEntity> TARGET_PREDICATE2 = t -> t.isInWater()&& !(t instanceof EntityTuna) && !(t instanceof EntityDolphinfish) && !(t instanceof Dolphin) && !(t instanceof EntityWhaleshark) && !(t instanceof IAvoid);
 	
 	public static <T extends LivingEntity & IBoid<T>> void avoid(T entity, Bounds bounds, Collection<Boid.Obstacle> obstacles, float radius, Predicate<? super Entity> predicate)
 	{

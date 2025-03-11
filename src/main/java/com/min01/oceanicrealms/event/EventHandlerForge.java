@@ -69,11 +69,17 @@ public class EventHandlerForge
 			{
 				if(!(waterAnimal instanceof IBoid<?>))
 				{
-					waterAnimal.goalSelector.addGoal(0, new AvoidEntityGoal<>(waterAnimal, EntityLionfish.class, 8.0F, 1.0D, 1.0D));
+					if(!(waterAnimal instanceof EntityLionfish))
+					{
+						waterAnimal.goalSelector.addGoal(0, new AvoidEntityGoal<>(waterAnimal, EntityLionfish.class, 8.0F, 1.0D, 1.0D));
+					}
 					if(!(waterAnimal instanceof EntityGreatWhiteShark) && !(waterAnimal instanceof EntityWhaleshark))
 					{
 						waterAnimal.goalSelector.addGoal(0, new AvoidEntityGoal<>(waterAnimal, EntityGreatWhiteShark.class, 8.0F, 1.0D, 1.0D));
-						waterAnimal.goalSelector.addGoal(0, new AvoidEntityGoal<>(waterAnimal, EntitySailfish.class, 8.0F, 1.0D, 1.0D));
+						if(!(waterAnimal instanceof EntitySailfish))
+						{
+							waterAnimal.goalSelector.addGoal(0, new AvoidEntityGoal<>(waterAnimal, EntitySailfish.class, 8.0F, 1.0D, 1.0D));
+						}
 						if(!(waterAnimal instanceof AbstractOceanicShark))
 						{
 							waterAnimal.goalSelector.addGoal(0, new AvoidEntityGoal<>(waterAnimal, AbstractOceanicShark.class, 8.0F, 1.0D, 1.0D));

@@ -1,7 +1,7 @@
 package com.min01.oceanicrealms.entity.living;
 
 import com.min01.oceanicrealms.entity.AbstractOceanicShark;
-import com.min01.oceanicrealms.entity.IAvoid;
+import com.min01.oceanicrealms.util.OceanicUtil;
 
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.world.entity.AnimationState;
@@ -9,7 +9,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.animal.Dolphin;
 import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
@@ -36,7 +35,7 @@ public class EntityHammerheadShark extends AbstractOceanicShark
     protected void registerGoals() 
     {
     	super.registerGoals();
-    	this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, WaterAnimal.class, false, t -> t.isInWater() && !(t instanceof Dolphin) && !(t instanceof AbstractOceanicShark) && !(t instanceof IAvoid) && !(t instanceof EntityDolphinfish) && !(t instanceof EntityTuna) && !(t instanceof EntityWhaleshark))
+    	this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, WaterAnimal.class, false, OceanicUtil.TARGET_PREDICATE2)
     	{
     		@Override
     		public boolean canUse() 

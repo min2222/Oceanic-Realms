@@ -42,7 +42,7 @@ public class EntityPorbeagleShark extends AbstractOceanicShark
     protected void registerGoals() 
     {
     	super.registerGoals();
-    	this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, WaterAnimal.class, false, OceanicUtil.TARGET_PREDICATE)
+    	this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, WaterAnimal.class, false, OceanicUtil.TARGET_PREDICATE2)
     	{
     		@Override
     		public boolean canUse() 
