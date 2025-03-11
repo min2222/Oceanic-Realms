@@ -6,43 +6,40 @@ import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
-public class RedAlgaeFeature extends Feature<NoneFeatureConfiguration>
+public class RedAlgaeFeature extends Feature<NoneFeatureConfiguration> 
 {
-	public RedAlgaeFeature(Codec<NoneFeatureConfiguration> p_65786_)
+	public RedAlgaeFeature(Codec<NoneFeatureConfiguration> p_66768_) 
 	{
-		super(p_65786_);
+		super(p_66768_);
 	}
 
 	@Override
-	public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> p_159749_) 
+	public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> p_160318_)
 	{
-		RandomSource random = p_159749_.random();
-		WorldGenLevel level = p_159749_.level();
-		BlockPos pos = p_159749_.origin();
-		BlockState state = level.getBlockState(pos.above(2));
-		BlockState state2 = level.getBlockState(pos.above(3));
-		if(random.nextFloat() <= this.getChance(state, state2))
+		boolean flag = false;
+		RandomSource randomsource = p_160318_.random();
+		WorldGenLevel worldgenlevel = p_160318_.level();
+		BlockPos blockpos = p_160318_.origin();
+		int i = randomsource.nextInt(8) - randomsource.nextInt(8);
+		int j = randomsource.nextInt(8) - randomsource.nextInt(8);
+		int k = worldgenlevel.getHeight(Heightmap.Types.OCEAN_FLOOR, blockpos.getX() + i, blockpos.getZ() + j);
+		BlockPos blockpos1 = new BlockPos(blockpos.getX() + i, k, blockpos.getZ() + j);
+		if(worldgenlevel.getBlockState(blockpos1).is(Blocks.WATER)) 
 		{
-			if(level.getBlockState(pos.below()).isCollisionShapeFullBlock(level, pos.below()))
+			BlockState blockstate = OceanicBlocks.RED_ALGAE.get().defaultBlockState();
+			if(blockstate.canSurvive(worldgenlevel, blockpos1))
 			{
-				level.setBlock(pos, OceanicBlocks.RED_ALGAE.get().defaultBlockState(), 2);
-				return true;
+				worldgenlevel.setBlock(blockpos1, blockstate, 2);
+				flag = true;
 			}
 		}
-		return false;
-	}
-	
-	public float getChance(BlockState state, BlockState state2)
-	{
-		if(state.isAir() || state2.isAir())
-		{
-			return 0.5F;
-		}
-		return 0.3F;
+		return flag;
 	}
 }

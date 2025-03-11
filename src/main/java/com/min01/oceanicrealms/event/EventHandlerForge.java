@@ -6,6 +6,7 @@ import com.min01.oceanicrealms.OceanicRealms;
 import com.min01.oceanicrealms.entity.AbstractOceanicCreature;
 import com.min01.oceanicrealms.entity.AbstractOceanicShark;
 import com.min01.oceanicrealms.entity.IBoid;
+import com.min01.oceanicrealms.entity.ai.goal.AvoidEntitySwimmingGoal;
 import com.min01.oceanicrealms.entity.living.EntityGreatWhiteShark;
 import com.min01.oceanicrealms.entity.living.EntityLionfish;
 import com.min01.oceanicrealms.entity.living.EntitySailfish;
@@ -16,7 +17,7 @@ import com.min01.oceanicrealms.util.OceanicUtil;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -69,20 +70,21 @@ public class EventHandlerForge
 			{
 				if(!(waterAnimal instanceof IBoid<?>))
 				{
+					double speed = waterAnimal.getAttributeBaseValue(Attributes.MOVEMENT_SPEED);
 					if(!(waterAnimal instanceof EntityLionfish))
 					{
-						waterAnimal.goalSelector.addGoal(0, new AvoidEntityGoal<>(waterAnimal, EntityLionfish.class, 8.0F, 1.0D, 1.0D));
+						waterAnimal.goalSelector.addGoal(0, new AvoidEntitySwimmingGoal<>(waterAnimal, EntityLionfish.class, 8.0F, speed, speed));
 					}
 					if(!(waterAnimal instanceof EntityGreatWhiteShark) && !(waterAnimal instanceof EntityWhaleshark))
 					{
-						waterAnimal.goalSelector.addGoal(0, new AvoidEntityGoal<>(waterAnimal, EntityGreatWhiteShark.class, 8.0F, 1.0D, 1.0D));
+						waterAnimal.goalSelector.addGoal(0, new AvoidEntitySwimmingGoal<>(waterAnimal, EntityGreatWhiteShark.class, 8.0F, speed, speed));
 						if(!(waterAnimal instanceof EntitySailfish))
 						{
-							waterAnimal.goalSelector.addGoal(0, new AvoidEntityGoal<>(waterAnimal, EntitySailfish.class, 8.0F, 1.0D, 1.0D));
+							waterAnimal.goalSelector.addGoal(0, new AvoidEntitySwimmingGoal<>(waterAnimal, EntitySailfish.class, 8.0F, speed, speed));
 						}
 						if(!(waterAnimal instanceof AbstractOceanicShark))
 						{
-							waterAnimal.goalSelector.addGoal(0, new AvoidEntityGoal<>(waterAnimal, AbstractOceanicShark.class, 8.0F, 1.0D, 1.0D));
+							waterAnimal.goalSelector.addGoal(0, new AvoidEntitySwimmingGoal<>(waterAnimal, AbstractOceanicShark.class, 8.0F, speed, speed));
 						}
 					}
 				}

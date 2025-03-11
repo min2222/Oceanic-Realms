@@ -154,6 +154,7 @@ public class EntitySailfish extends AbstractOceanicCreature implements IAvoid
 						if(!this.getTarget().isAlive())
 						{
 							this.setHungerCooldown(3600);
+							this.getNavigation().stop();
 						}
 					}
 				}
