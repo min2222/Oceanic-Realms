@@ -29,10 +29,12 @@ public class OceanicCreativeTabs
     			output.accept(OceanicItems.SILVER_POMFRET_FISH_SPAWN_EGG.get());
     			output.accept(OceanicItems.LIONFISH_SPAWN_EGG.get());
     			output.accept(OceanicItems.WHALESHARK_SPAWN_EGG.get());
+    			output.accept(OceanicItems.SAILFISH_SPAWN_EGG.get());
     			output.accept(OceanicItems.CRAB_CLAW.get());
     			output.accept(OceanicItems.COOKED_CRAB_CLAW.get());
     			output.accept(OceanicItems.RAW_TUNA.get());
     			output.accept(OceanicItems.RAW_DOLPHINFISH.get());
+    			output.accept(OceanicItems.RAW_SAILFISH.get());
     			output.accept(OceanicItems.FISH_FILLET.get());
     			output.accept(OceanicItems.MACKEREL_FISH.get());
     			output.accept(OceanicItems.COOKED_MACKEREL_FISH.get());

@@ -1,10 +1,7 @@
 package com.min01.oceanicrealms.entity.living;
 
-import java.util.Optional;
-import java.util.UUID;
-
 import com.min01.oceanicrealms.entity.AbstractOceanicShark;
-import com.min01.oceanicrealms.entity.IAvoid;
+import com.min01.oceanicrealms.util.OceanicUtil;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -14,9 +11,7 @@ import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.animal.Dolphin;
 import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
@@ -24,7 +19,6 @@ import net.minecraft.world.level.Level;
 
 public class EntityPorbeagleShark extends AbstractOceanicShark
 {	
-	public static final EntityDataAccessor<Optional<UUID>> LEADER_UUID = SynchedEntityData.defineId(EntityPorbeagleShark.class, EntityDataSerializers.OPTIONAL_UUID);
 	public static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(EntityPorbeagleShark.class, EntityDataSerializers.INT);
 	
 	public final AnimationState attackAnimationState = new AnimationState();
@@ -48,8 +42,7 @@ public class EntityPorbeagleShark extends AbstractOceanicShark
     protected void registerGoals() 
     {
     	super.registerGoals();
-        this.goalSelector.addGoal(9, new AvoidEntityGoal<>(this, EntityGreatWhiteShark.class, 8.0F, 1.0D, 1.0D));
-    	this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, WaterAnimal.class, false, t -> t.isInWater() && !(t instanceof Dolphin) && !(t instanceof AbstractOceanicShark) && !(t instanceof IAvoid) && !(t instanceof EntityWhaleshark))
+    	this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, WaterAnimal.class, false, OceanicUtil.TARGET_PREDICATE)
     	{
     		@Override
     		public boolean canUse() 
@@ -65,7 +58,6 @@ public class EntityPorbeagleShark extends AbstractOceanicShark
     {
     	super.defineSynchedData();
     	this.entityData.define(VARIANT, this.random.nextInt(1, 3));
-    	this.entityData.define(LEADER_UUID, Optional.empty());
     }
     
 	@Override
@@ -108,10 +100,6 @@ public class EntityPorbeagleShark extends AbstractOceanicShark
     {
     	super.addAdditionalSaveData(p_21484_);
     	p_21484_.putInt("Variant", this.getVariant());
-		if(this.entityData.get(LEADER_UUID).isPresent())
-		{
-			p_21484_.putUUID("Leader", this.entityData.get(LEADER_UUID).get());
-		}
     }
     
     @Override
@@ -122,10 +110,6 @@ public class EntityPorbeagleShark extends AbstractOceanicShark
     	{
     		this.setVariant(p_21450_.getInt("Variant"));
     	}
-		if(p_21450_.hasUUID("Leader")) 
-		{
-			this.entityData.set(LEADER_UUID, Optional.of(p_21450_.getUUID("Leader")));
-		}
     }
     
     @Override

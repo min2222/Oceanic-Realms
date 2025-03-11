@@ -14,7 +14,9 @@ import java.util.function.Predicate;
 import org.joml.Math;
 
 import com.min01.oceanicrealms.entity.AbstractOceanicCreature;
+import com.min01.oceanicrealms.entity.IAvoid;
 import com.min01.oceanicrealms.entity.IBoid;
+import com.min01.oceanicrealms.entity.living.EntityWhaleshark;
 import com.min01.oceanicrealms.misc.Boid;
 import com.min01.oceanicrealms.misc.Boid.Bounds;
 
@@ -25,6 +27,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.animal.Dolphin;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
@@ -40,6 +43,8 @@ import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 
 public class OceanicUtil
 {
+	public static final Predicate<LivingEntity> TARGET_PREDICATE = t -> t.isInWater() && !(t instanceof Dolphin) && !(t instanceof EntityWhaleshark) && !(t instanceof IAvoid);
+	
 	public static <T extends LivingEntity & IBoid<T>> void avoid(T entity, Bounds bounds, Collection<Boid.Obstacle> obstacles, float radius, Predicate<? super Entity> predicate)
 	{
 		if(bounds != null)

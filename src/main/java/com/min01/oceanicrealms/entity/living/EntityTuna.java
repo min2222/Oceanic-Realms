@@ -12,14 +12,13 @@ import javax.annotation.Nullable;
 import org.joml.Math;
 
 import com.min01.oceanicrealms.entity.AbstractOceanicCreature;
-import com.min01.oceanicrealms.entity.AbstractOceanicShark;
 import com.min01.oceanicrealms.entity.IAvoid;
 import com.min01.oceanicrealms.entity.IBoid;
 import com.min01.oceanicrealms.entity.OceanicEntities;
 import com.min01.oceanicrealms.misc.Boid;
-import com.min01.oceanicrealms.misc.OceanicTags;
 import com.min01.oceanicrealms.misc.Boid.Bounds;
 import com.min01.oceanicrealms.misc.Boid.Obstacle;
+import com.min01.oceanicrealms.misc.OceanicTags;
 import com.min01.oceanicrealms.util.OceanicUtil;
 
 import net.minecraft.nbt.CompoundTag;
@@ -83,7 +82,7 @@ public class EntityTuna extends AbstractOceanicCreature implements IBoid<EntityT
 		}
 		
 		OceanicUtil.fishFlopping(this);
-		OceanicUtil.avoid(this, this.bounds, this.obstacles, 5.0F, t -> t instanceof AbstractOceanicShark || t instanceof IAvoid);
+		OceanicUtil.avoid(this, this.bounds, this.obstacles, 5.0F, t -> t instanceof IAvoid);
 	}
 	
 	@SuppressWarnings("deprecation")

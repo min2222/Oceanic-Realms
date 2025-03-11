@@ -9,6 +9,7 @@ import com.min01.oceanicrealms.entity.living.EntityHammerheadShark;
 import com.min01.oceanicrealms.entity.living.EntityLionfish;
 import com.min01.oceanicrealms.entity.living.EntityMackerelFish;
 import com.min01.oceanicrealms.entity.living.EntityPorbeagleShark;
+import com.min01.oceanicrealms.entity.living.EntitySailfish;
 import com.min01.oceanicrealms.entity.living.EntitySilverPomfretFish;
 import com.min01.oceanicrealms.entity.living.EntityTuna;
 import com.min01.oceanicrealms.entity.living.EntityWhaleshark;
@@ -38,6 +39,7 @@ public class EventHandler
     	event.put(OceanicEntities.SILVER_POMFRET_FISH.get(), Salmon.createAttributes().build());
     	event.put(OceanicEntities.LIONFISH.get(), EntityLionfish.createAttributes().build());
     	event.put(OceanicEntities.WHALESHARK.get(), EntityWhaleshark.createAttributes().build());
+    	event.put(OceanicEntities.SAILFISH.get(), EntitySailfish.createAttributes().build());
     }
     
 	@SubscribeEvent
@@ -51,7 +53,8 @@ public class EventHandler
     	event.register(OceanicEntities.HAMMERHEAD_SHARK.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EntityHammerheadShark::checkSharkSpawnRules, Operation.AND);
     	event.register(OceanicEntities.MACKEREL_FISH.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EntityMackerelFish::checkFishSpawnRules, Operation.AND);
     	event.register(OceanicEntities.SILVER_POMFRET_FISH.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EntitySilverPomfretFish::checkFishSpawnRules, Operation.AND);
-    	event.register(OceanicEntities.WHALESHARK.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EntityWhaleshark::checkFishSpawnRules, Operation.AND);
     	event.register(OceanicEntities.LIONFISH.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EntityLionfish::checkFishSpawnRules, Operation.AND);
+    	event.register(OceanicEntities.WHALESHARK.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EntityWhaleshark::checkFishSpawnRules, Operation.AND);
+    	event.register(OceanicEntities.SAILFISH.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EntitySailfish::checkFishSpawnRules, Operation.AND);
 	}
 }

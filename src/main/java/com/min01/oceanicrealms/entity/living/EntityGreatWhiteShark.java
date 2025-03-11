@@ -1,13 +1,10 @@
 package com.min01.oceanicrealms.entity.living;
 
-import java.util.function.Predicate;
-
 import com.min01.oceanicrealms.entity.AbstractOceanicShark;
-import com.min01.oceanicrealms.entity.IBoid;
+import com.min01.oceanicrealms.util.OceanicUtil;
 
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.world.entity.AnimationState;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -40,7 +37,7 @@ public class EntityGreatWhiteShark extends AbstractOceanicShark
     protected void registerGoals() 
     {
     	super.registerGoals();
-    	this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, WaterAnimal.class, false, t -> t.isInWater() && !(t instanceof AbstractOceanicShark) && !(t instanceof EntityWhaleshark))
+    	this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, WaterAnimal.class, false, OceanicUtil.TARGET_PREDICATE)
     	{
     		@Override
     		public boolean canUse() 
@@ -84,11 +81,5 @@ public class EntityGreatWhiteShark extends AbstractOceanicShark
 	{
 		this.attackAnimationState.stop();
 		this.eatingAnimationState.stop();
-	}
-	
-	@Override
-	public <T extends Entity> Predicate<? super T> getPredicate()
-	{
-		return t -> !(t instanceof EntityGreatWhiteShark) && !(t instanceof IBoid<?>);
 	}
 }

@@ -10,7 +10,6 @@ import java.util.UUID;
 import javax.annotation.Nullable;
 
 import com.min01.oceanicrealms.entity.AbstractOceanicCreature;
-import com.min01.oceanicrealms.entity.AbstractOceanicShark;
 import com.min01.oceanicrealms.entity.IAvoid;
 import com.min01.oceanicrealms.entity.IBoid;
 import com.min01.oceanicrealms.misc.Boid;
@@ -77,7 +76,7 @@ public class EntityDolphinfish extends AbstractOceanicCreature implements IBoid<
 		}
 		
 		OceanicUtil.fishFlopping(this);
-		OceanicUtil.avoid(this, this.bounds, this.obstacles, 5.0F, t -> t instanceof AbstractOceanicShark || t instanceof IAvoid);
+		OceanicUtil.avoid(this, this.bounds, this.obstacles, 5.0F, t -> t instanceof IAvoid);
 	}
 	
 	@SuppressWarnings("deprecation")
