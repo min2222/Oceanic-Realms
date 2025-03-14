@@ -50,16 +50,6 @@ public class SailfishAnimation
 				new Keyframe(1.2083F, KeyframeAnimations.posVec(0.94F, 0.0F, 0.0F), AnimationChannel.Interpolations.LINEAR),
 				new Keyframe(1.25F, KeyframeAnimations.posVec(0.98F, 0.0F, 0.0F), AnimationChannel.Interpolations.LINEAR)
 			))
-			.addAnimation("bone5", new AnimationChannel(AnimationChannel.Targets.ROTATION, 
-				new Keyframe(0.0F, KeyframeAnimations.degreeVec(0.0F, 7.5F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
-				new Keyframe(0.625F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
-				new Keyframe(1.25F, KeyframeAnimations.degreeVec(0.0F, 7.5F, 0.0F), AnimationChannel.Interpolations.CATMULLROM)
-			))
-			.addAnimation("bone6", new AnimationChannel(AnimationChannel.Targets.ROTATION, 
-				new Keyframe(0.0F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
-				new Keyframe(0.625F, KeyframeAnimations.degreeVec(0.0F, -7.5F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
-				new Keyframe(1.25F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM)
-			))
 			.addAnimation("bone3", new AnimationChannel(AnimationChannel.Targets.ROTATION, 
 				new Keyframe(0.0F, KeyframeAnimations.degreeVec(0.0F, -9.85F, 1.37F), AnimationChannel.Interpolations.LINEAR),
 				new Keyframe(0.0417F, KeyframeAnimations.degreeVec(0.0F, -9.85F, 0.0F), AnimationChannel.Interpolations.LINEAR),
@@ -119,6 +109,12 @@ public class SailfishAnimation
 				new Keyframe(1.2083F, KeyframeAnimations.degreeVec(0.0F, 10.0F, 4.92F), AnimationChannel.Interpolations.LINEAR),
 				new Keyframe(1.25F, KeyframeAnimations.degreeVec(0.0F, 6.84F, 4.7F), AnimationChannel.Interpolations.LINEAR)
 			))
+			.addAnimation("bone5", new AnimationChannel(AnimationChannel.Targets.ROTATION, 
+				new Keyframe(0.0F, KeyframeAnimations.degreeVec(10.0F, -10.0F, 0.0F), AnimationChannel.Interpolations.LINEAR)
+			))
+			.addAnimation("bone6", new AnimationChannel(AnimationChannel.Targets.ROTATION, 
+				new Keyframe(0.0F, KeyframeAnimations.degreeVec(10.0F, 10.0F, 0.0F), AnimationChannel.Interpolations.LINEAR)
+			))
 			.build();
 
 		public static final AnimationDefinition SAILFISH_EATING = AnimationDefinition.Builder.withLength(0.5F).looping()
@@ -154,6 +150,12 @@ public class SailfishAnimation
 				new Keyframe(0.4167F, KeyframeAnimations.degreeVec(0.0F, 17.5F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
 				new Keyframe(0.625F, KeyframeAnimations.degreeVec(0.0F, -35.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
 				new Keyframe(0.75F, KeyframeAnimations.degreeVec(0.0F, 17.5F, 0.0F), AnimationChannel.Interpolations.CATMULLROM)
+			))
+			.addAnimation("bone5", new AnimationChannel(AnimationChannel.Targets.ROTATION, 
+				new Keyframe(0.0F, KeyframeAnimations.degreeVec(-10.0F, -50.0F, -80.0F), AnimationChannel.Interpolations.LINEAR)
+			))
+			.addAnimation("bone6", new AnimationChannel(AnimationChannel.Targets.ROTATION, 
+				new Keyframe(0.0F, KeyframeAnimations.degreeVec(-10.0F, 50.0F, 80.0F), AnimationChannel.Interpolations.LINEAR)
 			))
 			.build();
 }

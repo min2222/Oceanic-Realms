@@ -95,7 +95,7 @@ public class EntityCrab extends AbstractAnimatableCreature
     protected void defineSynchedData()
     {
     	super.defineSynchedData();
-    	this.entityData.define(VARIANT, this.random.nextInt(1, 5));
+    	this.entityData.define(VARIANT, this.random.nextInt(1, 4));
     	this.entityData.define(SIZE, 0.7F + (float) Math.random() * (1.2F - 0.7F));
     	this.entityData.define(HOLE_POS, BlockPos.ZERO);
     }
@@ -429,7 +429,7 @@ public class EntityCrab extends AbstractAnimatableCreature
     {
     	if(p_21434_.getBiome(this.blockPosition()).is(Tags.Biomes.IS_SWAMP))
     	{
-    		this.setVariant(5);
+    		this.setVariant(4);
     	}
     	return super.finalizeSpawn(p_21434_, p_21435_, p_21436_, p_21437_, p_21438_);
     }

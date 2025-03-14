@@ -45,16 +45,16 @@ public class ModelSailfish extends HierarchicalModel<EntitySailfish>
 
 		bone.addOrReplaceChild("cube_r2", CubeListBuilder.create().texOffs(0, -3).addBox(0.0F, 0.0F, 0.0F, 0.0F, 14.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(2.0F, 6.0F, -6.0F, 0.7854F, 0.0F, -0.2618F));
 
-		bone.addOrReplaceChild("bone5", CubeListBuilder.create().texOffs(80, -1).addBox(0.0F, -2.0F, 0.0F, 0.0F, 4.0F, 11.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(5.0F, 3.0F, -6.0F, 0.2182F, 0.0873F, 0.0F));
-
-		bone.addOrReplaceChild("bone6", CubeListBuilder.create().texOffs(80, -1).mirror().addBox(0.0F, -2.0F, 0.0F, 0.0F, 4.0F, 11.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-5.0F, 3.0F, -6.0F, 0.2182F, -0.0873F, 0.0F));
-
 		bone.addOrReplaceChild("bone2", CubeListBuilder.create().texOffs(66, 47).addBox(-2.0F, 0.0F, -4.0F, 4.0F, 2.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0F, -17.0F, -0.4363F, 0.0F, 0.0F));
 
 		PartDefinition bone3 = bone.addOrReplaceChild("bone3", CubeListBuilder.create().texOffs(28, 39).addBox(-3.0F, -3.0F, 0.0F, 6.0F, 7.0F, 13.0F, new CubeDeformation(0.0F))
 		.texOffs(52, -13).addBox(0.0F, -7.0F, 0.0F, 0.0F, 15.0F, 13.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -1.0F, 14.0F));
 
 		bone3.addOrReplaceChild("bone4", CubeListBuilder.create().texOffs(0, 39).addBox(0.0F, -12.0F, -1.0F, 0.0F, 24.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 12.0F));
+
+		bone.addOrReplaceChild("bone5", CubeListBuilder.create().texOffs(90, 41).addBox(0.0F, 0.0F, -1.0F, 12.0F, 0.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(5.0F, 2.0F, -5.0F));
+
+		bone.addOrReplaceChild("bone6", CubeListBuilder.create().texOffs(90, 41).mirror().addBox(-12.0F, 0.0F, -1.0F, 12.0F, 0.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-5.0F, 2.0F, -5.0F));
 
 		return LayerDefinition.create(meshdefinition, 128, 128);
 	}

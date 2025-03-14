@@ -49,9 +49,9 @@ public class ModelDolphinfish extends HierarchicalModel<EntityDolphinfish>
 
 		bone2.addOrReplaceChild("bone3", CubeListBuilder.create().texOffs(0, 40).addBox(0.0F, -5.0F, -13.0F, 0.0F, 11.0F, 13.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, -4.0F));
 
-		bone.addOrReplaceChild("bone4", CubeListBuilder.create().texOffs(45, 1).addBox(0.0F, -1.0F, -6.0F, 0.0F, 3.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-4.0F, 1.0F, 2.0F, -0.2182F, 0.0873F, 0.0F));
+		bone.addOrReplaceChild("bone4", CubeListBuilder.create().texOffs(49, 12).addBox(-6.0F, 0.0F, -2.0F, 6.0F, 0.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(-4.0F, 2.0F, 2.0F));
 
-		bone.addOrReplaceChild("bone5", CubeListBuilder.create().texOffs(45, 1).mirror().addBox(0.0F, -1.0F, -6.0F, 0.0F, 3.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(4.0F, 1.0F, 2.0F, -0.2182F, -0.0873F, 0.0F));
+		bone.addOrReplaceChild("bone5", CubeListBuilder.create().texOffs(49, 12).mirror().addBox(0.0F, 0.0F, -2.0F, 6.0F, 0.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(4.0F, 2.0F, 2.0F));
 
 		return LayerDefinition.create(meshdefinition, 100, 100);
 	}

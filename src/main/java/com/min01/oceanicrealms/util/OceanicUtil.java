@@ -125,34 +125,36 @@ public class OceanicUtil
 		{
 			BlockPos.MutableBlockPos mutable = new BlockPos.MutableBlockPos();
 			T fish = entry.getKey();
-			Boid boid = entry.getValue();
-			Vec3 direction = boid.direction;
-			BlockPos blockPos = BlockPos.containing(fish.position().add(direction));
-			boid.update(boids.values(), fish.getObstacle(), true, true, true, 2.5F, entity.rotLerp() ? 0.5F : 0.25F);
-			if(bounds != null)
+			if(fish.isInWater())
 			{
+				Boid boid = entry.getValue();
+				Vec3 direction = boid.direction;
+				boid.update(boids.values(), fish.getObstacle(), true, true, true, 2.5F, entity.rotLerp() ? 0.5F : 0.25F);
 				boid.bounds = bounds;
-			}
-			while(fish.level.getBlockState(blockPos.above()).isAir())
-			{
-				direction = direction.subtract(0.0F, 0.5F, 0.0F);
-				blockPos = BlockPos.containing(fish.position().add(direction));
-			}
-			if(fish.rotLerp())
-			{
-				if(!mutable.equals(BlockPos.ZERO))
+				if(fish.rotLerp())
 				{
-					float yRot = -(float)(Mth.atan2(direction.x, direction.z) * (double)(180.0F / (float)Math.PI));
-					float xRot = -(float)(Mth.atan2(direction.y, direction.horizontalDistance()) * (double)(180.0F / (float)Math.PI));
-					fish.setYRot(OceanicUtil.rotlerp(fish.getYRot(), yRot, (float)fish.getBodyRotationSpeed()));
-					fish.setYHeadRot(fish.getYRot());
-					fish.setYBodyRot(fish.getYRot());
-					fish.setXRot(OceanicUtil.rotlerp(fish.getXRot(), xRot, 65));
-					boolean lerpDone = Math.abs(fish.getYRot() - yRot) < 0.001F && Math.abs(fish.getXRot() - xRot) < 0.001F;
-					if(lerpDone)
+					if(!mutable.equals(BlockPos.ZERO))
+					{
+						float yRot = -(float)(Mth.atan2(direction.x, direction.z) * (double)(180.0F / (float)Math.PI));
+						float xRot = -(float)(Mth.atan2(direction.y, direction.horizontalDistance()) * (double)(180.0F / (float)Math.PI));
+						fish.setYRot(OceanicUtil.rotlerp(fish.getYRot(), yRot, (float)fish.getBodyRotationSpeed()));
+						fish.setYHeadRot(fish.getYRot());
+						fish.setYBodyRot(fish.getYRot());
+						fish.setXRot(OceanicUtil.rotlerp(fish.getXRot(), xRot, 65));
+						boolean lerpDone = Math.abs(fish.getYRot() - yRot) < 0.001F && Math.abs(fish.getXRot() - xRot) < 0.001F;
+						if(lerpDone)
+						{
+							fish.setDeltaMovement(direction);
+							mutable.set(BlockPos.ZERO);
+						}
+					}
+					else
 					{
 						fish.setDeltaMovement(direction);
-						mutable.set(BlockPos.ZERO);
+						fish.setYRot(-(float)(Mth.atan2(direction.x, direction.z) * (double)(180.0F / (float)Math.PI)));
+						fish.setYHeadRot(fish.getYRot());
+						fish.setYBodyRot(fish.getYRot());
+						fish.setXRot(-(float)(Mth.atan2(direction.y, direction.horizontalDistance()) * (double)(180.0F / (float)Math.PI)));
 					}
 				}
 				else
@@ -164,18 +166,10 @@ public class OceanicUtil
 					fish.setXRot(-(float)(Mth.atan2(direction.y, direction.horizontalDistance()) * (double)(180.0F / (float)Math.PI)));
 				}
 			}
-			else
-			{
-				fish.setDeltaMovement(direction);
-				fish.setYRot(-(float)(Mth.atan2(direction.x, direction.z) * (double)(180.0F / (float)Math.PI)));
-				fish.setYHeadRot(fish.getYRot());
-				fish.setYBodyRot(fish.getYRot());
-				fish.setXRot(-(float)(Mth.atan2(direction.y, direction.horizontalDistance()) * (double)(180.0F / (float)Math.PI)));
-			}
 			
 			for(int x = -1; x < 1; x++) 
 			{
-				for(int y = -1; y < 1; y++)
+				for(int y = -1; y < 5; y++)
 				{
 					for(int z = -1; z < 1; z++)
 					{
@@ -206,7 +200,8 @@ public class OceanicUtil
                 
                 if(blockState.is(Blocks.WATER))
                 {
-    				entity.setBound(Bounds.fromCenter(pos, entity.getBoundSize()));
+                	Vec3 size = entity.getBoundSize();
+    				entity.setBound(Bounds.fromCenter(Vec3.atCenterOf(targetPos).subtract(size), size));
                 	break;
                 }
         	}

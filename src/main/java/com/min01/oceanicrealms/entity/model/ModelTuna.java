@@ -48,9 +48,9 @@ public class ModelTuna extends HierarchicalModel<EntityTuna>
 
 		bone2.addOrReplaceChild("bone3", CubeListBuilder.create().texOffs(76, 64).addBox(0.0F, -9.0F, -1.0F, 0.0F, 18.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 11.0F));
 
-		bone.addOrReplaceChild("bone4", CubeListBuilder.create().texOffs(46, 64).addBox(0.0F, -3.0F, 0.0F, 0.0F, 5.0F, 15.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-5.0F, 2.0F, -10.0F, 0.2182F, -0.0873F, 0.0F));
+		bone.addOrReplaceChild("bone4", CubeListBuilder.create().texOffs(93, 34).addBox(0.0F, 0.0F, -1.0F, 10.0F, 0.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(5.0F, 2.0F, -9.0F));
 
-		bone.addOrReplaceChild("bone5", CubeListBuilder.create().texOffs(46, 64).mirror().addBox(0.0F, -3.0F, 0.0F, 0.0F, 5.0F, 15.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(5.0F, 2.0F, -10.0F, 0.2182F, 0.0873F, 0.0F));
+		bone.addOrReplaceChild("bone5", CubeListBuilder.create().texOffs(93, 34).mirror().addBox(-10.0F, 0.0F, -1.0F, 10.0F, 0.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-5.0F, 2.0F, -9.0F));
 
 		return LayerDefinition.create(meshdefinition, 128, 128);
 	}

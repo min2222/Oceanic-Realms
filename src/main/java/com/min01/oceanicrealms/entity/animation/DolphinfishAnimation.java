@@ -109,16 +109,6 @@ public class DolphinfishAnimation
 				new Keyframe(1.2083F, KeyframeAnimations.degreeVec(0.0F, 10.0F, 4.92F), AnimationChannel.Interpolations.LINEAR),
 				new Keyframe(1.25F, KeyframeAnimations.degreeVec(0.0F, 6.84F, 4.7F), AnimationChannel.Interpolations.LINEAR)
 			))
-			.addAnimation("bone4", new AnimationChannel(AnimationChannel.Targets.ROTATION, 
-				new Keyframe(0.0F, KeyframeAnimations.degreeVec(0.0F, 7.5F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
-				new Keyframe(0.625F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
-				new Keyframe(1.25F, KeyframeAnimations.degreeVec(0.0F, 7.5F, 0.0F), AnimationChannel.Interpolations.CATMULLROM)
-			))
-			.addAnimation("bone5", new AnimationChannel(AnimationChannel.Targets.ROTATION, 
-				new Keyframe(0.0F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
-				new Keyframe(0.625F, KeyframeAnimations.degreeVec(0.0F, -7.5F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
-				new Keyframe(1.25F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM)
-			))
 			.addAnimation("bone6", new AnimationChannel(AnimationChannel.Targets.ROTATION, 
 				new Keyframe(0.0F, KeyframeAnimations.degreeVec(0.0F, -5.64F, -0.35F), AnimationChannel.Interpolations.LINEAR),
 				new Keyframe(0.0417F, KeyframeAnimations.degreeVec(0.0F, -5.2F, -0.68F), AnimationChannel.Interpolations.LINEAR),
@@ -150,9 +140,15 @@ public class DolphinfishAnimation
 				new Keyframe(1.2083F, KeyframeAnimations.degreeVec(0.0F, -5.91F, 0.0F), AnimationChannel.Interpolations.LINEAR),
 				new Keyframe(1.25F, KeyframeAnimations.degreeVec(0.0F, -5.64F, -0.35F), AnimationChannel.Interpolations.LINEAR)
 			))
+			.addAnimation("bone4", new AnimationChannel(AnimationChannel.Targets.ROTATION, 
+				new Keyframe(0.0F, KeyframeAnimations.degreeVec(-10.0F, -10.0F, 0.0F), AnimationChannel.Interpolations.LINEAR)
+			))
+			.addAnimation("bone5", new AnimationChannel(AnimationChannel.Targets.ROTATION, 
+				new Keyframe(0.0F, KeyframeAnimations.degreeVec(-10.0F, 10.0F, 0.0F), AnimationChannel.Interpolations.LINEAR)
+			))
 			.build();
-	
-	public static final AnimationDefinition DOLPHINFISH_DRY = AnimationDefinition.Builder.withLength(0.75F).looping()
+
+		public static final AnimationDefinition DOLPHINFISH_DRY = AnimationDefinition.Builder.withLength(0.75F).looping()
 			.addAnimation("bone", new AnimationChannel(AnimationChannel.Targets.ROTATION, 
 				new Keyframe(0.0F, KeyframeAnimations.degreeVec(0.0F, 22.5F, 90.0F), AnimationChannel.Interpolations.CATMULLROM),
 				new Keyframe(0.2083F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 90.0F), AnimationChannel.Interpolations.CATMULLROM),
@@ -184,6 +180,12 @@ public class DolphinfishAnimation
 				new Keyframe(0.375F, KeyframeAnimations.degreeVec(0.0F, 17.5F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
 				new Keyframe(0.5833F, KeyframeAnimations.degreeVec(0.0F, -35.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
 				new Keyframe(0.7083F, KeyframeAnimations.degreeVec(0.0F, 17.5F, 0.0F), AnimationChannel.Interpolations.CATMULLROM)
+			))
+			.addAnimation("bone4", new AnimationChannel(AnimationChannel.Targets.ROTATION, 
+				new Keyframe(0.0F, KeyframeAnimations.degreeVec(-160.0F, -65.0F, 70.0F), AnimationChannel.Interpolations.LINEAR)
+			))
+			.addAnimation("bone5", new AnimationChannel(AnimationChannel.Targets.ROTATION, 
+				new Keyframe(0.0F, KeyframeAnimations.degreeVec(-160.0F, 65.0F, -70.0F), AnimationChannel.Interpolations.LINEAR)
 			))
 			.build();
 }

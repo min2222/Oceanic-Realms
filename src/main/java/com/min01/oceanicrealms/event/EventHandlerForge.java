@@ -37,7 +37,7 @@ public class EventHandlerForge
 		{
 			T fish = (T) entity;
 			OceanicUtil.loadBoid(fish);
-			if(boid.isLeader() && entity.isInWater())
+			if(boid.isLeader() && entity.isInWater() && boid.getBounds() != null)
 			{
 				if(entity.tickCount % 60 == 0)
 				{
