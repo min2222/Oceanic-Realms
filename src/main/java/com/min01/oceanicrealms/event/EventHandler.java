@@ -4,6 +4,7 @@ import com.min01.oceanicrealms.OceanicRealms;
 import com.min01.oceanicrealms.entity.OceanicEntities;
 import com.min01.oceanicrealms.entity.living.EntityCrab;
 import com.min01.oceanicrealms.entity.living.EntityDolphinfish;
+import com.min01.oceanicrealms.entity.living.EntityGreatHammerheadShark;
 import com.min01.oceanicrealms.entity.living.EntityGreatWhiteShark;
 import com.min01.oceanicrealms.entity.living.EntityHammerheadShark;
 import com.min01.oceanicrealms.entity.living.EntityLionfish;
@@ -40,6 +41,7 @@ public class EventHandler
     	event.put(OceanicEntities.LIONFISH.get(), EntityLionfish.createAttributes().build());
     	event.put(OceanicEntities.WHALESHARK.get(), EntityWhaleshark.createAttributes().build());
     	event.put(OceanicEntities.SAILFISH.get(), EntitySailfish.createAttributes().build());
+    	event.put(OceanicEntities.GREAT_HAMMERHEAD_SHARK.get(), EntityGreatHammerheadShark.createAttributes().build());
     }
     
 	@SubscribeEvent
@@ -56,5 +58,6 @@ public class EventHandler
     	event.register(OceanicEntities.LIONFISH.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EntityLionfish::checkFishSpawnRules, Operation.AND);
     	event.register(OceanicEntities.WHALESHARK.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EntityWhaleshark::checkFishSpawnRules, Operation.AND);
     	event.register(OceanicEntities.SAILFISH.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EntitySailfish::checkFishSpawnRules, Operation.AND);
+    	event.register(OceanicEntities.GREAT_HAMMERHEAD_SHARK.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EntityGreatHammerheadShark::checkSharkSpawnRules, Operation.AND);
 	}
 }

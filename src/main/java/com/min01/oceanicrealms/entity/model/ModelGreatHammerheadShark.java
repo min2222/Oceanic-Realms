@@ -1,8 +1,8 @@
 package com.min01.oceanicrealms.entity.model;
 
 import com.min01.oceanicrealms.OceanicRealms;
-import com.min01.oceanicrealms.entity.animation.GreatWhiteSharkAnimation;
-import com.min01.oceanicrealms.entity.living.EntityGreatWhiteShark;
+import com.min01.oceanicrealms.entity.animation.GreatHammerheadSharkAnimation;
+import com.min01.oceanicrealms.entity.living.EntityGreatHammerheadShark;
 import com.min01.oceanicrealms.util.OceanicClientUtil;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -18,12 +18,12 @@ import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.resources.ResourceLocation;
 
-public class ModelGreatWhiteShark extends HierarchicalModel<EntityGreatWhiteShark>
+public class ModelGreatHammerheadShark extends HierarchicalModel<EntityGreatHammerheadShark>
 {
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(OceanicRealms.MODID, "great_white_shark"), "main");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(OceanicRealms.MODID, "great_hammerhead_shark"), "main");
 	private final ModelPart root;
 
-	public ModelGreatWhiteShark(ModelPart root) 
+	public ModelGreatHammerheadShark(ModelPart root) 
 	{
 		this.root = root.getChild("root");
 	}
@@ -80,14 +80,14 @@ public class ModelGreatWhiteShark extends HierarchicalModel<EntityGreatWhiteShar
 	}
 
 	@Override
-	public void setupAnim(EntityGreatWhiteShark entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+	public void setupAnim(EntityGreatHammerheadShark entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
 	{
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 		OceanicClientUtil.animateHead(this.root, netHeadYaw, headPitch);
 		this.root.zRot += Math.toRadians(entity.getRollAngle());
-		this.animateWalk(GreatWhiteSharkAnimation.GREAT_WHITE_SHARK_SWIM, limbSwing, limbSwingAmount, 2.5F, 2.5F);
-		this.animate(entity.attackAnimationState, GreatWhiteSharkAnimation.GREAT_WHITE_SHARK_ATTACK, ageInTicks);
-		this.animate(entity.eatingAnimationState, GreatWhiteSharkAnimation.GREAT_WHITE_SHARK_EATING, ageInTicks);
+		this.animateWalk(GreatHammerheadSharkAnimation.GREAT_HAMMERHEAD_SHARK_SWIM, limbSwing, limbSwingAmount, 2.5F, 2.5F);
+		this.animate(entity.attackAnimationState, GreatHammerheadSharkAnimation.GREAT_HAMMERHEAD_SHARK_ATTACK, ageInTicks);
+		this.animate(entity.eatingAnimationState, GreatHammerheadSharkAnimation.GREAT_HAMMERHEAD_SHARK_EATING, ageInTicks);
 	}
 	
 	@Override

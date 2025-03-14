@@ -10,6 +10,7 @@ import com.min01.oceanicrealms.blockentity.renderer.NoRotationLimitRenderer;
 import com.min01.oceanicrealms.entity.OceanicEntities;
 import com.min01.oceanicrealms.entity.model.ModelCrab;
 import com.min01.oceanicrealms.entity.model.ModelDolphinfish;
+import com.min01.oceanicrealms.entity.model.ModelGreatHammerheadShark;
 import com.min01.oceanicrealms.entity.model.ModelGreatWhiteShark;
 import com.min01.oceanicrealms.entity.model.ModelHammerheadShark;
 import com.min01.oceanicrealms.entity.model.ModelLionfish;
@@ -21,6 +22,7 @@ import com.min01.oceanicrealms.entity.model.ModelTuna;
 import com.min01.oceanicrealms.entity.model.ModelWhaleshark;
 import com.min01.oceanicrealms.entity.renderer.CrabRenderer;
 import com.min01.oceanicrealms.entity.renderer.DolphinfishRenderer;
+import com.min01.oceanicrealms.entity.renderer.GreatHammerheadSharkRenderer;
 import com.min01.oceanicrealms.entity.renderer.GreatWhiteSharkRenderer;
 import com.min01.oceanicrealms.entity.renderer.HammerheadSharkRenderer;
 import com.min01.oceanicrealms.entity.renderer.LionfishRenderer;
@@ -73,6 +75,7 @@ public class ClientEventHandler
     	event.registerLayerDefinition(ModelLionfish.LAYER_LOCATION, ModelLionfish::createBodyLayer);
     	event.registerLayerDefinition(ModelWhaleshark.LAYER_LOCATION, ModelWhaleshark::createBodyLayer);
     	event.registerLayerDefinition(ModelSailfish.LAYER_LOCATION, ModelSailfish::createBodyLayer);
+    	event.registerLayerDefinition(ModelGreatHammerheadShark.LAYER_LOCATION, ModelGreatHammerheadShark::createBodyLayer);
     }
     
     @SubscribeEvent
@@ -89,5 +92,6 @@ public class ClientEventHandler
     	event.registerEntityRenderer(OceanicEntities.LIONFISH.get(), LionfishRenderer::new);
     	event.registerEntityRenderer(OceanicEntities.WHALESHARK.get(), WhalesharkRenderer::new);
     	event.registerEntityRenderer(OceanicEntities.SAILFISH.get(), SailfishRenderer::new);
+    	event.registerEntityRenderer(OceanicEntities.GREAT_HAMMERHEAD_SHARK.get(), GreatHammerheadSharkRenderer::new);
     }
 }

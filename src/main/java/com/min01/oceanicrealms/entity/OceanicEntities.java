@@ -3,6 +3,7 @@ package com.min01.oceanicrealms.entity;
 import com.min01.oceanicrealms.OceanicRealms;
 import com.min01.oceanicrealms.entity.living.EntityCrab;
 import com.min01.oceanicrealms.entity.living.EntityDolphinfish;
+import com.min01.oceanicrealms.entity.living.EntityGreatHammerheadShark;
 import com.min01.oceanicrealms.entity.living.EntityGreatWhiteShark;
 import com.min01.oceanicrealms.entity.living.EntityHammerheadShark;
 import com.min01.oceanicrealms.entity.living.EntityLionfish;
@@ -36,6 +37,7 @@ public class OceanicEntities
 	public static final RegistryObject<EntityType<EntityLionfish>> LIONFISH = registerEntity("lionfish", createBuilder(EntityLionfish::new, MobCategory.WATER_AMBIENT).sized(0.4F, 0.4F));
 	public static final RegistryObject<EntityType<EntityWhaleshark>> WHALESHARK = registerEntity("whaleshark", createBuilder(EntityWhaleshark::new, MobCategory.WATER_AMBIENT).sized(3.0F, 2.25F));
 	public static final RegistryObject<EntityType<EntitySailfish>> SAILFISH = registerEntity("sailfish", createBuilder(EntitySailfish::new, MobCategory.WATER_AMBIENT).sized(1.125F, 0.8F));
+	public static final RegistryObject<EntityType<EntityGreatHammerheadShark>> GREAT_HAMMERHEAD_SHARK = registerEntity("great_hammerhead_shark", createBuilder(EntityGreatHammerheadShark::new, MobCategory.WATER_AMBIENT).sized(2.0F, 1.6F));
 	
 	public static <T extends Entity> EntityType.Builder<T> createBuilder(EntityType.EntityFactory<T> factory, MobCategory category)
 	{

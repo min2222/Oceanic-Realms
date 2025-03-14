@@ -7,6 +7,7 @@ import com.min01.oceanicrealms.entity.AbstractOceanicCreature;
 import com.min01.oceanicrealms.entity.AbstractOceanicShark;
 import com.min01.oceanicrealms.entity.IBoid;
 import com.min01.oceanicrealms.entity.ai.goal.AvoidEntitySwimmingGoal;
+import com.min01.oceanicrealms.entity.living.EntityGreatHammerheadShark;
 import com.min01.oceanicrealms.entity.living.EntityGreatWhiteShark;
 import com.min01.oceanicrealms.entity.living.EntityLionfish;
 import com.min01.oceanicrealms.entity.living.EntitySailfish;
@@ -75,9 +76,10 @@ public class EventHandlerForge
 					{
 						waterAnimal.goalSelector.addGoal(0, new AvoidEntitySwimmingGoal<>(waterAnimal, EntityLionfish.class, 8.0F, speed, speed));
 					}
-					if(!(waterAnimal instanceof EntityGreatWhiteShark) && !(waterAnimal instanceof EntityWhaleshark))
+					if(!(waterAnimal instanceof EntityGreatWhiteShark) && !(waterAnimal instanceof EntityGreatHammerheadShark) && !(waterAnimal instanceof EntityWhaleshark))
 					{
 						waterAnimal.goalSelector.addGoal(0, new AvoidEntitySwimmingGoal<>(waterAnimal, EntityGreatWhiteShark.class, 8.0F, speed, speed));
+						waterAnimal.goalSelector.addGoal(0, new AvoidEntitySwimmingGoal<>(waterAnimal, EntityGreatHammerheadShark.class, 8.0F, speed, speed));
 						if(!(waterAnimal instanceof EntitySailfish))
 						{
 							waterAnimal.goalSelector.addGoal(0, new AvoidEntitySwimmingGoal<>(waterAnimal, EntitySailfish.class, 8.0F, speed, speed));

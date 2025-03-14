@@ -41,15 +41,17 @@ public class ModelPorbeagleShark extends HierarchicalModel<EntityPorbeagleShark>
 
 		PartDefinition bone2 = bone.addOrReplaceChild("bone2", CubeListBuilder.create().texOffs(38, 32).addBox(-5.0F, -5.0F, 0.0F, 10.0F, 10.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -1.0F, 8.0F));
 
-		bone2.addOrReplaceChild("cube_r2", CubeListBuilder.create().texOffs(70, 71).addBox(-1.5F, -4.0F, 0.0F, 1.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.0F, -4.0F, 4.0F, -0.1745F, 0.0F, 0.0F));
-
 		PartDefinition bone3 = bone2.addOrReplaceChild("bone3", CubeListBuilder.create().texOffs(2, 59).addBox(-2.0F, -2.0F, 0.0F, 4.0F, 5.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -2.0F, 7.0F));
 
-		PartDefinition bone11 = bone3.addOrReplaceChild("bone11", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 6.0F));
+		bone3.addOrReplaceChild("cube_r2", CubeListBuilder.create().texOffs(71, 84).addBox(-1.5F, -4.0F, 0.0F, 1.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.0F, 6.0F, 1.0F, 0.1745F, 0.0F, 0.0F));
 
-		bone11.addOrReplaceChild("cube_r3", CubeListBuilder.create().texOffs(60, 20).addBox(-1.5F, 0.0F, 0.0F, 1.0F, 4.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.0F, 0.0F, 5.6568F, -0.7854F, 0.0F, 0.0F));
+		bone3.addOrReplaceChild("cube_r3", CubeListBuilder.create().texOffs(70, 71).addBox(-1.5F, -4.0F, 0.0F, 1.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.0F, -1.0F, 0.0F, -0.1745F, 0.0F, 0.0F));
 
-		bone11.addOrReplaceChild("cube_r4", CubeListBuilder.create().texOffs(60, 0).addBox(-0.5F, -16.0F, -1.0F, 1.0F, 16.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.7071F, 0.7071F, -0.7854F, 0.0F, 0.0F));
+		PartDefinition bone11 = bone3.addOrReplaceChild("bone11", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 5.0F));
+
+		bone11.addOrReplaceChild("cube_r4", CubeListBuilder.create().texOffs(60, 20).addBox(-1.5F, 0.0F, 0.0F, 1.0F, 4.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.0F, 0.0F, 5.6568F, -0.7854F, 0.0F, 0.0F));
+
+		bone11.addOrReplaceChild("cube_r5", CubeListBuilder.create().texOffs(60, 0).addBox(-0.5F, -16.0F, -1.0F, 1.0F, 16.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.7071F, 0.7071F, -0.7854F, 0.0F, 0.0F));
 
 		bone2.addOrReplaceChild("bone9", CubeListBuilder.create().texOffs(71, 67).addBox(-1.0F, 0.0F, -1.0F, 5.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(6.0F, 4.0F, 5.0F, 0.0F, -0.3927F, 0.5236F));
 
