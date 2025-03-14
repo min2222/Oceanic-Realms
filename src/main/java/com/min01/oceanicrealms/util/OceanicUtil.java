@@ -46,7 +46,7 @@ import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 public class OceanicUtil
 {
 	public static final Predicate<LivingEntity> TARGET_PREDICATE = t -> t.isInWater() && !(t instanceof Dolphin) && !(t instanceof EntityWhaleshark) && !(t instanceof IAvoid);
-	public static final Predicate<LivingEntity> TARGET_PREDICATE2 = t -> t.isInWater()&& !(t instanceof EntityTuna) && !(t instanceof EntityDolphinfish) && !(t instanceof Dolphin) && !(t instanceof EntityWhaleshark) && !(t instanceof IAvoid);
+	public static final Predicate<LivingEntity> TARGET_PREDICATE2 = t -> t.isInWater() && !(t instanceof EntityTuna) && !(t instanceof EntityDolphinfish) && !(t instanceof Dolphin) && !(t instanceof EntityWhaleshark) && !(t instanceof IAvoid);
 	
 	public static <T extends LivingEntity & IBoid<T>> void avoid(T entity, Bounds bounds, Collection<Boid.Obstacle> obstacles, float radius, Predicate<? super Entity> predicate)
 	{
@@ -129,8 +129,14 @@ public class OceanicUtil
 			{
 				Boid boid = entry.getValue();
 				Vec3 direction = boid.direction;
+				BlockPos blockPos = BlockPos.containing(fish.position().add(direction));
 				boid.update(boids.values(), fish.getObstacle(), true, true, true, 2.5F, entity.rotLerp() ? 0.5F : 0.25F);
 				boid.bounds = bounds;
+				while(fish.level.getBlockState(blockPos.above()).isAir())
+				{
+					direction = direction.subtract(0.0F, 0.5F, 0.0F);
+					blockPos = BlockPos.containing(fish.position().add(direction));
+				}
 				if(fish.rotLerp())
 				{
 					if(!mutable.equals(BlockPos.ZERO))
