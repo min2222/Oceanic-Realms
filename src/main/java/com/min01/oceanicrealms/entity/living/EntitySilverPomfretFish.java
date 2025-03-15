@@ -3,6 +3,7 @@ package com.min01.oceanicrealms.entity.living;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -46,8 +47,6 @@ public class EntitySilverPomfretFish extends AbstractOceanicCreature implements 
 	public static final EntityDataAccessor<Boolean> FROM_BUCKET = SynchedEntityData.defineId(EntitySilverPomfretFish.class, EntityDataSerializers.BOOLEAN);
 	public static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(EntitySilverPomfretFish.class, EntityDataSerializers.INT);
 
-	public static final Vec3 BOUND_SIZE = new Vec3(8, 8, 8);
-	
 	public Bounds bounds;
 	public final Collection<Boid.Obstacle> obstacles = new ArrayList<Boid.Obstacle>();
 	public final Map<EntitySilverPomfretFish, Boid> boids = new HashMap<EntitySilverPomfretFish, Boid>();
@@ -136,6 +135,8 @@ public class EntitySilverPomfretFish extends AbstractOceanicCreature implements 
 	public void saveToBucketTag(ItemStack p_27494_)
     {
     	Bucketable.saveDefaultDataToBucketTag(this, p_27494_);
+    	this.addAdditionalSaveData(p_27494_.getOrCreateTag());
+    	OceanicUtil.transferLeader(this);
     }
 
     @SuppressWarnings("deprecation")
@@ -143,6 +144,10 @@ public class EntitySilverPomfretFish extends AbstractOceanicCreature implements 
     public void loadFromBucketTag(CompoundTag p_148708_)
     {
     	Bucketable.loadDefaultDataFromBucketTag(this, p_148708_);
+    	this.readAdditionalSaveData(p_148708_);
+    	OceanicUtil.loadBoid(this);
+    	List<EntitySilverPomfretFish> list = this.level.getEntitiesOfClass(EntitySilverPomfretFish.class, this.getBoundingBox().inflate(8.0F), t -> t.isLeader());
+    	OceanicUtil.joinBoid(this, list);
     }
     
 	@Override

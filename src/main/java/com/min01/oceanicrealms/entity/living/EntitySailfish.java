@@ -45,7 +45,7 @@ public class EntitySailfish extends AbstractOceanicCreature implements IAvoid
     {
         return Monster.createMonsterAttributes()
         		.add(Attributes.MAX_HEALTH, 40.0F)
-        		.add(Attributes.MOVEMENT_SPEED, 0.5F);
+        		.add(Attributes.MOVEMENT_SPEED, 0.65F);
     }
     
     @Override
@@ -138,7 +138,7 @@ public class EntitySailfish extends AbstractOceanicCreature implements IAvoid
 		{
 			if(this.canMove())
 			{
-				this.getNavigation().moveTo(this.getTarget(), 0.65F);
+				this.getNavigation().moveTo(this.getTarget(), 0.7F);
 				if(this.getFirstPassenger() != this.getTarget())
 				{
 					Vec3 lookPos = OceanicUtil.getLookPos(this.getRotationVector(), this.position(), 0.0F, 0.4F, 1.5F);

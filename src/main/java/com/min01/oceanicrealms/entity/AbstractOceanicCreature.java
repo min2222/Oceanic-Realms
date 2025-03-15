@@ -1,12 +1,10 @@
 package com.min01.oceanicrealms.entity;
 
 import com.min01.oceanicrealms.entity.ai.goal.SwimmingGoal;
-import com.min01.oceanicrealms.util.OceanicUtil;
+import com.min01.oceanicrealms.entity.ai.navigation.OceanicWaterBoundPathNavigation;
 
-import net.minecraft.commands.arguments.EntityAnchorArgument.Anchor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
@@ -17,7 +15,6 @@ import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
-import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
 import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -44,7 +41,7 @@ public abstract class AbstractOceanicCreature extends AbstractAnimatableWaterAni
     @Override
     protected PathNavigation createNavigation(Level p_27480_) 
     {
-    	return new WaterBoundPathNavigation(this, p_27480_);
+    	return new OceanicWaterBoundPathNavigation(this, p_27480_);
     }
     
     @Override
@@ -112,7 +109,8 @@ public abstract class AbstractOceanicCreature extends AbstractAnimatableWaterAni
     	}
     }
 	
-	@Override
+    //FIXME
+	/*@Override
 	public void lookAt(Anchor p_20033_, Vec3 p_20034_)
 	{
 		Vec3 vec3 = p_20033_.apply(this);
@@ -129,7 +127,7 @@ public abstract class AbstractOceanicCreature extends AbstractAnimatableWaterAni
 		this.yHeadRotO = this.yHeadRot;
 		this.yBodyRot = this.yHeadRot;
 		this.yBodyRotO = this.yBodyRot;
-	}
+	}*/
 	
 	public int getBodyRotationSpeed()
 	{

@@ -47,6 +47,16 @@ public class OceanicUtil
 {
 	public static final Predicate<LivingEntity> TARGET_PREDICATE = t -> t.isInWater() && !(t instanceof Dolphin) && !(t instanceof EntityWhaleshark) && !(t instanceof IAvoid);
 	public static final Predicate<LivingEntity> TARGET_PREDICATE2 = t -> t.isInWater() && !(t instanceof EntityTuna) && !(t instanceof EntityDolphinfish) && !(t instanceof Dolphin) && !(t instanceof EntityWhaleshark) && !(t instanceof IAvoid);
+
+	public static <T extends LivingEntity & IBoid<T>> void joinBoid(T entity, List<T> list)
+	{
+    	if(!list.isEmpty())
+    	{
+    		T leader = list.get(0);
+    		entity.setLeader(leader);
+    		leader.getBoid().put(entity, new Boid(leader.position(), leader.getBounds()));
+    	}
+	}
 	
 	public static <T extends LivingEntity & IBoid<T>> void avoid(T entity, Bounds bounds, Collection<Boid.Obstacle> obstacles, float radius, Predicate<? super Entity> predicate)
 	{

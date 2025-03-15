@@ -159,6 +159,8 @@ public class EntityMackerelFish extends AbstractOceanicCreature implements Bucke
 	public void saveToBucketTag(ItemStack p_27494_)
     {
     	Bucketable.saveDefaultDataToBucketTag(this, p_27494_);
+    	this.addAdditionalSaveData(p_27494_.getOrCreateTag());
+    	OceanicUtil.transferLeader(this);
     }
 
     @SuppressWarnings("deprecation")
@@ -166,6 +168,10 @@ public class EntityMackerelFish extends AbstractOceanicCreature implements Bucke
     public void loadFromBucketTag(CompoundTag p_148708_)
     {
     	Bucketable.loadDefaultDataFromBucketTag(this, p_148708_);
+    	this.readAdditionalSaveData(p_148708_);
+    	OceanicUtil.loadBoid(this);
+    	List<EntityMackerelFish> list = this.level.getEntitiesOfClass(EntityMackerelFish.class, this.getBoundingBox().inflate(8.0F), t -> t.isLeader());
+    	OceanicUtil.joinBoid(this, list);
     }
     
 	@Override
