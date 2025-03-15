@@ -12,8 +12,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.control.LookControl;
-import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
@@ -31,8 +29,8 @@ public abstract class AbstractOceanicCreature extends AbstractAnimatableWaterAni
 	public AbstractOceanicCreature(EntityType<? extends WaterAnimal> p_33002_, Level p_33003_)
 	{
 		super(p_33002_, p_33003_);
-		this.moveControl = this.getSwimmingMoveControl();
-		this.lookControl = this.getSwimmingLookControl();
+		this.moveControl = new SmoothSwimmingMoveControl(this, 85, this.getBodyRotationSpeed(), 0.5F, 0.1F, false);
+		this.lookControl = new SmoothSwimmingLookControl(this, 10);
 	}
 	
 	@Override
@@ -82,16 +80,6 @@ public abstract class AbstractOceanicCreature extends AbstractAnimatableWaterAni
 		return this.rollAngle;
 	}
 	
-	public LookControl getSwimmingLookControl()
-	{
-		return new SmoothSwimmingLookControl(this, 10);
-	}
-	
-	public MoveControl getSwimmingMoveControl()
-	{
-		return new SmoothSwimmingMoveControl(this, 85, this.getBodyRotationSpeed(), this.getInsideWaterSpeed(), 0.1F, false);
-	}
-	
 	public static boolean checkFishSpawnRules(EntityType<? extends AbstractOceanicCreature> type, ServerLevelAccessor pServerLevel, MobSpawnType pMobSpawnType, BlockPos pPos, RandomSource pRandom) 
     {
 		return pServerLevel.getFluidState(pPos.below()).is(FluidTags.WATER) && pServerLevel.getBlockState(pPos.above()).is(Blocks.WATER) && pServerLevel.getBlockState(pPos.above(2)).is(Blocks.WATER);
@@ -134,11 +122,6 @@ public abstract class AbstractOceanicCreature extends AbstractAnimatableWaterAni
 	public int getBodyRotationSpeed()
 	{
 		return 10;
-	}
-	
-	public float getInsideWaterSpeed()
-	{
-		return 0.5F;
 	}
 	
 	public boolean canRandomSwim()
