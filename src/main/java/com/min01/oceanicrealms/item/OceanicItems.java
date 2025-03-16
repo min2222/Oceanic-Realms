@@ -36,6 +36,7 @@ public class OceanicItems
 	public static final RegistryObject<Item> WHALESHARK_SPAWN_EGG = registerSpawnEgg("whaleshark_spawn_egg", () -> OceanicEntities.WHALESHARK.get(), 4808815, 12372958);
 	public static final RegistryObject<Item> SAILFISH_SPAWN_EGG = registerSpawnEgg("sailfish_spawn_egg", () -> OceanicEntities.SAILFISH.get(), 1394039, 12441040);
 	public static final RegistryObject<Item> GREAT_HAMMERHEAD_SHARK_SPAWN_EGG = registerSpawnEgg("great_hammerhead_shark_spawn_egg", () -> OceanicEntities.GREAT_HAMMERHEAD_SHARK.get(), 7894112, 14803408);
+	public static final RegistryObject<Item> OARFISH_SPAWN_EGG = registerSpawnEgg("oarfish_spawn_egg", () -> OceanicEntities.OARFISH_HEAD.get(), 8955568, 12275781);
 	
 	public static final RegistryObject<Item> CRAB_CLAW = ITEMS.register("crab_claw", () -> new Item(new Item.Properties()));
 	public static final RegistryObject<Item> COOKED_CRAB_CLAW = ITEMS.register("cooked_crab_claw", () -> new Item(new Item.Properties().food(new FoodProperties.Builder().saturationMod(2.5F).build())));

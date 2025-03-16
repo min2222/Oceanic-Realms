@@ -153,10 +153,10 @@ public class OceanicUtil
 					{
 						float yRot = -(float)(Mth.atan2(direction.x, direction.z) * (double)(180.0F / (float)Math.PI));
 						float xRot = -(float)(Mth.atan2(direction.y, direction.horizontalDistance()) * (double)(180.0F / (float)Math.PI));
-						fish.setYRot(OceanicUtil.rotlerp(fish.getYRot(), yRot, (float)fish.getBodyRotationSpeed()));
+						fish.setYRot(rotlerp(fish.getYRot(), yRot, (float)fish.getBodyRotationSpeed()));
 						fish.setYHeadRot(fish.getYRot());
 						fish.setYBodyRot(fish.getYRot());
-						fish.setXRot(OceanicUtil.rotlerp(fish.getXRot(), xRot, 65));
+						fish.setXRot(rotlerp(fish.getXRot(), xRot, 65));
 						boolean lerpDone = Math.abs(fish.getYRot() - yRot) < 0.001F && Math.abs(fish.getXRot() - xRot) < 0.001F;
 						if(lerpDone)
 						{

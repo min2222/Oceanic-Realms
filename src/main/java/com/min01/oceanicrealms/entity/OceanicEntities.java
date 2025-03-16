@@ -8,6 +8,9 @@ import com.min01.oceanicrealms.entity.living.EntityGreatWhiteShark;
 import com.min01.oceanicrealms.entity.living.EntityHammerheadShark;
 import com.min01.oceanicrealms.entity.living.EntityLionfish;
 import com.min01.oceanicrealms.entity.living.EntityMackerelFish;
+import com.min01.oceanicrealms.entity.living.EntityOarfishBody;
+import com.min01.oceanicrealms.entity.living.EntityOarfishHead;
+import com.min01.oceanicrealms.entity.living.EntityOarfishTail;
 import com.min01.oceanicrealms.entity.living.EntityPorbeagleShark;
 import com.min01.oceanicrealms.entity.living.EntitySailfish;
 import com.min01.oceanicrealms.entity.living.EntitySilverPomfretFish;
@@ -38,6 +41,9 @@ public class OceanicEntities
 	public static final RegistryObject<EntityType<EntityWhaleshark>> WHALESHARK = registerEntity("whaleshark", createBuilder(EntityWhaleshark::new, MobCategory.WATER_AMBIENT).sized(3.0F, 2.25F));
 	public static final RegistryObject<EntityType<EntitySailfish>> SAILFISH = registerEntity("sailfish", createBuilder(EntitySailfish::new, MobCategory.WATER_AMBIENT).sized(1.125F, 0.8F));
 	public static final RegistryObject<EntityType<EntityGreatHammerheadShark>> GREAT_HAMMERHEAD_SHARK = registerEntity("great_hammerhead_shark", createBuilder(EntityGreatHammerheadShark::new, MobCategory.WATER_AMBIENT).sized(2.0F, 1.6F));
+	public static final RegistryObject<EntityType<EntityOarfishHead>> OARFISH_HEAD = registerEntity("oarfish_head", createBuilder(EntityOarfishHead::new, MobCategory.WATER_AMBIENT).sized(1.3F, 0.8F));
+	public static final RegistryObject<EntityType<EntityOarfishBody>> OARFISH_BODY = registerEntity("oarfish_body", createBuilder(EntityOarfishBody::new, MobCategory.WATER_AMBIENT).sized(1.3F, 0.8F));
+	public static final RegistryObject<EntityType<EntityOarfishTail>> OARFISH_TAIL = registerEntity("oarfish_tail", createBuilder(EntityOarfishTail::new, MobCategory.WATER_AMBIENT).sized(1.3F, 0.625F));
 	
 	public static <T extends Entity> EntityType.Builder<T> createBuilder(EntityType.EntityFactory<T> factory, MobCategory category)
 	{

@@ -15,6 +15,9 @@ import com.min01.oceanicrealms.entity.model.ModelGreatWhiteShark;
 import com.min01.oceanicrealms.entity.model.ModelHammerheadShark;
 import com.min01.oceanicrealms.entity.model.ModelLionfish;
 import com.min01.oceanicrealms.entity.model.ModelMackerelFish;
+import com.min01.oceanicrealms.entity.model.ModelOarfishBody;
+import com.min01.oceanicrealms.entity.model.ModelOarfishHead;
+import com.min01.oceanicrealms.entity.model.ModelOarfishTail;
 import com.min01.oceanicrealms.entity.model.ModelPorbeagleShark;
 import com.min01.oceanicrealms.entity.model.ModelSailfish;
 import com.min01.oceanicrealms.entity.model.ModelSilverPomfretFish;
@@ -27,6 +30,9 @@ import com.min01.oceanicrealms.entity.renderer.GreatWhiteSharkRenderer;
 import com.min01.oceanicrealms.entity.renderer.HammerheadSharkRenderer;
 import com.min01.oceanicrealms.entity.renderer.LionfishRenderer;
 import com.min01.oceanicrealms.entity.renderer.MackerelFishRenderer;
+import com.min01.oceanicrealms.entity.renderer.OarfishBodyRenderer;
+import com.min01.oceanicrealms.entity.renderer.OarfishHeadRenderer;
+import com.min01.oceanicrealms.entity.renderer.OarfishTailRenderer;
 import com.min01.oceanicrealms.entity.renderer.PorbeagleSharkRenderer;
 import com.min01.oceanicrealms.entity.renderer.SailfishRenderer;
 import com.min01.oceanicrealms.entity.renderer.SilverPomfretFishRenderer;
@@ -76,6 +82,9 @@ public class ClientEventHandler
     	event.registerLayerDefinition(ModelWhaleshark.LAYER_LOCATION, ModelWhaleshark::createBodyLayer);
     	event.registerLayerDefinition(ModelSailfish.LAYER_LOCATION, ModelSailfish::createBodyLayer);
     	event.registerLayerDefinition(ModelGreatHammerheadShark.LAYER_LOCATION, ModelGreatHammerheadShark::createBodyLayer);
+    	event.registerLayerDefinition(ModelOarfishHead.LAYER_LOCATION, ModelOarfishHead::createBodyLayer);
+    	event.registerLayerDefinition(ModelOarfishBody.LAYER_LOCATION, ModelOarfishBody::createBodyLayer);
+    	event.registerLayerDefinition(ModelOarfishTail.LAYER_LOCATION, ModelOarfishTail::createBodyLayer);
     }
     
     @SubscribeEvent
@@ -93,5 +102,8 @@ public class ClientEventHandler
     	event.registerEntityRenderer(OceanicEntities.WHALESHARK.get(), WhalesharkRenderer::new);
     	event.registerEntityRenderer(OceanicEntities.SAILFISH.get(), SailfishRenderer::new);
     	event.registerEntityRenderer(OceanicEntities.GREAT_HAMMERHEAD_SHARK.get(), GreatHammerheadSharkRenderer::new);
+    	event.registerEntityRenderer(OceanicEntities.OARFISH_HEAD.get(), OarfishHeadRenderer::new);
+    	event.registerEntityRenderer(OceanicEntities.OARFISH_BODY.get(), OarfishBodyRenderer::new);
+    	event.registerEntityRenderer(OceanicEntities.OARFISH_TAIL.get(), OarfishTailRenderer::new);
     }
 }
