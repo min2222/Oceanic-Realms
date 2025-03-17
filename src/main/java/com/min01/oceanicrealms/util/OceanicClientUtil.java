@@ -1,5 +1,6 @@
 package com.min01.oceanicrealms.util;
 
+import com.min01.oceanicrealms.entity.living.EntityWhaleshark;
 import com.min01.oceanicrealms.misc.WormChain.Worm;
 import com.mojang.blaze3d.vertex.PoseStack;
 
@@ -23,7 +24,14 @@ public class OceanicClientUtil
 		Vec3 pos = worm.position(partialTicks);
 		Vec2 rot = worm.getRot(partialTicks);
 		stack.scale(-1.0F, -1.0F, 1.0F);
-		stack.translate(-pos.x, -pos.y - 1.5F, pos.z);
+		if(!(entity instanceof EntityWhaleshark))
+		{
+			stack.translate(-pos.x, -pos.y - 1.5F, pos.z);
+		}
+		else
+		{
+			stack.translate(-pos.x, -pos.y, pos.z);
+		}
 		animateHead(part, rot.y + 180.0F, rot.x);
 		part.render(stack, source.getBuffer(RenderType.entityCutoutNoCull(texture)), packedLight, LivingEntityRenderer.getOverlayCoords(entity, 0.0F), 1.0F, 1.0F, 1.0F, 1.0F);
 		stack.popPose();

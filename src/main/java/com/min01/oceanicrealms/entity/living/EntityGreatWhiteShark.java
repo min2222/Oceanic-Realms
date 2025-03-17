@@ -1,11 +1,16 @@
 package com.min01.oceanicrealms.entity.living;
 
+import com.min01.oceanicrealms.entity.AbstractOceanicCreature;
 import com.min01.oceanicrealms.entity.AbstractOceanicShark;
 import com.min01.oceanicrealms.util.OceanicUtil;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
@@ -13,6 +18,8 @@ import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.Blocks;
 
 public class EntityGreatWhiteShark extends AbstractOceanicShark
 {	
@@ -82,4 +89,9 @@ public class EntityGreatWhiteShark extends AbstractOceanicShark
 		this.attackAnimationState.stop();
 		this.eatingAnimationState.stop();
 	}
+    
+	public static boolean checkSharkSpawnRules(EntityType<? extends AbstractOceanicCreature> type, ServerLevelAccessor pServerLevel, MobSpawnType pMobSpawnType, BlockPos pPos, RandomSource pRandom) 
+    {
+		return pServerLevel.getFluidState(pPos.below()).is(FluidTags.WATER) && pServerLevel.getBlockState(pPos.above()).is(Blocks.WATER) && pServerLevel.getBlockState(pPos.above(2)).is(Blocks.WATER) && pRandom.nextInt(3) == 0;
+    }
 }

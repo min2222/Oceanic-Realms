@@ -1,6 +1,6 @@
 package com.min01.oceanicrealms.entity;
 
-import com.min01.oceanicrealms.entity.ai.goal.SwimmingGoal;
+import com.min01.oceanicrealms.entity.ai.control.OceanicSwimmingMoveControl;
 import com.min01.oceanicrealms.util.OceanicUtil;
 
 import net.minecraft.commands.arguments.EntityAnchorArgument.Anchor;
@@ -13,13 +13,14 @@ import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
-import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
+import net.minecraft.world.entity.ai.goal.RandomSwimmingGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
 import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.Vec3;
 
 public abstract class AbstractOceanicCreature extends AbstractAnimatableWaterAnimal
@@ -29,14 +30,22 @@ public abstract class AbstractOceanicCreature extends AbstractAnimatableWaterAni
 	public AbstractOceanicCreature(EntityType<? extends WaterAnimal> p_33002_, Level p_33003_)
 	{
 		super(p_33002_, p_33003_);
-		this.moveControl = new SmoothSwimmingMoveControl(this, 85, this.getBodyRotationSpeed(), 0.5F, 0.1F, false);
+		this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
+		this.moveControl = new OceanicSwimmingMoveControl(this, 85, 0.5F, 0.1F, false);
 		this.lookControl = new SmoothSwimmingLookControl(this, 10);
 	}
 	
 	@Override
 	protected void registerGoals() 
 	{
-        this.goalSelector.addGoal(4, new SwimmingGoal(this, this.getAttributeBaseValue(Attributes.MOVEMENT_SPEED)));
+        this.goalSelector.addGoal(4, new RandomSwimmingGoal(this, this.getAttributeBaseValue(Attributes.MOVEMENT_SPEED), 10) 
+        {
+        	@Override
+        	public boolean canUse() 
+        	{
+        		return super.canUse() && AbstractOceanicCreature.this.canRandomSwim();
+        	}
+        });
 	}
     
     @Override
@@ -99,7 +108,7 @@ public abstract class AbstractOceanicCreature extends AbstractAnimatableWaterAni
     		super.travel(p_27490_);
     	}
     }
-	
+    
     @Override
 	public void lookAt(Anchor p_20033_, Vec3 p_20034_)
 	{

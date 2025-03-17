@@ -71,7 +71,7 @@ public class EntityOarfishHead extends AbstractOarfishPart
 		{
 			for(int i = 0; i < this.worms.length; i++)
 			{
-				float speed = 0.25F;
+				float speed = 0.35F;
 				float distance = 1.35F;
 				Worm worm = this.worms[i];
 				if(worm != null)
