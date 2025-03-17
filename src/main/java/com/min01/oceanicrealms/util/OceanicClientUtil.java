@@ -23,7 +23,7 @@ public class OceanicClientUtil
 		Vec3 pos = worm.position(partialTicks);
 		Vec2 rot = worm.getRot(partialTicks);
 		stack.scale(-1.0F, -1.0F, 1.0F);
-		stack.translate(-pos.x, -pos.y, pos.z);
+		stack.translate(-pos.x, -pos.y - 1.5F, pos.z);
 		animateHead(part, rot.y + 180.0F, rot.x);
 		part.render(stack, source.getBuffer(RenderType.entityCutoutNoCull(texture)), packedLight, LivingEntityRenderer.getOverlayCoords(entity, 0.0F), 1.0F, 1.0F, 1.0F, 1.0F);
 		stack.popPose();

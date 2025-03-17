@@ -21,10 +21,4 @@ public class EntityOarfishTail extends AbstractOarfishPart
     	}
     	return false;
     }
-    
-    @Override
-    public float getSegmentDistance() 
-    {
-    	return 1.55F;
-    }
 }
