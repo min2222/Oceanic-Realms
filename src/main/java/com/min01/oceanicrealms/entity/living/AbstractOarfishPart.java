@@ -26,7 +26,7 @@ import net.minecraft.world.phys.Vec3;
 public abstract class AbstractOarfishPart extends AbstractOwnableOceanicCreature<AbstractOarfishPart>
 {
 	public static final EntityDataAccessor<Optional<UUID>> HEAD_UUID = SynchedEntityData.defineId(AbstractOarfishPart.class, EntityDataSerializers.OPTIONAL_UUID);
-	public static final EntityDataAccessor<Integer> INDEX = SynchedEntityData.defineId(EntityTuna.class, EntityDataSerializers.INT);
+	public static final EntityDataAccessor<Integer> INDEX = SynchedEntityData.defineId(AbstractOarfishPart.class, EntityDataSerializers.INT);
 	
 	public AbstractOarfishPart(EntityType<? extends WaterAnimal> p_33002_, Level p_33003_)
 	{
