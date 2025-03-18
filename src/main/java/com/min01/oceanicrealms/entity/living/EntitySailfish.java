@@ -19,6 +19,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -45,7 +46,8 @@ public class EntitySailfish extends AbstractOceanicCreature implements IAvoid
     {
         return Monster.createMonsterAttributes()
         		.add(Attributes.MAX_HEALTH, 40.0F)
-        		.add(Attributes.MOVEMENT_SPEED, 0.65F);
+        		.add(Attributes.FOLLOW_RANGE, 30.0F)
+        		.add(Attributes.MOVEMENT_SPEED, 0.55F);
     }
     
     @Override
@@ -53,6 +55,7 @@ public class EntitySailfish extends AbstractOceanicCreature implements IAvoid
     {
     	super.registerGoals();
     	this.goalSelector.addGoal(4, new SailfishEatingGoal(this));
+    	this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
     	this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, WaterAnimal.class, false, OceanicUtil.TARGET_PREDICATE2)
     	{
     		@Override

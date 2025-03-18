@@ -1,6 +1,7 @@
 package com.min01.oceanicrealms.entity;
 
 import com.min01.oceanicrealms.entity.ai.control.OceanicSwimmingMoveControl;
+import com.min01.oceanicrealms.entity.ai.goal.StayInWaterGoal;
 import com.min01.oceanicrealms.util.OceanicUtil;
 
 import net.minecraft.commands.arguments.EntityAnchorArgument.Anchor;
@@ -38,6 +39,10 @@ public abstract class AbstractOceanicCreature extends AbstractAnimatableWaterAni
 	@Override
 	protected void registerGoals() 
 	{
+    	if(this instanceof IBoid<?>)
+    	{
+    		this.goalSelector.addGoal(3, new StayInWaterGoal(this));
+    	}
         this.goalSelector.addGoal(4, new RandomSwimmingGoal(this, this.getAttributeBaseValue(Attributes.MOVEMENT_SPEED), 10) 
         {
         	@Override

@@ -39,7 +39,7 @@ public class ModelHammerheadShark extends HierarchicalModel<EntityHammerheadShar
 
 		bone.addOrReplaceChild("cube_r1", CubeListBuilder.create().texOffs(64, 17).addBox(-1.0F, -9.0F, 0.0F, 2.0F, 9.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -7.0F, 5.0F, -0.1745F, 0.0F, 0.0F));
 
-		PartDefinition bone2 = bone.addOrReplaceChild("bone2", CubeListBuilder.create().texOffs(34, 36).addBox(-4.0F, -5.0F, 0.0F, 8.0F, 10.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 12.0F));
+		PartDefinition bone2 = bone.addOrReplaceChild("bone2", CubeListBuilder.create().texOffs(34, 36).addBox(-4.0F, -5.0F, 0.0F, 8.0F, 10.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 1.0F, 12.0F));
 
 		PartDefinition bone3 = bone2.addOrReplaceChild("bone3", CubeListBuilder.create().texOffs(0, 60).addBox(-2.0F, -2.0F, 0.0F, 4.0F, 5.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -2.0F, 7.0F));
 
@@ -57,7 +57,7 @@ public class ModelHammerheadShark extends HierarchicalModel<EntityHammerheadShar
 
 		bone2.addOrReplaceChild("bone10", CubeListBuilder.create().texOffs(74, 43).addBox(-4.0F, 0.0F, -1.0F, 5.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-5.0F, 3.0F, 4.0F, 0.0F, 0.3927F, -0.5236F));
 
-		PartDefinition bone4 = bone.addOrReplaceChild("bone4", CubeListBuilder.create().texOffs(28, 60).addBox(-4.0F, -5.0F, -3.0F, 8.0F, 11.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -1.0F, -10.0F));
+		PartDefinition bone4 = bone.addOrReplaceChild("bone4", CubeListBuilder.create().texOffs(28, 60).addBox(-4.0F, -5.0F, -3.0F, 8.0F, 11.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 1.0F, -10.0F));
 
 		bone4.addOrReplaceChild("bone5", CubeListBuilder.create().texOffs(0, 36).addBox(-4.0F, -5.0F, -9.0F, 8.0F, 5.0F, 9.0F, new CubeDeformation(0.0F))
 		.texOffs(70, 68).addBox(8.0F, -6.0F, -10.0F, 3.0F, 4.0F, 6.0F, new CubeDeformation(0.0F))

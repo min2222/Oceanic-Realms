@@ -139,14 +139,8 @@ public class OceanicUtil
 			{
 				Boid boid = entry.getValue();
 				Vec3 direction = boid.direction;
-				BlockPos blockPos = BlockPos.containing(fish.position().add(direction));
-				boid.update(boids.values(), fish.getObstacle(), true, true, true, 2.5F, entity.rotLerp() ? 0.5F : 0.25F);
+				boid.update(boids.values(), entity.getObstacle(), true, true, true, 2.5F, entity.rotLerp() ? 0.5F : 0.25F);
 				boid.bounds = bounds;
-				while(fish.level.getBlockState(blockPos.above()).isAir())
-				{
-					direction = direction.subtract(0.0F, 0.5F, 0.0F);
-					blockPos = BlockPos.containing(fish.position().add(direction));
-				}
 				if(fish.rotLerp())
 				{
 					if(!mutable.equals(BlockPos.ZERO))
@@ -192,7 +186,7 @@ public class OceanicUtil
 						BlockPos pos = fish.blockPosition().offset(x, y, z);
 						if(entity.level.getBlockState(pos).isCollisionShapeFullBlock(entity.level, pos) || entity.level.getBlockState(pos).isAir()) 
 						{
-							fish.getObstacle().add(new Boid.Obstacle(Vec3.atCenterOf(pos), 5, 0.1F));
+							entity.getObstacle().add(new Boid.Obstacle(Vec3.atCenterOf(pos), 5, 0.1F));
 							mutable.set(pos);
 						}
 					}

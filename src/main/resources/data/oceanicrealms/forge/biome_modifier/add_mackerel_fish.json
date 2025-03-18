@@ -3,7 +3,7 @@
 	"biomes": "#oceanicrealms:warm_oceans",
 	"spawners": {
 		"type": "oceanicrealms:mackerel_fish",
-		"weight": 25,
+		"weight": 35,
 		"minCount": 1,
 		"maxCount": 1
 	}

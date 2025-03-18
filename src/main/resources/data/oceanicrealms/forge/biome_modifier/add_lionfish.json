@@ -3,7 +3,7 @@
 	"biomes": "minecraft:warm_ocean",
 	"spawners": {
 		"type": "oceanicrealms:lionfish",
-		"weight": 80,
+		"weight": 50,
 		"minCount": 1,
 		"maxCount": 1
 	}
