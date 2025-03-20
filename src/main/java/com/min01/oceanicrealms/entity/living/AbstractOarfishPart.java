@@ -96,6 +96,11 @@ public abstract class AbstractOarfishPart extends AbstractOwnableOceanicCreature
 					this.setYRot(rot.y);
 					this.setYHeadRot(rot.y);
 					this.setYBodyRot(rot.y);
+					
+					this.xRotO = rot.x;
+					this.yRotO = rot.y;
+					this.yHeadRotO = rot.y;
+					this.yBodyRotO = rot.y;
 				}
 			}
 		}
