@@ -174,7 +174,7 @@ public class EntityTuna extends AbstractOceanicCreature implements IBoid<EntityT
 	@Override
 	public Vec3 getBoundSize()
 	{
-		return new Vec3(4, 4, 4);
+		return new Vec3(4, 2, 4);
 	}
 	
 	@Override

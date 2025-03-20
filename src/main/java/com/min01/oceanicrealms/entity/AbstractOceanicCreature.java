@@ -132,6 +132,11 @@ public abstract class AbstractOceanicCreature extends AbstractAnimatableWaterAni
 		this.yBodyRot = this.yHeadRot;
 		this.yBodyRotO = this.yBodyRot;
 	}
+    
+    public Vec3 getSwimRadius()
+    {
+    	return new Vec3(15, 15, 15);
+    }
 	
 	public int getBodyRotationSpeed()
 	{

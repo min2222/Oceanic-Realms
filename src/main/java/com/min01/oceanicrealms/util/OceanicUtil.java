@@ -299,11 +299,19 @@ public class OceanicUtil
         return vec3;
 	}
 	
+	public static Vec3 getSpreadPosition(Entity entity, Vec3 range)
+	{
+        double x = entity.getX() + (entity.level.random.nextDouble() - entity.level.random.nextDouble()) * range.x + 0.5D;
+        double y = entity.getY() + (entity.level.random.nextDouble() - entity.level.random.nextDouble()) * range.y + 0.5D;
+        double z = entity.getZ() + (entity.level.random.nextDouble() - entity.level.random.nextDouble()) * range.z + 0.5D;
+        return new Vec3(x, y, z);
+	}
+	
 	public static Vec3 getSpreadPosition(Entity entity, double range)
 	{
-        double x = (double) entity.getX() + (entity.level.random.nextDouble() - entity.level.random.nextDouble()) * (double)range + 0.5D;
-        double y = (double) entity.getY() + (entity.level.random.nextDouble() - entity.level.random.nextDouble()) * (double)range + 0.5D;
-        double z = (double) entity.getZ() + (entity.level.random.nextDouble() - entity.level.random.nextDouble()) * (double)range + 0.5D;
+        double x = entity.getX() + (entity.level.random.nextDouble() - entity.level.random.nextDouble()) * range + 0.5D;
+        double y = entity.getY() + (entity.level.random.nextDouble() - entity.level.random.nextDouble()) * range + 0.5D;
+        double z = entity.getZ() + (entity.level.random.nextDouble() - entity.level.random.nextDouble()) * range + 0.5D;
         return new Vec3(x, y, z);
 	}
 	

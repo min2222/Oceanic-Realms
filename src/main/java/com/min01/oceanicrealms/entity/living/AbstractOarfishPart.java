@@ -76,10 +76,6 @@ public abstract class AbstractOarfishPart extends AbstractOwnableOceanicCreature
     		this.hurtTime = this.getOwner().hurtTime;
     		this.deathTime = this.getOwner().deathTime;
 		}
-		else if(!this.isHead())
-		{
-			this.discard();
-		}
 		
 		if(this.getHead() != null)
 		{

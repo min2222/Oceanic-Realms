@@ -1,5 +1,6 @@
 package com.min01.oceanicrealms.entity.ai.control;
 
+import com.min01.oceanicrealms.entity.AbstractOceanicCreature;
 import com.min01.oceanicrealms.util.OceanicUtil;
 
 import net.minecraft.core.BlockPos;
@@ -95,10 +96,10 @@ public class OceanicSwimmingMoveControl extends MoveControl
     private void generateNewTarget() 
     {
         Level world = this.mob.level;
-        int radius = 35;
+        AbstractOceanicCreature fish = (AbstractOceanicCreature) this.mob;
         for(int i = 0; i < 10; i++)
         {
-        	Vec3 pos = OceanicUtil.getSpreadPosition(this.mob, radius);
+        	Vec3 pos = OceanicUtil.getSpreadPosition(this.mob, fish.getSwimRadius());
         	HitResult hitResult = this.mob.level.clip(new ClipContext(this.mob.position(), pos, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this.mob));
         	if(hitResult instanceof BlockHitResult blockHit)
         	{
