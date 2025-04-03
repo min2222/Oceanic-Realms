@@ -6,7 +6,7 @@ import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 
 public class WormChain 
-{   
+{	
     public static void tick(Worm worm, LivingEntity owner, float distance, float speed)
     {
         Vec3 direction = owner.getLookAngle().normalize().scale(distance);

@@ -1,8 +1,0 @@
-{
-	"parent": "minecraft:block/cube_bottom_top",
-	"textures": {
-		"bottom": "minecraft:block/sand",
-		"side": "minecraft:block/sand",
-		"top": "oceanicrealms:block/crab_hole"
-	}
-}

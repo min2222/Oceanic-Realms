@@ -3,8 +3,8 @@
 	"biomes": "#oceanicrealms:crab_spawn_biomes",
 	"spawners": {
 		"type": "oceanicrealms:crab",
-		"weight": 180,
-		"minCount": 5,
-		"maxCount": 7
+		"weight": 90,
+		"minCount": 2,
+		"maxCount": 5
 	}
 }

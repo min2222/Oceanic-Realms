@@ -4,6 +4,7 @@ import com.min01.oceanicrealms.block.OceanicBlocks;
 import com.mojang.serialization.Codec;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.SectionPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
@@ -32,6 +33,10 @@ public class SandstoneArchFeature extends Feature<ListFeatureConfiguration>
 		{
 			if(random.nextFloat() <= 0.3F)
 			{
+		    	if(!level.hasChunk(SectionPos.blockToSectionCoord(pos.getX()), SectionPos.blockToSectionCoord(pos.getZ()))) 
+		    	{
+		    	    return false;
+		    	}
 				ResourceLocation location = p_159749_.config().structures.get(random.nextInt(3));
 				StructureTemplateManager manager = level.getLevel().getStructureManager();
 				StructureTemplate template = manager.getOrCreate(location);

@@ -35,6 +35,7 @@ import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RenderShape;
@@ -43,24 +44,22 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.BuiltinStructures;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.Tags;
 
 public class EntityCrab extends AbstractAnimatableCreature
 {
 	public static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(EntityCrab.class, EntityDataSerializers.INT);
+	public static final EntityDataAccessor<Integer> DIG_OUT_TICK = SynchedEntityData.defineId(EntityCrab.class, EntityDataSerializers.INT);
 	public static final EntityDataAccessor<Float> SIZE = SynchedEntityData.defineId(EntityCrab.class, EntityDataSerializers.FLOAT);
 	public static final EntityDataAccessor<BlockPos> HOLE_POS = SynchedEntityData.defineId(EntityCrab.class, EntityDataSerializers.BLOCK_POS);
+	public static final EntityDataAccessor<Boolean> IS_DANCE = SynchedEntityData.defineId(EntityCrab.class, EntityDataSerializers.BOOLEAN);
 	
 	public final AnimationState idleAnimationState = new AnimationState();
 	public final AnimationState danceAnimationState = new AnimationState();
 	public final AnimationState eatingAnimationState = new AnimationState();
 	public final AnimationState digAnimationState = new AnimationState();
 	public final AnimationState digOutAnimationState = new AnimationState();
-	
-	public boolean dance;
-	public boolean isDance;
-	
-	public int digOutTick;
 	
 	@Nullable
 	public BlockPos jukebox;
@@ -76,6 +75,12 @@ public class EntityCrab extends AbstractAnimatableCreature
     public boolean removeWhenFarAway(double p_27598_)
     {
         return false;
+    }
+    
+    @Override
+    public boolean checkSpawnObstruction(LevelReader p_21433_) 
+    {
+    	return p_21433_.isUnobstructed(this);
     }
 	
 	@Override
@@ -96,8 +101,10 @@ public class EntityCrab extends AbstractAnimatableCreature
     {
     	super.defineSynchedData();
     	this.entityData.define(VARIANT, this.random.nextInt(1, 4));
+    	this.entityData.define(DIG_OUT_TICK, 0);
     	this.entityData.define(SIZE, 0.7F + (float) Math.random() * (1.2F - 0.7F));
     	this.entityData.define(HOLE_POS, BlockPos.ZERO);
+    	this.entityData.define(IS_DANCE, false);
     }
     
     @Override
@@ -108,21 +115,22 @@ public class EntityCrab extends AbstractAnimatableCreature
     		@Override
     		public boolean canUse()
     		{
-    			return super.canUse() && !EntityCrab.this.isDance && EntityCrab.this.getAnimationState() == 0;
+    			return super.canUse() && !EntityCrab.this.isDance() && !EntityCrab.this.isUsingSkill();
     		}
     	});
     	this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, Player.class, 10.0F, 0.8D, 0.8D)
     	{
     		@Override
-    		public boolean canUse()
+    		public boolean canUse() 
     		{
-    			return super.canUse() && EntityCrab.this.getAnimationState() == 0;
+    			return super.canUse() && !EntityCrab.this.isUsingSkill();
     		}
     		
     		@Override
     		public void start() 
     		{
-    			EntityCrab.this.isDance = false;
+    			EntityCrab.this.setDance(false);
+    			EntityCrab.this.setAnimationState(0);
     			super.start();
     		}
     	});
@@ -170,6 +178,8 @@ public class EntityCrab extends AbstractAnimatableCreature
 		this.digOutAnimationState.stop();
 	}
     
+	//TODO crab hole hiding & wall climbing
+	//FIXME crab is keep running from player even if digging animation is played
     @Override
     public void tick() 
     {
@@ -179,39 +189,45 @@ public class EntityCrab extends AbstractAnimatableCreature
     	
     	if(this.level.isClientSide)
     	{
-    		this.idleAnimationState.animateWhen(!this.walkAnimation.isMoving() && !this.dance, this.tickCount);
-    		this.danceAnimationState.animateWhen(this.dance, this.tickCount);
+    		this.idleAnimationState.animateWhen(!this.walkAnimation.isMoving() && !this.isDance(), this.tickCount);
+    		this.danceAnimationState.animateWhen(this.isDance(), this.tickCount);
     	}
     	
         if(this.jukebox == null || !this.jukebox.closerToCenterThan(this.position(), 3.46D) || !this.level.getBlockState(this.jukebox).is(Blocks.JUKEBOX))
         {
-            this.dance = false;
+            this.setDance(false);
             this.jukebox = null;
             if(this.level.isClientSide)
             {
-                OceanicNetwork.sendToServer(new UpdateCrabDancePacket(this.getUUID(), this.dance));
+                OceanicNetwork.sendToServer(new UpdateCrabDancePacket(this.getUUID(), this.isDance()));
             }
         }
 
-        //boolean flag = this.isNight() && this.level.getBlockState(this.blockPosition().below()).is(OceanicBlocks.CRAB_HOLE.get());
+        boolean flag = this.isNight();
         Player player = this.level.getNearestPlayer(this.getX(), this.getY(), this.getZ(), 2.5F, true);
-        if(this.getAnimationState() == 0 && this.getNavigation().isDone())
+        if(this.getAnimationState() == 0)
         {
             if(this.random.nextInt(500) == 0 && player == null)
             {
             	this.setAnimationState(1);
             	this.setAnimationTick(30);
-            	this.getNavigation().stop();
             }
-            /*if(player != null || flag)
+        }
+
+        if(this.getAnimationState() != 2)
+        {
+            if(player != null || flag)
             {
-            	this.setAnimationState(2);
-            	this.setAnimationTick(20);
-        		this.digOutTick = 80;
-            }*/
+            	if(this.onGround())
+            	{
+                	this.setAnimationState(2);
+                	this.setAnimationTick(20);
+            		this.setDigOutTick(80);
+            	}
+            }
         }
         
-        /*if(this.getAnimationState() == 2)
+        if(this.getAnimationState() == 2)
         {
         	if(!this.isInWall())
         	{
@@ -221,14 +237,10 @@ public class EntityCrab extends AbstractAnimatableCreature
         	}
         	else
         	{
-        		this.digOutAnimationState.stop();
+        		this.stopAllAnimationStates();
         		if(!this.isNight())
         		{
-                	if(this.digOutTick > 0)
-                	{
-                		this.digOutTick--;
-                	}
-                	else if(player == null)
+                	if(this.getDigOutTick() <= 0 && player == null)
                 	{
                 		this.moveTo(this.position().add(0.0F, 0.3F, 0.0F));
                 		this.setAnimationState(3);
@@ -249,7 +261,7 @@ public class EntityCrab extends AbstractAnimatableCreature
         	{
         		this.setAnimationState(0);
         	}
-        }*/
+        }
         
         if(this.getAnimationTick() <= 0)
         {
@@ -259,38 +271,15 @@ public class EntityCrab extends AbstractAnimatableCreature
         	}
         }
         
-        /*if(this.getHolePos() != BlockPos.ZERO)
+        if(!this.isNight())
         {
-        	if(this.isNight())
+        	if(this.getDigOutTick() > 0)
         	{
-            	BlockPos pos = this.getHolePos().above();
-            	Vec3 vec3 = Vec3.atCenterOf(pos);
-            	this.getNavigation().moveTo(vec3.x, vec3.y, vec3.z, 0.5F);
-        	}
-        	if(!this.level.getBlockState(this.getHolePos()).is(OceanicBlocks.CRAB_HOLE.get()))
-        	{
-        		this.setHolePos(BlockPos.ZERO);
+        		this.setDigOutTick(this.getDigOutTick() - 1);
         	}
         }
-        else
-        {
-            for(int x = -5; x <= 5; ++x)
-            {
-            	for(int z = -5; z <= 5; ++z)
-            	{
-           			int x2 = this.getBlockX() + x;
-        			int z2 = this.getBlockZ() + z;
-        			BlockPos pos = new BlockPos(x2, this.getBlockY() - 1, z2);
-        			if(this.level.getBlockState(pos).is(OceanicBlocks.CRAB_HOLE.get()))
-        			{
-        				this.setHolePos(pos);
-        				break;
-        			}
-            	}
-        	}
-        }*/
         
-        if(this.isDance || this.getAnimationState() != 0)
+        if(this.isDance() || this.getAnimationState() != 0)
         {
         	this.getNavigation().stop();
         }
@@ -311,7 +300,7 @@ public class EntityCrab extends AbstractAnimatableCreature
     {
         Structure structure = pServerLevel.registryAccess().registryOrThrow(Registries.STRUCTURE).get(BuiltinStructures.SHIPWRECK_BEACHED);
 		ServerLevel level = pServerLevel.getLevel();
-		boolean isWater = pServerLevel.getBlockState(pPos).is(Blocks.WATER);
+		boolean isWater = pServerLevel.getBlockState(pPos).is(Blocks.WATER) || pServerLevel.getBlockState(pPos.below()).is(Blocks.WATER) || pServerLevel.getBlockState(pPos.above()).is(Blocks.WATER);
 		boolean isLand = TurtleEggBlock.onSand(pServerLevel, pPos) || pServerLevel.getBlockState(pPos.below()).is(Blocks.GRASS_BLOCK) || pServerLevel.getBlockState(pPos.below()).is(Blocks.MUD);
 		boolean isShipwreck = level.structureManager().getStructureAt(pPos, structure).isValid();
 		if(OceanicConfig.spawnCrabs.get())
@@ -377,8 +366,8 @@ public class EntityCrab extends AbstractAnimatableCreature
     	if(this.getAnimationState() == 0)
     	{
             this.jukebox = p_29395_;
-            this.dance = p_29396_;
-            OceanicNetwork.sendToServer(new UpdateCrabDancePacket(this.getUUID(), this.dance));
+            this.setDance(p_29396_);
+            OceanicNetwork.sendToServer(new UpdateCrabDancePacket(this.getUUID(), this.isDance()));
     	}
     }
     
@@ -393,12 +382,13 @@ public class EntityCrab extends AbstractAnimatableCreature
     {
     	super.addAdditionalSaveData(p_21484_);
     	p_21484_.putInt("Variant", this.getVariant());
-    	p_21484_.putInt("DigOutTick", this.digOutTick);
+    	p_21484_.putInt("DigOutTick", this.getDigOutTick());
     	p_21484_.putFloat("Size", this.getSize());
     	if(this.getHolePos() != BlockPos.ZERO)
     	{
         	p_21484_.put("HolePos", NbtUtils.writeBlockPos(this.getHolePos()));
     	}
+    	p_21484_.putBoolean("isDance", this.isDance());
     }
     
     @Override
@@ -411,7 +401,7 @@ public class EntityCrab extends AbstractAnimatableCreature
     	}
     	if(p_21450_.contains("DigOutTick"))
     	{
-    		this.digOutTick = p_21450_.getInt("DigOutTick");
+    		this.setDigOutTick(p_21450_.getInt("DigOutTick"));
     	}
     	if(p_21450_.contains("Size"))
     	{
@@ -420,6 +410,10 @@ public class EntityCrab extends AbstractAnimatableCreature
     	if(p_21450_.contains("HolePos"))
     	{
     		this.setHolePos(NbtUtils.readBlockPos(p_21450_.getCompound("HolePos")));
+    	}
+    	if(p_21450_.contains("isDance"))
+    	{
+    		this.setDance(p_21450_.getBoolean("isDance"));
     	}
     }
     
@@ -432,6 +426,16 @@ public class EntityCrab extends AbstractAnimatableCreature
     		this.setVariant(4);
     	}
     	return super.finalizeSpawn(p_21434_, p_21435_, p_21436_, p_21437_, p_21438_);
+    }
+    
+    public void setDance(boolean value)
+    {
+    	this.entityData.set(IS_DANCE, value);
+    }
+    
+    public boolean isDance()
+    {
+    	return this.entityData.get(IS_DANCE);
     }
     
     public void setHolePos(BlockPos value)
@@ -452,6 +456,16 @@ public class EntityCrab extends AbstractAnimatableCreature
     public float getSize()
     {
     	return this.entityData.get(SIZE);
+    }
+    
+    public void setDigOutTick(int value)
+    {
+    	this.entityData.set(DIG_OUT_TICK, value);
+    }
+    
+    public int getDigOutTick()
+    {
+    	return this.entityData.get(DIG_OUT_TICK);
     }
     
     public void setVariant(int value)

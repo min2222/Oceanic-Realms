@@ -13,24 +13,24 @@ import net.minecraftforge.network.NetworkEvent;
 public class UpdateCrabDancePacket 
 {
 	private final UUID entityUUID;
-	private final boolean dance;
+	private final boolean isDance;
 	
-	public UpdateCrabDancePacket(UUID entityUUID, boolean dance) 
+	public UpdateCrabDancePacket(UUID entityUUID, boolean isDance) 
 	{
 		this.entityUUID = entityUUID;
-		this.dance = dance;
+		this.isDance = isDance;
 	}
 
 	public UpdateCrabDancePacket(FriendlyByteBuf buf)
 	{
 		this.entityUUID = buf.readUUID();
-		this.dance = buf.readBoolean();
+		this.isDance = buf.readBoolean();
 	}
 
 	public void encode(FriendlyByteBuf buf)
 	{
 		buf.writeUUID(this.entityUUID);
-		buf.writeBoolean(this.dance);
+		buf.writeBoolean(this.isDance);
 	}
 	
 	public static class Handler 
@@ -42,7 +42,7 @@ public class UpdateCrabDancePacket
 				Entity entity = OceanicUtil.getEntityByUUID(ctx.get().getSender().level, message.entityUUID);
 				if(entity instanceof EntityCrab crab) 
 				{
-					crab.isDance = message.dance;
+					crab.setDance(message.isDance);
 				}
 			});
 

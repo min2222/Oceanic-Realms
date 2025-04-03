@@ -32,7 +32,7 @@ public class EntityWhaleshark extends AbstractOceanicCreature
     public void tick()
     {
     	this.worm.setOldPosAndRot();
-    	WormChain.tick(this.worm, this, 2.8F, 0.45F);
+    	WormChain.tick(this.worm, this, 0.0F, 0.45F);
     	super.tick();
     }
     

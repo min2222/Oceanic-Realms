@@ -50,7 +50,6 @@ public class OceanicItems
 	public static final RegistryObject<Item> SILVER_POMFRET_FISH = ITEMS.register("silver_pomfret_fish", () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(2).saturationMod(0.1F).build())));
 	public static final RegistryObject<Item> COOKED_SILVER_POMFRET_FISH = ITEMS.register("cooked_silver_pomfret_fish", () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(6).saturationMod(0.8F).build())));
 	
-	public static final RegistryObject<Item> CRAB_HOLE = registerBlockItem("crab_hole", () -> OceanicBlocks.CRAB_HOLE.get(), new Item.Properties());
 	public static final RegistryObject<Item> SEDIMENTARY_SANDSTONE = registerBlockItem("sedimentary_sandstone", () -> OceanicBlocks.SEDIMENTARY_SANDSTONE.get(), new Item.Properties());
 	public static final RegistryObject<Item> HARD_SEDIMENTARY_SANDSTONE = registerBlockItem("hard_sedimentary_sandstone", () -> OceanicBlocks.HARD_SEDIMENTARY_SANDSTONE.get(), new Item.Properties());
 	public static final RegistryObject<Item> CLAM = registerBlockItem("clam", () -> OceanicBlocks.CLAM.get(), new Item.Properties());

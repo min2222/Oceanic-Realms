@@ -211,11 +211,29 @@ public class OceanicUtil
                 if(blockState.is(Blocks.WATER))
                 {
                 	Vec3 size = entity.getBoundSize();
-    				entity.setBound(Bounds.fromCenter(Vec3.atCenterOf(targetPos).subtract(size), size));
-                	break;
+                    Bounds newBound = Bounds.fromCenter(Vec3.atCenterOf(targetPos), size);
+                    if(isBoundInWater(world, newBound)) 
+                    {
+                        entity.setBound(newBound);
+                        break;
+                    }
                 }
         	}
         }
+    }
+    
+    public static boolean isBoundInWater(Level world, Bounds bound) 
+    {
+        BlockPos min = new BlockPos(Mth.floor(bound.minX()), Mth.floor(bound.minY()), Mth.floor(bound.minZ()));
+        BlockPos max = new BlockPos(Mth.ceil(bound.maxX()), Mth.ceil(bound.maxY()), Mth.ceil(bound.maxZ()));
+        for(BlockPos pos : BlockPos.betweenClosed(min, max)) 
+        {
+            if (!world.getBlockState(pos).is(Blocks.WATER)) 
+            {
+                return false;
+            }
+        }
+        return true;
     }
     
 	public static <T extends LivingEntity & IBoid<T>> void spawnWithBoid(T entity, int schoolSize)
