@@ -44,7 +44,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.BuiltinStructures;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.Tags;
 
 public class EntityCrab extends AbstractAnimatableCreature
@@ -203,7 +202,7 @@ public class EntityCrab extends AbstractAnimatableCreature
             }
         }
 
-        boolean flag = this.isNight();
+        //boolean flag = this.isNight();
         Player player = this.level.getNearestPlayer(this.getX(), this.getY(), this.getZ(), 2.5F, true);
         if(this.getAnimationState() == 0)
         {
@@ -214,7 +213,7 @@ public class EntityCrab extends AbstractAnimatableCreature
             }
         }
 
-        if(this.getAnimationState() != 2)
+        /*if(this.getAnimationState() != 2)
         {
             if(player != null || flag)
             {
@@ -261,7 +260,7 @@ public class EntityCrab extends AbstractAnimatableCreature
         	{
         		this.setAnimationState(0);
         	}
-        }
+        }*/
         
         if(this.getAnimationTick() <= 0)
         {

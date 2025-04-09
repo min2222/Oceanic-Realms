@@ -139,7 +139,7 @@ public class OceanicUtil
 			{
 				Boid boid = entry.getValue();
 				Vec3 direction = boid.direction;
-				boid.update(boids.values(), entity.getObstacle(), true, true, true, 2.5F, entity.rotLerp() ? 0.5F : 0.25F);
+				boid.update(fish.level.getBlockState(fish.blockPosition().above()).is(Blocks.WATER), boids.values(), entity.getObstacle(), true, true, true, 2.5F, entity.rotLerp() ? 0.5F : 0.25F);
 				boid.bounds = bounds;
 				if(fish.rotLerp())
 				{
@@ -184,7 +184,7 @@ public class OceanicUtil
 					for(int z = -1; z < 1; z++)
 					{
 						BlockPos pos = fish.blockPosition().offset(x, y, z);
-						if(entity.level.getBlockState(pos).isCollisionShapeFullBlock(entity.level, pos) || entity.level.getBlockState(pos).isAir()) 
+						if(!entity.level.getBlockState(pos).is(Blocks.WATER)) 
 						{
 							entity.getObstacle().add(new Boid.Obstacle(Vec3.atCenterOf(pos), 5, 0.1F));
 							mutable.set(pos);
@@ -211,29 +211,11 @@ public class OceanicUtil
                 if(blockState.is(Blocks.WATER))
                 {
                 	Vec3 size = entity.getBoundSize();
-                    Bounds newBound = Bounds.fromCenter(Vec3.atCenterOf(targetPos), size);
-                    if(isBoundInWater(world, newBound)) 
-                    {
-                        entity.setBound(newBound);
-                        break;
-                    }
+                    entity.setBound(Bounds.fromCenter(Vec3.atCenterOf(targetPos), size));
+                    break;
                 }
         	}
         }
-    }
-    
-    public static boolean isBoundInWater(Level world, Bounds bound) 
-    {
-        BlockPos min = new BlockPos(Mth.floor(bound.minX()), Mth.floor(bound.minY()), Mth.floor(bound.minZ()));
-        BlockPos max = new BlockPos(Mth.ceil(bound.maxX()), Mth.ceil(bound.maxY()), Mth.ceil(bound.maxZ()));
-        for(BlockPos pos : BlockPos.betweenClosed(min, max)) 
-        {
-            if (!world.getBlockState(pos).is(Blocks.WATER)) 
-            {
-                return false;
-            }
-        }
-        return true;
     }
     
 	public static <T extends LivingEntity & IBoid<T>> void spawnWithBoid(T entity, int schoolSize)

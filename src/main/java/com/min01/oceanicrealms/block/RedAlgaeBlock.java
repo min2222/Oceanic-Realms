@@ -2,6 +2,8 @@ package com.min01.oceanicrealms.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.BaseCoralPlantTypeBlock;
@@ -9,6 +11,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -19,6 +22,13 @@ public class RedAlgaeBlock extends BaseCoralPlantTypeBlock
 	public RedAlgaeBlock(BlockBehaviour.Properties p_52176_) 
 	{
 		super(p_52176_);
+	}
+	
+	@Override
+	public BlockState getStateForPlacement(BlockPlaceContext p_49163_) 
+	{
+		FluidState fluidstate = p_49163_.getLevel().getFluidState(p_49163_.getClickedPos());
+		return fluidstate.is(FluidTags.WATER) ? super.getStateForPlacement(p_49163_) : null;
 	}
 
 	@Override
