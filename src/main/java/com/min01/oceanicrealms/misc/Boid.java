@@ -31,6 +31,12 @@ public class Boid
 
 	public void update(Collection<Boid> boids, Collection<Boid.Obstacle> obstacles, boolean avoidance, boolean alignment, boolean cohesion, float flockRadius, float maxVelocity) 
 	{
+		if(this.entity.tickCount % 60 == 0)
+		{
+			this.bounds = Bounds.fromCenter(this.entity.position(), this.boundsSize);
+			this.position = new Vec3(this.bounds.minX() + Math.random() * this.bounds.size.x, this.bounds.minY() + Math.random() * this.bounds.size.y, this.bounds.minZ() + Math.random() * this.bounds.size.z);
+		}
+		
 		Collection<Boid> flock = this.getInRange(boids, this.position, flockRadius);
 		
 		Vec3 acceleration = Vec3.ZERO;
