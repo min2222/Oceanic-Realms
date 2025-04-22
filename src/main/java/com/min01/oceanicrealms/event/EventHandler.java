@@ -17,7 +17,6 @@ import com.min01.oceanicrealms.entity.living.EntityTuna;
 import com.min01.oceanicrealms.entity.living.EntityWhaleshark;
 
 import net.minecraft.world.entity.SpawnPlacements;
-import net.minecraft.world.entity.animal.Salmon;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
@@ -37,8 +36,8 @@ public class EventHandler
     	event.put(OceanicEntities.TUNA.get(), EntityTuna.createAttributes().build());
     	event.put(OceanicEntities.DOLPHINFISH.get(), EntityDolphinfish.createAttributes().build());
     	event.put(OceanicEntities.HAMMERHEAD_SHARK.get(), EntityHammerheadShark.createAttributes().build());
-    	event.put(OceanicEntities.MACKEREL_FISH.get(), Salmon.createAttributes().build());
-    	event.put(OceanicEntities.SILVER_POMFRET_FISH.get(), Salmon.createAttributes().build());
+    	event.put(OceanicEntities.MACKEREL_FISH.get(), EntityMackerelFish.createAttributes().build());
+    	event.put(OceanicEntities.SILVER_POMFRET_FISH.get(), EntitySilverPomfretFish.createAttributes().build());
     	event.put(OceanicEntities.LIONFISH.get(), EntityLionfish.createAttributes().build());
     	event.put(OceanicEntities.WHALESHARK.get(), EntityWhaleshark.createAttributes().build());
     	event.put(OceanicEntities.SAILFISH.get(), EntitySailfish.createAttributes().build());

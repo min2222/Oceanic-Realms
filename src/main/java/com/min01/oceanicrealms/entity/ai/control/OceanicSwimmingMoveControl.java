@@ -1,6 +1,7 @@
 package com.min01.oceanicrealms.entity.ai.control;
 
 import com.min01.oceanicrealms.entity.AbstractOceanicCreature;
+import com.min01.oceanicrealms.entity.IBoid;
 import com.min01.oceanicrealms.util.OceanicUtil;
 
 import net.minecraft.core.BlockPos;
@@ -49,6 +50,13 @@ public class OceanicSwimmingMoveControl extends MoveControl
 			double d0 = this.targetX - this.mob.getX();
 			double d1 = this.targetY - this.mob.getY();
 			double d2 = this.targetZ - this.mob.getZ();
+			if(this.mob instanceof IBoid boid)
+			{
+				Vec3 direction = boid.getBoidDirection();
+				d0 = direction.x;
+				d1 = direction.y;
+				d2 = direction.z;
+			}
 			double d3 = d0 * d0 + d1 * d1 + d2 * d2;
 			if(d3 < (double) 2.5000003E-7F) 
 			{
@@ -56,7 +64,7 @@ public class OceanicSwimmingMoveControl extends MoveControl
 			}
 			else 
 			{
-				float f = (float) (Mth.atan2(d2, d0) * (double) (180F / (float) Math.PI)) - 90.0F;
+				float f = (float) (Mth.atan2(d2, d0) * (double) (180.0F / (float) Math.PI)) - 90.0F;
 				this.mob.setYRot(this.rotlerp(this.mob.getYRot(), f, 2.0F));
 				this.mob.yBodyRot = this.mob.getYRot();
 				this.mob.yHeadRot = this.mob.getYRot();

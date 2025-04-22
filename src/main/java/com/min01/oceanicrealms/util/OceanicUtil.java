@@ -1,12 +1,8 @@
 package com.min01.oceanicrealms.util;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -15,7 +11,6 @@ import org.joml.Math;
 
 import com.min01.oceanicrealms.entity.AbstractOceanicCreature;
 import com.min01.oceanicrealms.entity.IAvoid;
-import com.min01.oceanicrealms.entity.IBoid;
 import com.min01.oceanicrealms.entity.living.EntityDolphinfish;
 import com.min01.oceanicrealms.entity.living.EntityTuna;
 import com.min01.oceanicrealms.entity.living.EntityWhaleshark;
@@ -30,13 +25,8 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Dolphin;
-import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.entity.LevelEntityGetter;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.util.LogicalSidedProvider;
@@ -47,197 +37,30 @@ public class OceanicUtil
 {
 	public static final Predicate<LivingEntity> TARGET_PREDICATE = t -> t.isInWater() && !(t instanceof Dolphin) && !(t instanceof EntityWhaleshark) && !(t instanceof IAvoid);
 	public static final Predicate<LivingEntity> TARGET_PREDICATE2 = t -> t.isInWater() && !(t instanceof EntityTuna) && !(t instanceof EntityDolphinfish) && !(t instanceof Dolphin) && !(t instanceof EntityWhaleshark) && !(t instanceof IAvoid);
-
-	public static <T extends LivingEntity & IBoid<T>> void joinBoid(T entity, List<T> list)
-	{
-    	if(!list.isEmpty())
-    	{
-    		T leader = list.get(0);
-    		entity.setLeader(leader);
-    		leader.getBoid().put(entity, new Boid(leader.position(), leader.getBounds()));
-    	}
-	}
 	
-	public static <T extends LivingEntity & IBoid<T>> void avoid(T entity, Bounds bounds, Collection<Boid.Obstacle> obstacles, float radius, Predicate<? super Entity> predicate)
+	public static void avoid(AbstractOceanicCreature entity, Bounds bounds, Collection<Boid.Obstacle> obstacles, float radius, Predicate<? super Entity> predicate)
 	{
-		if(bounds != null)
+		List<AbstractOceanicCreature> list = entity.level.getEntitiesOfClass(AbstractOceanicCreature.class, entity.getBoundingBox().inflate(radius), predicate);
+		list.forEach(t -> 
 		{
-			List<AbstractOceanicCreature> list = entity.level.getEntitiesOfClass(AbstractOceanicCreature.class, entity.getBoundingBox().inflate(radius), predicate);
-			list.forEach(t -> 
+			if(bounds.contains(t.position()))
 			{
-				if(bounds.contains(t.position()))
-				{
-					obstacles.add(new Boid.Obstacle(t.position(), 5, 0.1F));
-				}
-			});
-		}
-	}
-	
-	public static <T extends LivingEntity & IBoid<T>> void transferLeader(T entity) 
-	{
-		if(!entity.level.isClientSide)
+				obstacles.add(new Boid.Obstacle(t.position(), 5, 0.1F));
+			}
+		});
+		for(int x = -1; x < 1; x++) 
 		{
-			if(entity.isLeader())
+			for(int y = -1; y < 5; y++)
 			{
-				Set<T> set = entity.getBoid().keySet();
-				List<T> list = new ArrayList<>(set);
-				list.removeIf(t -> !t.isAlive());
-				if(!list.isEmpty())
+				for(int z = -1; z < 1; z++)
 				{
-					T fish = list.get(list.size() - 1);
-					fish.setLeader(true);
-					fish.setLeader(null);
-					fish.setBound(entity.getBounds());
-					for(Entry<T, Boid> entry : entity.getBoid().entrySet())
+					BlockPos pos = entity.blockPosition().offset(x, y, z);
+					if(entity.level.getBlockState(pos).isCollisionShapeFullBlock(entity.level, pos) || entity.level.getBlockState(pos).isAir()) 
 					{
-						fish.getBoid().put(entry.getKey(), entry.getValue());
-						if(!entry.getKey().isLeader())
-						{
-							entry.getKey().setLeader(fish);
-						}
+						obstacles.add(new Boid.Obstacle(Vec3.atCenterOf(pos), 5, 0.1F));
 					}
 				}
 			}
-		}
-	}
-	
-	public static <T extends LivingEntity & IBoid<T>> void loadBoid(T entity) 
-	{
-		if(!entity.level.isClientSide)
-		{
-			if(entity.getLeader() != null)
-			{
-				T leader = entity.getLeader();
-				if(!leader.getBoid().containsKey(entity))
-				{
-					Bounds bounds = Bounds.fromCenter(leader.position(), entity.getBoundSize());
-					Vec3 pos = new Vec3(bounds.minX() + Math.random() * bounds.size.x, bounds.minY() + Math.random() * bounds.size.y, bounds.minZ() + Math.random() * bounds.size.z);
-					leader.getBoid().put(entity, new Boid(pos, bounds));
-				}
-			}
-			
-			if(entity.isLeader())
-			{
-				if(!entity.getBoid().containsKey(entity))
-				{
-					Bounds bounds = Bounds.fromCenter(entity.position(), entity.getBoundSize());
-					Vec3 pos = new Vec3(bounds.minX() + Math.random() * bounds.size.x, bounds.minY() + Math.random() * bounds.size.y, bounds.minZ() + Math.random() * bounds.size.z);
-					entity.setBound(bounds);
-					entity.getBoid().put(entity, new Boid(pos, bounds));
-				}
-			}
-		}
-	}
-	
-    public static <T extends AbstractOceanicCreature & IBoid<T>> void tickBoid(T entity, Bounds bounds, Map<T, Boid> boids) 
-    {
-		for(Entry<T, Boid> entry : boids.entrySet())
-		{
-			BlockPos.MutableBlockPos mutable = new BlockPos.MutableBlockPos();
-			T fish = entry.getKey();
-			if(fish.isInWater())
-			{
-				Boid boid = entry.getValue();
-				Vec3 direction = boid.direction;
-				boid.update(fish.level.getBlockState(fish.blockPosition().above()).is(Blocks.WATER), boids.values(), entity.getObstacle(), true, true, true, 2.5F, entity.rotLerp() ? 0.5F : 0.25F);
-				boid.bounds = bounds;
-				if(fish.rotLerp())
-				{
-					if(!mutable.equals(BlockPos.ZERO))
-					{
-						float yRot = -(float)(Mth.atan2(direction.x, direction.z) * (double)(180.0F / (float)Math.PI));
-						float xRot = -(float)(Mth.atan2(direction.y, direction.horizontalDistance()) * (double)(180.0F / (float)Math.PI));
-						fish.setYRot(rotlerp(fish.getYRot(), yRot, (float)fish.getBodyRotationSpeed()));
-						fish.setYHeadRot(fish.getYRot());
-						fish.setYBodyRot(fish.getYRot());
-						fish.setXRot(rotlerp(fish.getXRot(), xRot, 65));
-						boolean lerpDone = Math.abs(fish.getYRot() - yRot) < 0.001F && Math.abs(fish.getXRot() - xRot) < 0.001F;
-						if(lerpDone)
-						{
-							fish.setDeltaMovement(direction);
-							mutable.set(BlockPos.ZERO);
-						}
-					}
-					else
-					{
-						fish.setDeltaMovement(direction);
-						fish.setYRot(-(float)(Mth.atan2(direction.x, direction.z) * (double)(180.0F / (float)Math.PI)));
-						fish.setYHeadRot(fish.getYRot());
-						fish.setYBodyRot(fish.getYRot());
-						fish.setXRot(-(float)(Mth.atan2(direction.y, direction.horizontalDistance()) * (double)(180.0F / (float)Math.PI)));
-					}
-				}
-				else
-				{
-					fish.setDeltaMovement(direction);
-					fish.setYRot(-(float)(Mth.atan2(direction.x, direction.z) * (double)(180.0F / (float)Math.PI)));
-					fish.setYHeadRot(fish.getYRot());
-					fish.setYBodyRot(fish.getYRot());
-					fish.setXRot(-(float)(Mth.atan2(direction.y, direction.horizontalDistance()) * (double)(180.0F / (float)Math.PI)));
-				}
-			}
-			
-			for(int x = -1; x < 1; x++) 
-			{
-				for(int y = -1; y < 5; y++)
-				{
-					for(int z = -1; z < 1; z++)
-					{
-						BlockPos pos = fish.blockPosition().offset(x, y, z);
-						if(!entity.level.getBlockState(pos).is(Blocks.WATER)) 
-						{
-							entity.getObstacle().add(new Boid.Obstacle(Vec3.atCenterOf(pos), 5, 0.1F));
-							mutable.set(pos);
-						}
-					}
-				}
-			}
-		}
-    }
-    
-    public static <T extends LivingEntity & IBoid<T>> void recreateBounds(T entity, int radius) 
-    {
-        Level world = entity.level;
-        
-        for(int i = 0; i < 10; i++)
-        {
-        	Vec3 pos = getRandomPosition(entity, radius);
-        	HitResult hitResult = entity.level.clip(new ClipContext(entity.position(), pos, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, entity));
-        	if(hitResult instanceof BlockHitResult blockHit)
-        	{
-                BlockPos targetPos = blockHit.getBlockPos();
-                BlockState blockState = world.getBlockState(targetPos);
-                
-                if(blockState.is(Blocks.WATER))
-                {
-                	Vec3 size = entity.getBoundSize();
-                    entity.setBound(Bounds.fromCenter(Vec3.atCenterOf(targetPos), size));
-                    break;
-                }
-        	}
-        }
-    }
-    
-	public static <T extends LivingEntity & IBoid<T>> void spawnWithBoid(T entity, int schoolSize)
-	{
-		entity.setLeader(true);
-		Bounds bounds = Bounds.fromCenter(entity.position(), entity.getBoundSize());
-		Vec3 pos = new Vec3(bounds.minX() + Math.random() * bounds.size.x, bounds.minY() + Math.random() * bounds.size.y, bounds.minZ() + Math.random() * bounds.size.z);
-		entity.getBoid().put(entity, new Boid(pos, bounds));
-		entity.setBound(bounds);
-		createBoid(pos, bounds, schoolSize, entity);
-	}
-	
-	@SuppressWarnings("unchecked")
-	public static <T extends LivingEntity & IBoid<T>> void createBoid(Vec3 pos, Bounds bounds, int schoolSize, T entity)
-	{
-		for(int i = 0; i < schoolSize; i++)
-		{
-			T fish = (T) entity.getType().create(entity.level);
-			fish.setPos(entity.position());
-			fish.setLeader(entity);
-			entity.getBoid().put(fish, new Boid(pos, bounds));
-			entity.level.addFreshEntity(fish);
 		}
 	}
 	

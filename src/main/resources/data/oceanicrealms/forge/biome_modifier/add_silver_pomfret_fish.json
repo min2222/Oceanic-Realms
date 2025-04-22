@@ -4,7 +4,7 @@
 	"spawners": {
 		"type": "oceanicrealms:silver_pomfret_fish",
 		"weight": 35,
-		"minCount": 1,
-		"maxCount": 1
+		"minCount": 5,
+		"maxCount": 8
 	}
 }
