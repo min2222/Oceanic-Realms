@@ -83,7 +83,7 @@ public class EntityTuna extends AbstractOceanicCreature implements IBoid
 		
 		OceanicUtil.fishFlopping(this);
 		OceanicUtil.avoid(this, this.boid.bounds, this.obstacles, 5.0F, t -> t instanceof IAvoid);
-		List<EntityTuna> list = this.level.getEntitiesOfClass(EntityTuna.class, this.getBoundingBox().inflate(50.0F));
+		List<EntityTuna> list = this.level.getEntitiesOfClass(EntityTuna.class, this.getBoundingBox().inflate(5.0F));
 		list.forEach(t -> 
 		{
 			if(!this.boids.contains(t.boid))
@@ -91,7 +91,7 @@ public class EntityTuna extends AbstractOceanicCreature implements IBoid
 				this.boids.add(t.boid);
 			}
 		});
-		this.boid.update(this.boids, this.obstacles, true, true, true, 50.0F, 0.5F);
+		this.boid.update(this.boids, this.obstacles, true, true, true, 5.0F, 0.5F);
 	}
 	
 	@SuppressWarnings("deprecation")
