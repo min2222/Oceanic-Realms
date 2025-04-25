@@ -35,23 +35,23 @@ public class ClamFeature extends Feature<NoneFeatureConfiguration>
 		BlockState state = null;
 		if(random.nextFloat() <= 0.8F)
 		{
-			if(level.getBlockState(below).is(OceanicBlocks.SEDIMENTARY_SANDSTONE.get()) || level.getBlockState(below).is(OceanicBlocks.HARD_SEDIMENTARY_SANDSTONE.get()))
+			if(level.getBlockState(below).is(OceanicBlocks.REEF_ROCK.get()))
 			{
 				state = OceanicBlocks.CLAM.get().defaultBlockState().setValue(ClamBlock.VARIANT, random.nextInt(1, 5));
 			}
-			else if(level.getBlockState(north).is(OceanicBlocks.SEDIMENTARY_SANDSTONE.get()) || level.getBlockState(north).is(OceanicBlocks.HARD_SEDIMENTARY_SANDSTONE.get()))
+			else if(level.getBlockState(north).is(OceanicBlocks.REEF_ROCK.get()))
 			{
 				state = OceanicBlocks.CLAM.get().defaultBlockState().setValue(ClamBlock.VARIANT, random.nextInt(1, 5)).setValue(ClamBlock.FACE, AttachFace.WALL).setValue(ClamBlock.FACING, Direction.NORTH.getOpposite());
 			}
-			else if(level.getBlockState(south).is(OceanicBlocks.SEDIMENTARY_SANDSTONE.get()) || level.getBlockState(south).is(OceanicBlocks.HARD_SEDIMENTARY_SANDSTONE.get()))
+			else if(level.getBlockState(south).is(OceanicBlocks.REEF_ROCK.get()))
 			{
 				state = OceanicBlocks.CLAM.get().defaultBlockState().setValue(ClamBlock.VARIANT, random.nextInt(1, 5)).setValue(ClamBlock.FACE, AttachFace.WALL).setValue(ClamBlock.FACING, Direction.SOUTH.getOpposite());
 			}
-			else if(level.getBlockState(west).is(OceanicBlocks.SEDIMENTARY_SANDSTONE.get()) || level.getBlockState(west).is(OceanicBlocks.HARD_SEDIMENTARY_SANDSTONE.get()))
+			else if(level.getBlockState(west).is(OceanicBlocks.REEF_ROCK.get()))
 			{
 				state = OceanicBlocks.CLAM.get().defaultBlockState().setValue(ClamBlock.VARIANT, random.nextInt(1, 5)).setValue(ClamBlock.FACE, AttachFace.WALL).setValue(ClamBlock.FACING, Direction.WEST.getOpposite());
 			}
-			else if(level.getBlockState(east).is(OceanicBlocks.SEDIMENTARY_SANDSTONE.get()) || level.getBlockState(east).is(OceanicBlocks.HARD_SEDIMENTARY_SANDSTONE.get()))
+			else if(level.getBlockState(east).is(OceanicBlocks.REEF_ROCK.get()))
 			{
 				state = OceanicBlocks.CLAM.get().defaultBlockState().setValue(ClamBlock.VARIANT, random.nextInt(1, 5)).setValue(ClamBlock.FACE, AttachFace.WALL).setValue(ClamBlock.FACING, Direction.EAST.getOpposite());
 			}

@@ -7,7 +7,9 @@
 				"config": {
 					"structures": [
 						"oceanicrealms:reef_rock_deep1",
-						"oceanicrealms:reef_rock_deep2"
+						"oceanicrealms:reef_rock_deep2",
+						"oceanicrealms:reef_rock_deep3",
+						"oceanicrealms:reef_rock_deep4"
 					]
 				}
 			},

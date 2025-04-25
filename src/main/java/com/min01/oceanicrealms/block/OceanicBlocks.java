@@ -29,6 +29,7 @@ public class OceanicBlocks
     public static final RegistryObject<Block> GIANT_KELP_PLANT = BLOCKS.register("giant_kelp_plant", () -> new GiantKelpPlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WATER).noCollission().instabreak().noOcclusion().sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY)));
     public static final RegistryObject<Block> GIANT_KELP = BLOCKS.register("giant_kelp", () -> new GiantKelpBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WATER).noCollission().randomTicks().instabreak().noOcclusion().sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY)));
     public static final RegistryObject<Block> RED_ALGAE = BLOCKS.register("red_algae", () -> new RedAlgaeBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).noCollission().instabreak().sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY)));
+    public static final RegistryObject<Block> REEF_ROCK = BLOCKS.register("reef_rock", () -> new Block(BlockBehaviour.Properties.copy(Blocks.STONE)));
     
     public static final RegistryObject<BlockEntityType<NoRotationLimitBlockEntity>> NO_ROTATION_LIMIT_BLOCK_ENTITY = BLOCK_ENTITIES.register("no_rotation_limit", () -> BlockEntityType.Builder.of(NoRotationLimitBlockEntity::new, 
     		OceanicBlocks.CLAM.get()).build(null));

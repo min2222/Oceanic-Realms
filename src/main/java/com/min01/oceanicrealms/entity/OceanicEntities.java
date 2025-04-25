@@ -47,7 +47,7 @@ public class OceanicEntities
 	
 	public static <T extends Entity> EntityType.Builder<T> createBuilder(EntityType.EntityFactory<T> factory, MobCategory category)
 	{
-		return EntityType.Builder.<T>of(factory, category).setTrackingRange(100);
+		return EntityType.Builder.<T>of(factory, category);
 	}
 	
 	public static <T extends Entity> RegistryObject<EntityType<T>> registerEntity(String name, EntityType.Builder<T> builder) 
