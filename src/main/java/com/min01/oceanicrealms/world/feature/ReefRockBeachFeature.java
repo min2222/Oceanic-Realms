@@ -32,7 +32,7 @@ public class ReefRockBeachFeature extends Feature<ListFeatureConfiguration>
 		{
 			if(random.nextFloat() <= 0.3F)
 			{
-				ResourceLocation location = p_159749_.config().structures.get(random.nextInt(6));
+				ResourceLocation location = p_159749_.config().structures.get(random.nextInt(5));
 				StructureTemplateManager manager = level.getLevel().getStructureManager();
 				StructureTemplate template = manager.getOrCreate(location);
 		    	StructurePlaceSettings settings = (new StructurePlaceSettings()).setMirror(Mirror.values()[random.nextInt(2)]).setRotation(Rotation.getRandom(random));
