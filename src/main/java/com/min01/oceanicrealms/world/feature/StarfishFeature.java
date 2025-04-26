@@ -38,8 +38,11 @@ public class StarfishFeature extends Feature<NoneFeatureConfiguration>
 		{
 			if(state.isCollisionShapeFullBlock(level, pos.below()))
 			{
-				level.setBlock(pos, OceanicBlocks.STARFISH.get().defaultBlockState().setValue(StarfishBlock.WATERLOGGED, level.getBlockState(pos).is(Blocks.WATER)).setValue(StarfishBlock.VARIANT, random.nextInt(1, 10)), 2);
-				return true;
+				if(level.getBlockState(pos).isAir() || level.getBlockState(pos).is(Blocks.WATER))
+				{
+					level.setBlock(pos, OceanicBlocks.STARFISH.get().defaultBlockState().setValue(StarfishBlock.WATERLOGGED, level.getBlockState(pos).is(Blocks.WATER)).setValue(StarfishBlock.VARIANT, random.nextInt(1, 10)), 2);
+					return true;
+				}
 			}
 		}
 		return false;

@@ -2,21 +2,11 @@
 	"feature": "oceanicrealms:starfish",
 	"placement": [
 		{
-			"type": "minecraft:block_predicate_filter",
-			"predicate": {
-				"type": "minecraft:matching_blocks",
-				"blocks": [
-					"minecraft:air",
-					"minecraft:water"
-				]
-			}
-		},
-		{
 			"type": "minecraft:in_square"
 		},
 		{
 			"type": "minecraft:heightmap",
-			"heightmap": "OCEAN_FLOOR"
+			"heightmap": "MOTION_BLOCKING_NO_LEAVES"
 		},
 		{
 			"type": "minecraft:biome"
