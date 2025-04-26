@@ -37,7 +37,7 @@ public class StarfishFeature extends Feature<NoneFeatureConfiguration>
 		{
 			if(state.isCollisionShapeFullBlock(level, pos.below()))
 			{
-				level.setBlock(pos, OceanicBlocks.STARFISH.get().defaultBlockState().setValue(StarfishBlock.VARIANT, random.nextInt(1, 10)), 2);
+				level.setBlock(pos, OceanicBlocks.STARFISH.get().defaultBlockState().setValue(StarfishBlock.WATERLOGGED, false).setValue(StarfishBlock.VARIANT, random.nextInt(1, 10)), 2);
 				return true;
 			}
 		}
