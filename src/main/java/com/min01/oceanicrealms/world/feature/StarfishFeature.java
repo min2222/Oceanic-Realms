@@ -13,6 +13,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
@@ -37,7 +38,7 @@ public class StarfishFeature extends Feature<NoneFeatureConfiguration>
 		{
 			if(state.isCollisionShapeFullBlock(level, pos.below()))
 			{
-				level.setBlock(pos, OceanicBlocks.STARFISH.get().defaultBlockState().setValue(StarfishBlock.WATERLOGGED, false).setValue(StarfishBlock.VARIANT, random.nextInt(1, 10)), 2);
+				level.setBlock(pos, OceanicBlocks.STARFISH.get().defaultBlockState().setValue(StarfishBlock.WATERLOGGED, level.getBlockState(pos).is(Blocks.WATER)).setValue(StarfishBlock.VARIANT, random.nextInt(1, 10)), 2);
 				return true;
 			}
 		}
