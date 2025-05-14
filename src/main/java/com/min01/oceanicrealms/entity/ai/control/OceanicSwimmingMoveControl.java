@@ -49,9 +49,7 @@ public class OceanicSwimmingMoveControl extends MoveControl
 				Boid boid = mob.getBoid();
 				if(boid != null)
 				{
-					Vec3 direction = boid.direction;
-					if(direction.equals(Vec3.ZERO))
-						return;
+					Vec3 direction = boid.velocity;
 					double d0 = direction.x;
 					double d1 = direction.y;
 					double d2 = direction.z;
@@ -63,17 +61,7 @@ public class OceanicSwimmingMoveControl extends MoveControl
 					else 
 					{
 						float f = -(float)(Mth.atan2(direction.x, direction.z) * (double)(180.0F / (float)Math.PI));
-						float yRotSpeed = 10.0F;
-						float xRotSpeed = 85.0F;
-						if(this.mob instanceof AbstractOceanicCreature fish)
-						{
-							yRotSpeed = fish.getBodyRotationSpeed();
-							if(yRotSpeed < 10.0F)
-							{
-								xRotSpeed = 10.0F;
-							}
-						}
-						this.mob.setYRot(this.rotlerp(this.mob.getYRot(), f, yRotSpeed));
+						this.mob.setYRot(this.rotlerp(this.mob.getYRot(), f, 10.0F));
 						this.mob.yBodyRot = this.mob.getYRot();
 						this.mob.yHeadRot = this.mob.getYRot();
 						float f1 = (float) (this.speedModifier * this.mob.getAttributeValue(Attributes.MOVEMENT_SPEED));
@@ -85,7 +73,7 @@ public class OceanicSwimmingMoveControl extends MoveControl
 							{
 								float f3 = -(float)(Mth.atan2(direction.y, direction.horizontalDistance()) * (double)(180.0F / (float)Math.PI));
 								f3 = Mth.clamp(Mth.wrapDegrees(f3), (float) (-this.maxTurnX), (float) this.maxTurnX);
-								this.mob.setXRot(this.rotlerp(this.mob.getXRot(), f3, xRotSpeed));
+								this.mob.setXRot(this.rotlerp(this.mob.getXRot(), f3, 10.0F));
 							}
 							this.mob.setDeltaMovement(direction);
 						}

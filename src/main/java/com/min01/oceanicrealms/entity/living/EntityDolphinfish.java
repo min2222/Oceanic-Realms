@@ -57,7 +57,7 @@ public class EntityDolphinfish extends AbstractOceanicCreature implements IBoid
 			EntityDolphinfish fish = this.leader;
 			if(fish.boid == null)
 			{
-				fish.boid = new Boid(fish, Bounds.fromCenter(fish.position(), new Vec3(4, 0, 4)));
+				fish.boid = new Boid(fish, Bounds.fromCenter(fish.position(), new Vec3(15, 0, 15)));
 				fish.boids.add(fish.boid);
 			}
 			else if(this.boid == null)
@@ -68,24 +68,20 @@ public class EntityDolphinfish extends AbstractOceanicCreature implements IBoid
 			OceanicUtil.avoid(this, fish.boid.bounds, fish.obstacles, 5.0F, t -> t instanceof IAvoid);
 			if(this == fish)
 			{
-				fish.boid.recreateBounds();
+				fish.boid.recreateBounds(fish.boids);
 				for(Boid boid : fish.boids)
 				{
-					boid.bounds = fish.boid.bounds;
 					boid.update(fish.boids, fish.obstacles, true, true, true, 5.0F, 0.35F);
 				}
 			}
 		}
-		else
+		if(this.leader == null || !this.leader.isAlive())
 		{
-			List<EntityDolphinfish> list = this.level.getEntitiesOfClass(EntityDolphinfish.class, this.getBoundingBox().inflate(5.0F));
+			List<EntityDolphinfish> list = this.level.getEntitiesOfClass(EntityDolphinfish.class, this.getBoundingBox().inflate(15.0F));
 			list.sort(Comparator.comparing(Entity::getUUID));
 			if(!list.isEmpty())
 			{
-				if(this.leader == null || !this.leader.isAlive())
-				{
-					this.leader = list.get(0);
-				}
+				this.leader = list.get(0);
 			}
 		}
 	}

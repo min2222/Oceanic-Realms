@@ -2,6 +2,7 @@ package com.min01.oceanicrealms.misc;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.Blocks;
@@ -16,10 +17,6 @@ public class Boid
 	public Vec3 position;
 	public Vec3 velocity = Vec3.ZERO;
 
-	// this should be equal to velocity unless velocity is zero.
-	// this will give us a non-zero vector for rendering.
-	public Vec3 direction = new Vec3(1, 0, 0);
-
 	public Boid(Entity entity, Bounds bounds)
 	{
 		this.entity = entity;
@@ -29,12 +26,17 @@ public class Boid
 		this.velocity = new Vec3(Math.random(), Math.random(), Math.random());
 	}
 	
-	public void recreateBounds()
+	public void recreateBounds(List<Boid> boids)
 	{
 		if(this.entity.tickCount % 60 == 0)
 		{
-			this.bounds = Bounds.fromCenter(this.entity.position(), this.boundsSize);
+			Vec3 pos = new Vec3(this.bounds.minX() + Math.random() * this.bounds.size.x, this.bounds.minY() + Math.random() * this.bounds.size.y, this.bounds.minZ() + Math.random() * this.bounds.size.z);
+			this.bounds = Bounds.fromCenter(pos, this.boundsSize);
 			this.position = new Vec3(this.bounds.minX() + Math.random() * this.bounds.size.x, this.bounds.minY() + Math.random() * this.bounds.size.y, this.bounds.minZ() + Math.random() * this.bounds.size.z);
+			for(Boid boid : boids)
+			{
+				boid.bounds = this.bounds;
+			}
 		}
 	}
 
@@ -76,7 +78,6 @@ public class Boid
 			{
 				this.velocity = this.velocity.normalize().scale(maxVelocity);
 			}
-			this.direction = this.velocity;
 		}
 		
 		this.position = this.position.add(this.velocity);

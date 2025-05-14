@@ -91,24 +91,20 @@ public class EntitySilverPomfretFish extends AbstractOceanicCreature implements 
 			OceanicUtil.avoid(this, fish.boid.bounds, fish.obstacles, 3.0F, t -> t instanceof IAvoid);
 			if(this == fish)
 			{
-				fish.boid.recreateBounds();
+				fish.boid.recreateBounds(fish.boids);
 				for(Boid boid : fish.boids)
 				{
-					boid.bounds = fish.boid.bounds;
 					boid.update(fish.boids, fish.obstacles, true, true, true, 5.0F, 0.5F);
 				}
 			}
 		}
-		else
+		if(this.leader == null || !this.leader.isAlive())
 		{
-			List<EntitySilverPomfretFish> list = this.level.getEntitiesOfClass(EntitySilverPomfretFish.class, this.getBoundingBox().inflate(5.0F));
+			List<EntitySilverPomfretFish> list = this.level.getEntitiesOfClass(EntitySilverPomfretFish.class, this.getBoundingBox().inflate(15.0F));
 			list.sort(Comparator.comparing(Entity::getUUID));
 			if(!list.isEmpty())
 			{
-				if(this.leader == null || !this.leader.isAlive())
-				{
-					this.leader = list.get(0);
-				}
+				this.leader = list.get(0);
 			}
 		}
 	}

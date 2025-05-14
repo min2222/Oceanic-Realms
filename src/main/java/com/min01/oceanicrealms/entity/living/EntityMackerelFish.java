@@ -92,24 +92,20 @@ public class EntityMackerelFish extends AbstractOceanicCreature implements Bucke
 			if(this == fish)
 			{
 				this.followWhaleshark();
-				fish.boid.recreateBounds();
+				fish.boid.recreateBounds(fish.boids);
 				for(Boid boid : fish.boids)
 				{
-					boid.bounds = fish.boid.bounds;
 					boid.update(fish.boids, fish.obstacles, true, true, true, 5.0F, 0.5F);
 				}
 			}
 		}
-		else
+		if(this.leader == null || !this.leader.isAlive())
 		{
-			List<EntityMackerelFish> list = this.level.getEntitiesOfClass(EntityMackerelFish.class, this.getBoundingBox().inflate(5.0F));
+			List<EntityMackerelFish> list = this.level.getEntitiesOfClass(EntityMackerelFish.class, this.getBoundingBox().inflate(15.0F));
 			list.sort(Comparator.comparing(Entity::getUUID));
 			if(!list.isEmpty())
 			{
-				if(this.leader == null || !this.leader.isAlive())
-				{
-					this.leader = list.get(0);
-				}
+				this.leader = list.get(0);
 			}
 		}
 	}
@@ -122,6 +118,10 @@ public class EntityMackerelFish extends AbstractOceanicCreature implements Bucke
 			if(this.getFollowDuration() > 0)
 			{
 				this.boid.bounds = Bounds.fromCenter(list.get(0).position(), new Vec3(4, 4, 4));
+				for(Boid boid : this.boids)
+				{
+					boid.bounds = this.boid.bounds;
+				}
 				this.setFollowDuration(this.getFollowDuration() - 1);
 			}
 		}

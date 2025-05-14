@@ -55,9 +55,9 @@ public class OceanicUtil
 				for(int z = -1; z < 1; z++)
 				{
 					BlockPos pos = entity.blockPosition().offset(x, y, z);
-					if(entity.level.getBlockState(pos).isCollisionShapeFullBlock(entity.level, pos) || entity.level.getBlockState(pos).isAir()) 
+					if(entity.level.getBlockState(pos).isCollisionShapeFullBlock(entity.level, pos))
 					{
-						obstacles.add(new Boid.Obstacle(Vec3.atBottomCenterOf(pos), 1.0F, 0.1F));
+						obstacles.add(new Boid.Obstacle(Vec3.atBottomCenterOf(pos), 1, 0.1F));
 					}
 				}
 			}
