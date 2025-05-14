@@ -72,7 +72,7 @@ public class EntityDolphinfish extends AbstractOceanicCreature implements IBoid
 				for(Boid boid : fish.boids)
 				{
 					boid.bounds = fish.boid.bounds;
-					boid.update(fish.boids, fish.obstacles, true, true, true, 5.0F, 0.5F);
+					boid.update(fish.boids, fish.obstacles, true, true, true, 5.0F, 0.35F);
 				}
 			}
 		}

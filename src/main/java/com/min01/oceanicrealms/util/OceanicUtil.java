@@ -50,7 +50,7 @@ public class OceanicUtil
 		});
 		for(int x = -1; x < 1; x++) 
 		{
-			for(int y = -5; y < 5; y++)
+			for(int y = -1; y < 1; y++)
 			{
 				for(int z = -1; z < 1; z++)
 				{
