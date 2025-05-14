@@ -50,14 +50,14 @@ public class OceanicUtil
 		});
 		for(int x = -1; x < 1; x++) 
 		{
-			for(int y = -1; y < 1; y++)
+			for(int y = -5; y < 5; y++)
 			{
 				for(int z = -1; z < 1; z++)
 				{
 					BlockPos pos = entity.blockPosition().offset(x, y, z);
 					if(entity.level.getBlockState(pos).isCollisionShapeFullBlock(entity.level, pos) || entity.level.getBlockState(pos).isAir()) 
 					{
-						obstacles.add(new Boid.Obstacle(Vec3.atCenterOf(pos), 5, 0.1F));
+						obstacles.add(new Boid.Obstacle(Vec3.atBottomCenterOf(pos), 1.0F, 0.1F));
 					}
 				}
 			}

@@ -35,7 +35,7 @@ public class ModelGreatHammerheadShark extends HierarchicalModel<EntityGreatHamm
 
 		PartDefinition root = partdefinition.addOrReplaceChild("root", CubeListBuilder.create(), PartPose.offset(0.0F, 24.0F, 0.0F));
 
-		PartDefinition bone = root.addOrReplaceChild("bone", CubeListBuilder.create(), PartPose.offset(0.0F, -12.0F, -3.0F));
+		PartDefinition bone = root.addOrReplaceChild("bone", CubeListBuilder.create(), PartPose.offset(0.0F, -12.0F, -10.0F));
 
 		PartDefinition bone8 = bone.addOrReplaceChild("bone8", CubeListBuilder.create().texOffs(0, 61).addBox(-9.0F, -8.0F, 0.0F, 18.0F, 17.0F, 16.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 21.0F));
 
@@ -60,11 +60,11 @@ public class ModelGreatHammerheadShark extends HierarchicalModel<EntityGreatHamm
 		PartDefinition bone5 = bone.addOrReplaceChild("bone5", CubeListBuilder.create().texOffs(74, 96).addBox(-10.0F, -9.0F, -9.0F, 20.0F, 17.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 1.0F, -15.0F));
 
 		bone5.addOrReplaceChild("bone6", CubeListBuilder.create().texOffs(70, 63).addBox(-10.0F, -8.0F, -13.0F, 20.0F, 6.0F, 15.0F, new CubeDeformation(0.0F))
-		.texOffs(132, 96).addBox(10.0F, -8.0F, -13.0F, 8.0F, 5.0F, 6.0F, new CubeDeformation(0.0F))
-		.texOffs(120, 130).addBox(18.0F, -9.0F, -14.0F, 6.0F, 6.0F, 8.0F, new CubeDeformation(0.0F))
+		.texOffs(3, 178).addBox(10.0F, -8.0F, -13.0F, 8.0F, 5.0F, 10.0F, new CubeDeformation(0.0F))
+		.texOffs(60, 175).addBox(18.0F, -9.0F, -14.0F, 6.0F, 6.0F, 12.0F, new CubeDeformation(0.0F))
 		.texOffs(120, 0).addBox(-6.0F, -2.0F, -8.0F, 12.0F, 2.0F, 10.0F, new CubeDeformation(0.0F))
-		.texOffs(0, 131).addBox(-24.0F, -9.0F, -14.0F, 6.0F, 6.0F, 8.0F, new CubeDeformation(0.0F))
-		.texOffs(132, 107).addBox(-18.0F, -8.0F, -13.0F, 8.0F, 5.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -1.0F, -11.0F));
+		.texOffs(3, 178).mirror().addBox(-18.0F, -8.0F, -13.0F, 8.0F, 5.0F, 10.0F, new CubeDeformation(0.0F)).mirror(false)
+		.texOffs(60, 175).mirror().addBox(-24.0F, -9.0F, -14.0F, 6.0F, 6.0F, 12.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, -1.0F, -11.0F));
 
 		bone5.addOrReplaceChild("bone7", CubeListBuilder.create().texOffs(120, 14).addBox(-6.0F, 1.0F, -9.0F, 12.0F, 4.0F, 9.0F, new CubeDeformation(0.0F))
 		.texOffs(120, 46).addBox(-5.0F, -1.0F, -8.0F, 10.0F, 2.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 2.0F, -7.0F, -0.3927F, 0.0F, 0.0F));

@@ -57,7 +57,7 @@ public class EntityDolphinfish extends AbstractOceanicCreature implements IBoid
 			EntityDolphinfish fish = this.leader;
 			if(fish.boid == null)
 			{
-				fish.boid = new Boid(fish, Bounds.fromCenter(fish.position(), new Vec3(4, 4, 4)));
+				fish.boid = new Boid(fish, Bounds.fromCenter(fish.position(), new Vec3(4, 0, 4)));
 				fish.boids.add(fish.boid);
 			}
 			else if(this.boid == null)

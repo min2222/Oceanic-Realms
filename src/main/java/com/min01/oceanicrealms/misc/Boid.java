@@ -100,7 +100,7 @@ public class Boid
 	    }
 	    if(this.position.y > this.bounds.maxY() || !isWater)
 	    {
-	        acceleration = new Vec3(acceleration.x, !isWater ? -0.5 : -magnitude, acceleration.z);
+	        acceleration = new Vec3(acceleration.x, !isWater ? -0.25 : -magnitude, acceleration.z);
 	    }
 	    if(this.position.z < this.bounds.minZ()) 
 	    {
