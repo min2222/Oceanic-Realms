@@ -1,8 +1,8 @@
 package com.min01.oceanicrealms.entity;
 
-import net.minecraft.world.phys.Vec3;
+import com.min01.oceanicrealms.misc.Boid;
 
 public interface IBoid
 {
-	public Vec3 getBoidDirection();
+	public Boid getBoid();
 }

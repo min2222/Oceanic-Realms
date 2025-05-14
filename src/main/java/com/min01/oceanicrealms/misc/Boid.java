@@ -20,23 +20,26 @@ public class Boid
 	// this will give us a non-zero vector for rendering.
 	public Vec3 direction = new Vec3(1, 0, 0);
 
-	public Boid(Entity entity, Vec3 boundsSize)
+	public Boid(Entity entity, Bounds bounds)
 	{
 		this.entity = entity;
-		this.bounds = Bounds.fromCenter(entity.position(), boundsSize);
-		this.boundsSize = boundsSize;
+		this.bounds = bounds;
+		this.boundsSize = bounds.size;
 		this.position = new Vec3(this.bounds.minX() + Math.random() * this.bounds.size.x, this.bounds.minY() + Math.random() * this.bounds.size.y, this.bounds.minZ() + Math.random() * this.bounds.size.z);
 		this.velocity = new Vec3(Math.random(), Math.random(), Math.random());
 	}
-
-	public void update(Collection<Boid> boids, Collection<Boid.Obstacle> obstacles, boolean avoidance, boolean alignment, boolean cohesion, float flockRadius, float maxVelocity) 
+	
+	public void recreateBounds()
 	{
 		if(this.entity.tickCount % 60 == 0)
 		{
 			this.bounds = Bounds.fromCenter(this.entity.position(), this.boundsSize);
 			this.position = new Vec3(this.bounds.minX() + Math.random() * this.bounds.size.x, this.bounds.minY() + Math.random() * this.bounds.size.y, this.bounds.minZ() + Math.random() * this.bounds.size.z);
 		}
-		
+	}
+
+	public void update(Collection<Boid> boids, Collection<Boid.Obstacle> obstacles, boolean avoidance, boolean alignment, boolean cohesion, float flockRadius, float maxVelocity) 
+	{
 		Collection<Boid> flock = this.getInRange(boids, this.position, flockRadius);
 		
 		Vec3 acceleration = Vec3.ZERO;

@@ -198,7 +198,7 @@ public class EntityCrab extends AbstractAnimatableCreature
             this.jukebox = null;
             if(this.level.isClientSide)
             {
-                OceanicNetwork.sendToServer(new UpdateCrabDancePacket(this.getUUID(), this.isDance()));
+                OceanicNetwork.sendToServer(new UpdateCrabDancePacket(this.getUUID(), this.isDance(), this.jukebox == null ? BlockPos.ZERO : this.jukebox));
             }
         }
 
@@ -366,7 +366,7 @@ public class EntityCrab extends AbstractAnimatableCreature
     	{
             this.jukebox = p_29395_;
             this.setDance(p_29396_);
-            OceanicNetwork.sendToServer(new UpdateCrabDancePacket(this.getUUID(), this.isDance()));
+            OceanicNetwork.sendToServer(new UpdateCrabDancePacket(this.getUUID(), this.isDance(), this.jukebox == null ? BlockPos.ZERO : this.jukebox));
     	}
     }
     
