@@ -70,7 +70,7 @@ public class OceanicSwimmingMoveControl extends MoveControl
 							yRotSpeed = fish.getBodyRotationSpeed();
 							if(yRotSpeed < 10.0F)
 							{
-								xRotSpeed = 65.0F;
+								xRotSpeed = 10.0F;
 							}
 						}
 						this.mob.setYRot(this.rotlerp(this.mob.getYRot(), f, yRotSpeed));
