@@ -81,7 +81,7 @@ public class EntityMackerelFish extends AbstractOceanicCreature implements Bucke
 			EntityMackerelFish fish = this.leader;
 			if(fish.boid == null)
 			{
-				fish.boid = new Boid(fish, Bounds.fromCenter(fish.position(), new Vec3(2, 2, 2)));
+				fish.boid = new Boid(fish, Bounds.fromCenter(fish.position(), new Vec3(70, 1, 70)));
 				fish.boids.add(fish.boid);
 			}
 			else if(this.boid == null)
@@ -92,14 +92,14 @@ public class EntityMackerelFish extends AbstractOceanicCreature implements Bucke
 			{
 				fish.boids.add(this.boid);
 			}
-			OceanicUtil.avoid(this, fish.boid.bounds, fish.obstacles, 3.0F, t -> t instanceof IAvoid);
+			OceanicUtil.avoid(this, fish.boid.bounds, fish.obstacles, 5.0F, t -> t instanceof IAvoid);
 			if(this == fish)
 			{
 				this.followWhaleshark();
 				fish.boid.recreateBounds(fish.boids);
 				for(Boid boid : fish.boids)
 				{
-					boid.update(fish.boids, fish.obstacles, true, true, true, 5.0F, 0.5F);
+					boid.update(fish.boids, fish.obstacles, true, true, true, 15.0F, 0.35F);
 				}
 			}
 		}
@@ -139,7 +139,7 @@ public class EntityMackerelFish extends AbstractOceanicCreature implements Bucke
     @Override
     protected void doPush(Entity p_20971_) 
     {
-    	if(!(p_20971_ instanceof EntityWhaleshark))
+    	if(!(p_20971_ instanceof EntityWhaleshark) && !(p_20971_ instanceof EntityMackerelFish))
     	{
     		super.doPush(p_20971_);
     	}

@@ -58,7 +58,7 @@ public class EntityDolphinfish extends AbstractOceanicCreature implements IBoid
 			EntityDolphinfish fish = this.leader;
 			if(fish.boid == null)
 			{
-				fish.boid = new Boid(fish, Bounds.fromCenter(fish.position(), new Vec3(8, 1, 8)));
+				fish.boid = new Boid(fish, Bounds.fromCenter(fish.position(), new Vec3(70, 1, 70)));
 				fish.boids.add(fish.boid);
 			}
 			else if(this.boid == null)
@@ -75,19 +75,31 @@ public class EntityDolphinfish extends AbstractOceanicCreature implements IBoid
 				fish.boid.recreateBounds(fish.boids);
 				for(Boid boid : fish.boids)
 				{
-					boid.update(fish.boids, fish.obstacles, true, true, true, 5.0F, 0.35F);
+					boid.update(fish.boids, fish.obstacles, true, true, true, 15.0F, 0.35F);
 				}
 			}
 		}
-		if(this.leader == null || !this.leader.isAlive() || this.size <= 4)
+		if(this.tickCount % 20 == 0)
 		{
-			List<EntityDolphinfish> list = this.level.getEntitiesOfClass(EntityDolphinfish.class, this.getBoundingBox().inflate(5.0F));
-			list.sort(Comparator.comparing(Entity::getUUID));
-			if(!list.isEmpty())
+			if(this.leader == null || !this.leader.isAlive() || this.size <= 4)
 			{
-				this.leader = list.get(0);
-				this.size = list.size();
+				List<EntityDolphinfish> list = this.level.getEntitiesOfClass(EntityDolphinfish.class, this.getBoundingBox().inflate(15.0F));
+				list.sort(Comparator.comparing(Entity::getUUID));
+				if(!list.isEmpty())
+				{
+					this.leader = list.get(0);
+					this.size = list.size();
+				}
 			}
+		}
+	}
+	
+	@Override
+	protected void doPush(Entity p_20971_) 
+	{
+		if(!(p_20971_ instanceof EntityDolphinfish))
+		{
+			super.doPush(p_20971_);
 		}
 	}
     
