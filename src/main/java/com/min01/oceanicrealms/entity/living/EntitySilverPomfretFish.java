@@ -88,6 +88,11 @@ public class EntitySilverPomfretFish extends AbstractOceanicCreature implements 
 				this.boid = new Boid(this, fish.boid.bounds);
 				fish.boids.add(this.boid);
 			}
+			if(this.boid != null && this.boid.direction.length() == 1.0F)
+			{
+				this.boid = new Boid(this, Bounds.fromCenter(this.position(), new Vec3(15, 2, 15)));
+				fish.boids.add(this.boid);
+			}
 			OceanicUtil.avoid(this, fish.boid.bounds, fish.obstacles, 3.0F, t -> t instanceof IAvoid);
 			if(this == fish)
 			{

@@ -49,7 +49,7 @@ public class OceanicSwimmingMoveControl extends MoveControl
 				Boid boid = mob.getBoid();
 				if(boid != null)
 				{
-					Vec3 direction = boid.velocity;
+					Vec3 direction = boid.direction;
 					double d0 = direction.x;
 					double d1 = direction.y;
 					double d2 = direction.z;

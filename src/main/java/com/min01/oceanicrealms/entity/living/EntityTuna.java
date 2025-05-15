@@ -75,12 +75,17 @@ public class EntityTuna extends AbstractOceanicCreature implements IBoid
 			EntityTuna fish = this.leader;
 			if(fish.boid == null)
 			{
-				fish.boid = new Boid(fish, Bounds.fromCenter(fish.position(), new Vec3(15, 0, 15)));
+				fish.boid = new Boid(fish, Bounds.fromCenter(fish.position(), new Vec3(15, 2, 15)));
 				fish.boids.add(fish.boid);
 			}
 			else if(this.boid == null)
 			{
 				this.boid = new Boid(this, fish.boid.bounds);
+				fish.boids.add(this.boid);
+			}
+			if(this.boid != null && this.boid.direction.length() == 1.0F)
+			{
+				this.boid = new Boid(this, Bounds.fromCenter(this.position(), new Vec3(15, 2, 15)));
 				fish.boids.add(this.boid);
 			}
 			OceanicUtil.avoid(this, fish.boid.bounds, fish.obstacles, 5.0F, t -> t instanceof IAvoid);

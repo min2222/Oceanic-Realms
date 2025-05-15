@@ -16,6 +16,10 @@ public class Boid
 	public Vec3 boundsSize;
 	public Vec3 position;
 	public Vec3 velocity = Vec3.ZERO;
+	
+	// this should be equal to velocity unless velocity is zero.
+	// this will give us a non-zero vector for rendering.
+	public Vec3 direction = new Vec3(1, 0, 0);
 
 	public Boid(Entity entity, Bounds bounds)
 	{
@@ -46,7 +50,7 @@ public class Boid
 		
 		Vec3 acceleration = Vec3.ZERO;
 		
-		acceleration = acceleration.add(this.stayInBounds(this.entity.level.getBlockState(this.entity.blockPosition().above()).is(Blocks.WATER)));
+		acceleration = acceleration.add(this.stayInBounds(this.entity.level.getBlockState(this.entity.blockPosition().above(5)).is(Blocks.WATER)));
 
 		if(avoidance)
 		{
@@ -78,6 +82,7 @@ public class Boid
 			{
 				this.velocity = this.velocity.normalize().scale(maxVelocity);
 			}
+			this.direction = this.velocity;
 		}
 		
 		this.position = this.position.add(this.velocity);
@@ -101,7 +106,7 @@ public class Boid
 	    }
 	    if(this.position.y > this.bounds.maxY() || !isWater)
 	    {
-	        acceleration = new Vec3(acceleration.x, !isWater ? -0.35 : -magnitude, acceleration.z);
+	        acceleration = new Vec3(acceleration.x, !isWater ? -0.5 : -magnitude, acceleration.z);
 	    }
 	    if(this.position.z < this.bounds.minZ()) 
 	    {
