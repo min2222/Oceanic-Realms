@@ -39,6 +39,7 @@ public class EntityTuna extends AbstractOceanicCreature implements IBoid
 	public final List<Boid.Obstacle> obstacles = new ArrayList<>();
 	
 	public EntityTuna leader;
+	public int size;
 	
 	public final AnimationState dryAnimationState = new AnimationState();
 	
@@ -75,17 +76,15 @@ public class EntityTuna extends AbstractOceanicCreature implements IBoid
 			EntityTuna fish = this.leader;
 			if(fish.boid == null)
 			{
-				fish.boid = new Boid(fish, Bounds.fromCenter(fish.position(), new Vec3(15, 2, 15)));
+				fish.boid = new Boid(fish, Bounds.fromCenter(fish.position(), new Vec3(8, 1, 8)));
 				fish.boids.add(fish.boid);
 			}
 			else if(this.boid == null)
 			{
 				this.boid = new Boid(this, fish.boid.bounds);
-				fish.boids.add(this.boid);
 			}
-			if(this.boid != null && this.boid.direction.length() == 1.0F)
+			else if(!fish.boids.contains(this.boid))
 			{
-				this.boid = new Boid(this, Bounds.fromCenter(this.position(), new Vec3(15, 2, 15)));
 				fish.boids.add(this.boid);
 			}
 			OceanicUtil.avoid(this, fish.boid.bounds, fish.obstacles, 5.0F, t -> t instanceof IAvoid);
@@ -98,13 +97,14 @@ public class EntityTuna extends AbstractOceanicCreature implements IBoid
 				}
 			}
 		}
-		if(this.leader == null || !this.leader.isAlive())
+		if(this.leader == null || !this.leader.isAlive() || this.size <= 4)
 		{
-			List<EntityTuna> list = this.level.getEntitiesOfClass(EntityTuna.class, this.getBoundingBox().inflate(15.0F));
+			List<EntityTuna> list = this.level.getEntitiesOfClass(EntityTuna.class, this.getBoundingBox().inflate(5.0F));
 			list.sort(Comparator.comparing(Entity::getUUID));
 			if(!list.isEmpty())
 			{
 				this.leader = list.get(0);
+				this.size = list.size();
 			}
 		}
 	}
@@ -160,7 +160,13 @@ public class EntityTuna extends AbstractOceanicCreature implements IBoid
 	}
 	
 	@Override
-	public boolean canRandomSwim()
+	public void resetBoid() 
+	{
+		this.boid = null;
+	}
+	
+	@Override
+	public boolean canRandomSwim() 
 	{
 		return super.canRandomSwim() && this.boid != null;
 	}

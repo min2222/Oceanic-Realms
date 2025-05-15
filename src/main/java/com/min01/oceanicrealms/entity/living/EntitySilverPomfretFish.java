@@ -43,6 +43,7 @@ public class EntitySilverPomfretFish extends AbstractOceanicCreature implements 
 	public final List<Boid.Obstacle> obstacles = new ArrayList<>();
 	
 	public EntitySilverPomfretFish leader;
+	public int size;
 	
 	public final AnimationState dryAnimationState = new AnimationState();
 	
@@ -86,11 +87,9 @@ public class EntitySilverPomfretFish extends AbstractOceanicCreature implements 
 			else if(this.boid == null)
 			{
 				this.boid = new Boid(this, fish.boid.bounds);
-				fish.boids.add(this.boid);
 			}
-			if(this.boid != null && this.boid.direction.length() == 1.0F)
+			else if(!fish.boids.contains(this.boid))
 			{
-				this.boid = new Boid(this, Bounds.fromCenter(this.position(), new Vec3(15, 2, 15)));
 				fish.boids.add(this.boid);
 			}
 			OceanicUtil.avoid(this, fish.boid.bounds, fish.obstacles, 3.0F, t -> t instanceof IAvoid);
@@ -103,13 +102,14 @@ public class EntitySilverPomfretFish extends AbstractOceanicCreature implements 
 				}
 			}
 		}
-		if(this.leader == null || !this.leader.isAlive())
+		if(this.leader == null || !this.leader.isAlive() || this.size <= 4)
 		{
-			List<EntitySilverPomfretFish> list = this.level.getEntitiesOfClass(EntitySilverPomfretFish.class, this.getBoundingBox().inflate(15.0F));
+			List<EntitySilverPomfretFish> list = this.level.getEntitiesOfClass(EntitySilverPomfretFish.class, this.getBoundingBox().inflate(5.0F));
 			list.sort(Comparator.comparing(Entity::getUUID));
 			if(!list.isEmpty())
 			{
 				this.leader = list.get(0);
+				this.size = list.size();
 			}
 		}
 	}
@@ -194,7 +194,13 @@ public class EntitySilverPomfretFish extends AbstractOceanicCreature implements 
 	}
 	
 	@Override
-	public boolean canRandomSwim()
+	public void resetBoid() 
+	{
+		this.boid = null;
+	}
+	
+	@Override
+	public boolean canRandomSwim() 
 	{
 		return super.canRandomSwim() && this.boid != null;
 	}

@@ -50,6 +50,11 @@ public class OceanicSwimmingMoveControl extends MoveControl
 				if(boid != null)
 				{
 					Vec3 direction = boid.direction;
+					if(direction.length() == 1.0F)
+					{
+						mob.resetBoid();
+						return;
+					}
 					double d0 = direction.x;
 					double d1 = direction.y;
 					double d2 = direction.z;

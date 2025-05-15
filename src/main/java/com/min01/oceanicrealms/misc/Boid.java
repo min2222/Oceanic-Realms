@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.List;
 
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
 
 //https://github.com/TheCymaera/minecraft-boids/tree/master
@@ -34,8 +33,7 @@ public class Boid
 	{
 		if(this.entity.tickCount % 60 == 0)
 		{
-			Vec3 pos = new Vec3(this.bounds.minX() + Math.random() * this.bounds.size.x, this.bounds.minY() + Math.random() * this.bounds.size.y, this.bounds.minZ() + Math.random() * this.bounds.size.z);
-			this.bounds = Bounds.fromCenter(pos, this.boundsSize);
+			this.bounds = Bounds.fromCenter(this.position, this.boundsSize);
 			this.position = new Vec3(this.bounds.minX() + Math.random() * this.bounds.size.x, this.bounds.minY() + Math.random() * this.bounds.size.y, this.bounds.minZ() + Math.random() * this.bounds.size.z);
 			for(Boid boid : boids)
 			{
@@ -50,7 +48,7 @@ public class Boid
 		
 		Vec3 acceleration = Vec3.ZERO;
 		
-		acceleration = acceleration.add(this.stayInBounds(this.entity.level.getBlockState(this.entity.blockPosition().above(5)).is(Blocks.WATER)));
+		acceleration = acceleration.add(this.stayInBounds());
 
 		if(avoidance)
 		{
@@ -88,7 +86,7 @@ public class Boid
 		this.position = this.position.add(this.velocity);
 	}
 
-	private Vec3 stayInBounds(boolean isWater) 
+	private Vec3 stayInBounds() 
 	{
 		Vec3 acceleration = Vec3.ZERO;
 		double magnitude = 0.025;
@@ -100,13 +98,13 @@ public class Boid
 	    {
 	        acceleration = new Vec3(-magnitude, acceleration.y, acceleration.z);
 	    }
-	    if(this.position.y < this.bounds.minY() && isWater)
+	    if(this.position.y < this.bounds.minY())
 	    {
 	        acceleration = new Vec3(acceleration.x, magnitude, acceleration.z);
 	    }
-	    if(this.position.y > this.bounds.maxY() || !isWater)
+	    if(this.position.y > this.bounds.maxY())
 	    {
-	        acceleration = new Vec3(acceleration.x, !isWater ? -0.5 : -magnitude, acceleration.z);
+	        acceleration = new Vec3(acceleration.x, -magnitude, acceleration.z);
 	    }
 	    if(this.position.z < this.bounds.minZ()) 
 	    {

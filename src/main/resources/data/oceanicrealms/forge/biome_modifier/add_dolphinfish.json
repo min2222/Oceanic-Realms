@@ -4,7 +4,7 @@
 	"spawners": {
 		"type": "oceanicrealms:dolphinfish",
 		"weight": 20,
-		"minCount": 3,
+		"minCount": 5,
 		"maxCount": 7
 	}
 }
