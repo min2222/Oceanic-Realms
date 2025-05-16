@@ -52,9 +52,10 @@ public class EntityMackerelFish extends AbstractOceanicCreature implements Bucke
     @Override
     protected void registerGoals() 
     {
+    	super.registerGoals();
         this.goalSelector.addGoal(5, new BoidGoal(this, 0.5F, 0.9F, 8 / 20.0F, 1 / 20.0F));
         this.goalSelector.addGoal(3, new StayInWaterGoal(this));
-        this.goalSelector.addGoal(2, new LimitSpeedAndLookInVelocityDirectionGoal(this, 0.3F, 0.8F));
+        this.goalSelector.addGoal(2, new LimitSpeedAndLookInVelocityDirectionGoal(this, 0.3F, 0.5F));
     }
     
     @Override

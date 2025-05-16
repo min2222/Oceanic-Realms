@@ -57,7 +57,6 @@ public class BoidGoal extends Goal
         {
             this.enabled = false;
         }
-        this.mob.addDeltaMovement(this.random());
         this.mob.addDeltaMovement(this.cohesion());
         this.mob.addDeltaMovement(this.alignment());
         this.mob.addDeltaMovement(this.separation());
