@@ -1,24 +1,18 @@
 package com.min01.oceanicrealms.util;
 
 import java.lang.reflect.Method;
-import java.util.Collection;
-import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import org.joml.Math;
 
-import com.min01.oceanicrealms.entity.AbstractOceanicCreature;
 import com.min01.oceanicrealms.entity.IAvoid;
 import com.min01.oceanicrealms.entity.living.EntityDolphinfish;
 import com.min01.oceanicrealms.entity.living.EntityTuna;
 import com.min01.oceanicrealms.entity.living.EntityWhaleshark;
-import com.min01.oceanicrealms.misc.Boid;
-import com.min01.oceanicrealms.misc.Boid.Bounds;
 
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
@@ -37,32 +31,6 @@ public class OceanicUtil
 {
 	public static final Predicate<LivingEntity> TARGET_PREDICATE = t -> t.isInWater() && !(t instanceof Dolphin) && !(t instanceof EntityWhaleshark) && !(t instanceof IAvoid);
 	public static final Predicate<LivingEntity> TARGET_PREDICATE2 = t -> t.isInWater() && !(t instanceof EntityTuna) && !(t instanceof EntityDolphinfish) && !(t instanceof Dolphin) && !(t instanceof EntityWhaleshark) && !(t instanceof IAvoid);
-	
-	public static void avoid(AbstractOceanicCreature entity, Bounds bounds, Collection<Boid.Obstacle> obstacles, float radius, Predicate<? super Entity> predicate)
-	{
-		List<AbstractOceanicCreature> list = entity.level.getEntitiesOfClass(AbstractOceanicCreature.class, entity.getBoundingBox().inflate(radius), predicate);
-		list.forEach(t -> 
-		{
-			if(bounds.contains(t.position()))
-			{
-				obstacles.add(new Boid.Obstacle(t.position(), 5, 0.1F));
-			}
-		});
-		for(int x = -1; x < 1; x++) 
-		{
-			for(int y = -1; y < 1; y++)
-			{
-				for(int z = -1; z < 1; z++)
-				{
-					BlockPos pos = entity.blockPosition().offset(x, y, z);
-					if(entity.level.getBlockState(pos).isCollisionShapeFullBlock(entity.level, pos))
-					{
-						obstacles.add(new Boid.Obstacle(Vec3.atBottomCenterOf(pos), 1, 0.1F));
-					}
-				}
-			}
-		}
-	}
 	
 	public static Vec3 fromToVector(Vec3 from, Vec3 to, float scale)
 	{

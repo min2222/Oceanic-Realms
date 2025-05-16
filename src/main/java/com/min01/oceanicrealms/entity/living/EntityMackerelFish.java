@@ -1,15 +1,13 @@
 package com.min01.oceanicrealms.entity.living;
 
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 import com.min01.oceanicrealms.entity.AbstractOceanicCreature;
-import com.min01.oceanicrealms.entity.IAvoid;
-import com.min01.oceanicrealms.entity.IBoid;
+import com.min01.oceanicrealms.entity.ai.control.OceanicSwimmingMoveControl;
+import com.min01.oceanicrealms.entity.ai.goal.BoidGoal;
+import com.min01.oceanicrealms.entity.ai.goal.LimitSpeedAndLookInVelocityDirectionGoal;
+import com.min01.oceanicrealms.entity.ai.goal.StayInWaterGoal;
 import com.min01.oceanicrealms.item.OceanicItems;
-import com.min01.oceanicrealms.misc.Boid;
-import com.min01.oceanicrealms.misc.Boid.Bounds;
 import com.min01.oceanicrealms.util.OceanicUtil;
 
 import net.minecraft.nbt.CompoundTag;
@@ -31,19 +29,11 @@ import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.Vec3;
 
-public class EntityMackerelFish extends AbstractOceanicCreature implements Bucketable, IBoid
+public class EntityMackerelFish extends AbstractOceanicCreature implements Bucketable
 {
 	public static final EntityDataAccessor<Boolean> FROM_BUCKET = SynchedEntityData.defineId(EntityMackerelFish.class, EntityDataSerializers.BOOLEAN);
 	public static final EntityDataAccessor<Integer> FOLLOW_DURATION = SynchedEntityData.defineId(EntityMackerelFish.class, EntityDataSerializers.INT);
-	
-	public Boid boid;
-	public final List<Boid> boids = new ArrayList<>();
-	public final List<Boid.Obstacle> obstacles = new ArrayList<>();
-	
-	public EntityMackerelFish leader;
-	public int size;
 	
 	public final AnimationState dryAnimationState = new AnimationState();
 	
@@ -57,6 +47,14 @@ public class EntityMackerelFish extends AbstractOceanicCreature implements Bucke
         return Mob.createMobAttributes()
         		.add(Attributes.MAX_HEALTH, 3.0F)
         		.add(Attributes.MOVEMENT_SPEED, 0.5F);
+    }
+    
+    @Override
+    protected void registerGoals() 
+    {
+        this.goalSelector.addGoal(5, new BoidGoal(this, 0.5F, 0.9F, 8 / 20.0F, 1 / 20.0F));
+        this.goalSelector.addGoal(3, new StayInWaterGoal(this));
+        this.goalSelector.addGoal(2, new LimitSpeedAndLookInVelocityDirectionGoal(this, 0.3F, 0.8F));
     }
     
     @Override
@@ -76,43 +74,7 @@ public class EntityMackerelFish extends AbstractOceanicCreature implements Bucke
 			this.dryAnimationState.animateWhen(!this.isInWater(), this.tickCount);
 		}
 		OceanicUtil.fishFlopping(this);
-		if(this.leader != null)
-		{
-			EntityMackerelFish fish = this.leader;
-			if(fish.boid == null)
-			{
-				fish.boid = new Boid(fish, Bounds.fromCenter(fish.position(), new Vec3(70, 1, 70)));
-				fish.boids.add(fish.boid);
-			}
-			else if(this.boid == null)
-			{
-				this.boid = new Boid(this, fish.boid.bounds);
-			}
-			else if(!fish.boids.contains(this.boid))
-			{
-				fish.boids.add(this.boid);
-			}
-			OceanicUtil.avoid(this, fish.boid.bounds, fish.obstacles, 5.0F, t -> t instanceof IAvoid);
-			if(this == fish)
-			{
-				this.followWhaleshark();
-				fish.boid.recreateBounds(fish.boids);
-				for(Boid boid : fish.boids)
-				{
-					boid.update(fish.boids, fish.obstacles, true, true, true, 15.0F, 0.35F);
-				}
-			}
-		}
-		if(this.leader == null || !this.leader.isAlive() || this.size <= 4)
-		{
-			List<EntityMackerelFish> list = this.level.getEntitiesOfClass(EntityMackerelFish.class, this.getBoundingBox().inflate(5.0F));
-			list.sort(Comparator.comparing(Entity::getUUID));
-			if(!list.isEmpty())
-			{
-				this.leader = list.get(0);
-				this.size = list.size();
-			}
-		}
+		this.followWhaleshark();
 	}
 	
 	public void followWhaleshark()
@@ -122,11 +84,7 @@ public class EntityMackerelFish extends AbstractOceanicCreature implements Bucke
 		{
 			if(this.getFollowDuration() > 0)
 			{
-				this.boid.bounds = Bounds.fromCenter(list.get(0).position(), new Vec3(4, 4, 4));
-				for(Boid boid : this.boids)
-				{
-					boid.bounds = this.boid.bounds;
-				}
+				((OceanicSwimmingMoveControl) this.getMoveControl()).setTargetPos(list.get(0).position());
 				this.setFollowDuration(this.getFollowDuration() - 1);
 			}
 		}
@@ -139,7 +97,7 @@ public class EntityMackerelFish extends AbstractOceanicCreature implements Bucke
     @Override
     protected void doPush(Entity p_20971_) 
     {
-    	if(!(p_20971_ instanceof EntityWhaleshark) && !(p_20971_ instanceof EntityMackerelFish))
+    	if(!(p_20971_ instanceof EntityWhaleshark))
     	{
     		super.doPush(p_20971_);
     	}
@@ -217,22 +175,4 @@ public class EntityMackerelFish extends AbstractOceanicCreature implements Bucke
     {
     	return this.entityData.get(FOLLOW_DURATION);
     }
-    
-	@Override
-	public Boid getBoid()
-	{
-		return this.boid;
-	}
-	
-	@Override
-	public void resetBoid() 
-	{
-		this.boid = null;
-	}
-	
-	@Override
-	public boolean canRandomSwim() 
-	{
-		return super.canRandomSwim() && this.boid != null;
-	}
 }
