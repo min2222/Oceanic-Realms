@@ -55,7 +55,7 @@ public class EntityMackerelFish extends AbstractOceanicCreature implements Bucke
     	super.registerGoals();
         this.goalSelector.addGoal(5, new BoidGoal(this, 0.5F, 0.9F, 8 / 20.0F, 1 / 20.0F));
         this.goalSelector.addGoal(3, new StayInWaterGoal(this));
-        this.goalSelector.addGoal(2, new LimitSpeedAndLookInVelocityDirectionGoal(this, 0.3F, 0.5F));
+        this.goalSelector.addGoal(2, new LimitSpeedAndLookInVelocityDirectionGoal(this, 0.2F, 0.3F));
     }
     
     @Override
