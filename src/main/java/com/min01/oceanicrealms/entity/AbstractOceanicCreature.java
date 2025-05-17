@@ -89,6 +89,12 @@ public abstract class AbstractOceanicCreature extends AbstractAnimatableWaterAni
 		return this.rollAngle;
 	}
 	
+	@Override
+	public int getMaxSpawnClusterSize() 
+	{
+		return 100;
+	}
+	
 	public static boolean checkFishSpawnRules(EntityType<? extends AbstractOceanicCreature> type, ServerLevelAccessor pServerLevel, MobSpawnType pMobSpawnType, BlockPos pPos, RandomSource pRandom) 
     {
 		return pServerLevel.getFluidState(pPos.below()).is(FluidTags.WATER) && pServerLevel.getBlockState(pPos.above()).is(Blocks.WATER) && pServerLevel.getBlockState(pPos.above(2)).is(Blocks.WATER);

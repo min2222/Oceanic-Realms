@@ -1,7 +1,6 @@
 package com.min01.oceanicrealms.entity.ai.goal;
 
 import java.util.List;
-import java.util.function.Predicate;
 
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
@@ -19,7 +18,6 @@ public class BoidGoal extends Goal
     private final Mob mob;
     private int timeToFindNearbyEntities;
     private List<? extends Mob> nearbyMobs;
-    private boolean enabled = true;
 
     public BoidGoal(Mob mob, float separationInfluence, float separationRange, float alignmentInfluence, float cohesionInfluence)
     {
@@ -40,10 +38,6 @@ public class BoidGoal extends Goal
     @Override
     public void tick()
     {
-        if(!this.enabled)
-        {
-            return;
-        }
         if(--this.timeToFindNearbyEntities <= 0)
         {
             this.timeToFindNearbyEntities = this.adjustedTickDelay(40);
@@ -53,10 +47,6 @@ public class BoidGoal extends Goal
         {
         	this.nearbyMobs.removeIf(LivingEntity::isDeadOrDying);
         }
-        if(this.nearbyMobs.isEmpty()) 
-        {
-            this.enabled = false;
-        }
         this.mob.addDeltaMovement(this.cohesion());
         this.mob.addDeltaMovement(this.alignment());
         this.mob.addDeltaMovement(this.separation());
@@ -64,8 +54,7 @@ public class BoidGoal extends Goal
 
     public static List<? extends Mob> getNearbyEntitiesOfSameClass(Mob mob)
     {
-        Predicate<Mob> predicate = (_mob) -> true;
-        return mob.level.getEntitiesOfClass(mob.getClass(), mob.getBoundingBox().inflate(4.0F, 4.0F, 4.0F), predicate);
+        return mob.level.getEntitiesOfClass(mob.getClass(), mob.getBoundingBox().inflate(4.0F, 4.0F, 4.0F));
     }
 
     public Vec3 random() 
@@ -104,6 +93,10 @@ public class BoidGoal extends Goal
 
     public Vec3 alignment() 
     {
+        if(this.nearbyMobs.isEmpty()) 
+        {
+        	return Vec3.ZERO;
+        }
         Vec3 c = Vec3.ZERO;
         for(Mob nearbyMob : this.nearbyMobs)
         {
@@ -116,6 +109,10 @@ public class BoidGoal extends Goal
 
     public Vec3 cohesion() 
     {
+        if(this.nearbyMobs.isEmpty()) 
+        {
+        	return Vec3.ZERO;
+        }
         Vec3 c = Vec3.ZERO;
         for(Mob nearbyMob : this.nearbyMobs)
         {

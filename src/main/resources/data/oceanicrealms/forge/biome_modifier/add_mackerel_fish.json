@@ -4,7 +4,7 @@
 	"spawners": {
 		"type": "oceanicrealms:mackerel_fish",
 		"weight": 35,
-		"minCount": 6,
-		"maxCount": 11
+		"minCount": 8,
+		"maxCount": 12
 	}
 }
