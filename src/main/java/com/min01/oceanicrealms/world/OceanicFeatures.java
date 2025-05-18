@@ -12,6 +12,7 @@ import com.min01.oceanicrealms.world.feature.SandstoneArchFeature;
 import com.min01.oceanicrealms.world.feature.SandstonePillarFeature;
 import com.min01.oceanicrealms.world.feature.SeaAnemoneFeature;
 import com.min01.oceanicrealms.world.feature.SeaUrchinFeature;
+import com.min01.oceanicrealms.world.feature.StarfishBeachFeature;
 import com.min01.oceanicrealms.world.feature.StarfishFeature;
 
 import net.minecraft.world.level.levelgen.feature.Feature;
@@ -32,7 +33,8 @@ public class OceanicFeatures
     public static final RegistryObject<Feature<NoneFeatureConfiguration>> SEA_URCHIN = FEATURES.register("sea_urchin", () -> new SeaUrchinFeature(NoneFeatureConfiguration.CODEC));
     public static final RegistryObject<Feature<NoneFeatureConfiguration>> CLAM = FEATURES.register("clam", () -> new ClamFeature(NoneFeatureConfiguration.CODEC));
     public static final RegistryObject<Feature<NoneFeatureConfiguration>> SEA_ANEMONE = FEATURES.register("sea_anemone", () -> new SeaAnemoneFeature(NoneFeatureConfiguration.CODEC));
-    public static final RegistryObject<Feature<NoneFeatureConfiguration>> STARFISH = FEATURES.register("starfish", () -> new StarfishFeature(NoneFeatureConfiguration.CODEC));
+    public static final RegistryObject<Feature<NoneFeatureConfiguration>> STARFISH_OCEAN = FEATURES.register("starfish_ocean", () -> new StarfishFeature(NoneFeatureConfiguration.CODEC));
+    public static final RegistryObject<Feature<NoneFeatureConfiguration>> STARFISH_BEACH = FEATURES.register("starfish_beach", () -> new StarfishBeachFeature(NoneFeatureConfiguration.CODEC));
     public static final RegistryObject<Feature<NoneFeatureConfiguration>> RED_ALGAE = FEATURES.register("red_algae", () -> new RedAlgaeFeature(NoneFeatureConfiguration.CODEC));
     public static final RegistryObject<Feature<NoneFeatureConfiguration>> GIANT_KELP = FEATURES.register("giant_kelp", () -> new GiantKelpFeature(NoneFeatureConfiguration.CODEC));
 }

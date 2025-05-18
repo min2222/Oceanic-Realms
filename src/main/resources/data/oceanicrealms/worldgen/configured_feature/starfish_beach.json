@@ -3,7 +3,7 @@
 	"config": {
 		"feature": {
 			"feature": {
-				"type": "oceanicrealms:starfish",
+				"type": "oceanicrealms:starfish_beach",
 				"config": {
 				}
 			},
@@ -11,7 +11,7 @@
 			]
 		},
 		"tries": 8,
-		"xz_spread": 8,
+		"xz_spread": 16,
 		"y_spread": 0
 	}
 }

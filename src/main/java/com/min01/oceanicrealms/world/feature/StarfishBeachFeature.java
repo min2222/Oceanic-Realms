@@ -19,9 +19,9 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
-public class StarfishFeature extends Feature<NoneFeatureConfiguration>
+public class StarfishBeachFeature extends Feature<NoneFeatureConfiguration>
 {
-	public StarfishFeature(Codec<NoneFeatureConfiguration> p_65786_)
+	public StarfishBeachFeature(Codec<NoneFeatureConfiguration> p_65786_)
 	{
 		super(p_65786_);
 	}
@@ -38,8 +38,11 @@ public class StarfishFeature extends Feature<NoneFeatureConfiguration>
 		{
 			if(state.isCollisionShapeFullBlock(level, pos.below()))
 			{
-				level.setBlock(pos, OceanicBlocks.STARFISH.get().defaultBlockState().setValue(StarfishBlock.WATERLOGGED, level.getBlockState(pos).is(Blocks.WATER)).setValue(StarfishBlock.VARIANT, random.nextInt(1, 10)), 2);
-				return true;
+				if(level.getBlockState(pos).isAir())
+				{
+					level.setBlock(pos, OceanicBlocks.STARFISH.get().defaultBlockState().setValue(StarfishBlock.WATERLOGGED, level.getBlockState(pos).is(Blocks.WATER)).setValue(StarfishBlock.VARIANT, random.nextInt(1, 10)), 2);
+					return true;
+				}
 			}
 		}
 		return false;

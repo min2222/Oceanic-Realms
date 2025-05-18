@@ -18,6 +18,7 @@ public class BoidGoal extends Goal
     private final Mob mob;
     private int timeToFindNearbyEntities;
     private List<? extends Mob> nearbyMobs;
+    private boolean enabled;
 
     public BoidGoal(Mob mob, float separationInfluence, float separationRange, float alignmentInfluence, float cohesionInfluence)
     {
@@ -47,6 +48,9 @@ public class BoidGoal extends Goal
         {
         	this.nearbyMobs.removeIf(LivingEntity::isDeadOrDying);
         }
+    	this.enabled = !this.nearbyMobs.isEmpty();
+    	if(!this.enabled)
+    		return;
         this.mob.addDeltaMovement(this.cohesion());
         this.mob.addDeltaMovement(this.alignment());
         this.mob.addDeltaMovement(this.separation());
@@ -54,7 +58,7 @@ public class BoidGoal extends Goal
 
     public static List<? extends Mob> getNearbyEntitiesOfSameClass(Mob mob)
     {
-        return mob.level.getEntitiesOfClass(mob.getClass(), mob.getBoundingBox().inflate(4.0F, 4.0F, 4.0F));
+        return mob.level.getEntitiesOfClass(mob.getClass(), mob.getBoundingBox().inflate(4.0F, 4.0F, 4.0F), t -> t != mob);
     }
 
     public Vec3 random() 
