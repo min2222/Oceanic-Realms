@@ -2,8 +2,9 @@ package com.min01.oceanicrealms.entity.living;
 
 import java.util.List;
 
+import org.joml.Math;
+
 import com.min01.oceanicrealms.entity.AbstractOceanicCreature;
-import com.min01.oceanicrealms.entity.ai.control.OceanicSwimmingMoveControl;
 import com.min01.oceanicrealms.entity.ai.goal.BoidGoal;
 import com.min01.oceanicrealms.entity.ai.goal.LimitSpeedAndLookInVelocityDirectionGoal;
 import com.min01.oceanicrealms.entity.ai.goal.StayInWaterGoal;
@@ -85,7 +86,8 @@ public class EntityMackerelFish extends AbstractOceanicCreature implements Bucke
 		{
 			if(this.getFollowDuration() > 0)
 			{
-				((OceanicSwimmingMoveControl) this.getMoveControl()).setTargetPos(list.get(0).position());
+				int size = 8;
+				this.addDeltaMovement(OceanicUtil.fromToVector(this.position(), list.get(0).position().add(Math.random() * size, Math.random() * size, Math.random() * size), 0.05F));
 				this.setFollowDuration(this.getFollowDuration() - 1);
 			}
 		}

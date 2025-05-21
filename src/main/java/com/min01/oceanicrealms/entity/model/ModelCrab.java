@@ -36,11 +36,9 @@ public class ModelCrab extends HierarchicalModel<EntityCrab>
 
 		PartDefinition bone4 = root.addOrReplaceChild("bone4", CubeListBuilder.create(), PartPose.offset(0.0F, -3.0F, 0.0F));
 
-		PartDefinition bone = bone4.addOrReplaceChild("bone", CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, -2.0F, -3.0F, 8.0F, 3.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -0.0873F, 0.0F, 0.0F));
-
-		bone.addOrReplaceChild("cube_r1", CubeListBuilder.create().texOffs(8, 19).mirror().addBox(0.1F, -2.0F, -0.5F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, -1.0F, -3.0F, -0.1745F, 0.0F, 0.1309F));
-
-		bone.addOrReplaceChild("cube_r2", CubeListBuilder.create().texOffs(8, 19).addBox(-1.1F, -2.0F, -0.5F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -1.0F, -3.0F, -0.1745F, 0.0F, -0.1309F));
+		PartDefinition bone = bone4.addOrReplaceChild("bone", CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, -2.0F, -3.0F, 8.0F, 3.0F, 7.0F, new CubeDeformation(0.0F))
+		.texOffs(8, 19).addBox(-1.3F, -3.0F, -3.5F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.0F))
+		.texOffs(8, 19).mirror().addBox(0.3F, -3.0F, -3.5F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -0.0873F, 0.0F, 0.0F));
 
 		bone.addOrReplaceChild("bone2", CubeListBuilder.create().texOffs(4, 20).mirror().addBox(-1.3F, -1.5F, -0.1F, 2.0F, 2.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-2.0F, -2.0F, -3.0F));
 
