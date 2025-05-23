@@ -6,6 +6,8 @@ import com.min01.oceanicrealms.entity.OceanicEntities;
 import com.min01.oceanicrealms.item.OceanicItems;
 import com.min01.oceanicrealms.misc.OceanicCreativeTabs;
 import com.min01.oceanicrealms.network.OceanicNetwork;
+import com.min01.oceanicrealms.sound.OceanicSounds;
+import com.min01.oceanicrealms.world.OceanicBiomeModifiers;
 import com.min01.oceanicrealms.world.OceanicFeatures;
 
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -30,6 +32,8 @@ public class OceanicRealms
 		OceanicBlocks.BLOCKS.register(bus);
 		OceanicBlocks.BLOCK_ENTITIES.register(bus);
 		OceanicFeatures.FEATURES.register(bus);
+		OceanicSounds.SOUNDS.register(bus);
+		OceanicBiomeModifiers.BIOME_MODIFIERS.register(bus);
 		
 		OceanicNetwork.registerMessages();
 		ctx.registerConfig(Type.COMMON, OceanicConfig.CONFIG_SPEC, "oceanic-realms.toml");

@@ -1,0 +1,10 @@
+{
+	"shark_eating": {
+		"sounds": [
+			{
+				"name": "oceanicrealms:entity/shark_eating",
+				"stream": true
+			}
+		]
+	}
+}
