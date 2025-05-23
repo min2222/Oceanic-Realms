@@ -29,21 +29,21 @@ public class OceanicEntities
 {
 	public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, OceanicRealms.MODID);
 	
-	public static final RegistryObject<EntityType<EntityGreatWhiteShark>> GREAT_WHITE_SHARK = registerEntity("great_white_shark", createBuilder(EntityGreatWhiteShark::new, MobCategory.WATER_AMBIENT).sized(2.0F, 1.6F));
-	public static final RegistryObject<EntityType<EntityCrab>> CRAB = registerEntity("crab", createBuilder(EntityCrab::new, MobCategory.WATER_AMBIENT).sized(0.4F, 0.3F));
-	public static final RegistryObject<EntityType<EntityPorbeagleShark>> PORBEAGLE_SHARK = registerEntity("porbeagle_shark", createBuilder(EntityPorbeagleShark::new, MobCategory.WATER_AMBIENT).sized(1.125F, 0.875F));
-	public static final RegistryObject<EntityType<EntityTuna>> TUNA = registerEntity("tuna", createBuilder(EntityTuna::new, MobCategory.WATER_AMBIENT).sized(1.0F, 1.0F));
-	public static final RegistryObject<EntityType<EntityDolphinfish>> DOLPHINFISH = registerEntity("dolphinfish", createBuilder(EntityDolphinfish::new, MobCategory.WATER_AMBIENT).sized(1.0F, 0.6F));
-	public static final RegistryObject<EntityType<EntityHammerheadShark>> HAMMERHEAD_SHARK = registerEntity("hammerhead_shark", createBuilder(EntityHammerheadShark::new, MobCategory.WATER_AMBIENT).sized(0.625F, 0.875F));
-	public static final RegistryObject<EntityType<EntityMackerelFish>> MACKEREL_FISH = registerEntity("mackerel_fish", createBuilder(EntityMackerelFish::new, MobCategory.WATER_AMBIENT).sized(0.6F, 0.6F).clientTrackingRange(100));
-	public static final RegistryObject<EntityType<EntitySilverPomfretFish>> SILVER_POMFRET_FISH = registerEntity("silver_pomfret_fish", createBuilder(EntitySilverPomfretFish::new, MobCategory.WATER_AMBIENT).sized(0.3F, 0.3F).clientTrackingRange(100));
-	public static final RegistryObject<EntityType<EntityLionfish>> LIONFISH = registerEntity("lionfish", createBuilder(EntityLionfish::new, MobCategory.WATER_AMBIENT).sized(0.4F, 0.4F));
-	public static final RegistryObject<EntityType<EntityWhaleshark>> WHALESHARK = registerEntity("whaleshark", createBuilder(EntityWhaleshark::new, MobCategory.WATER_AMBIENT).sized(3.0F, 2.25F));
-	public static final RegistryObject<EntityType<EntitySailfish>> SAILFISH = registerEntity("sailfish", createBuilder(EntitySailfish::new, MobCategory.WATER_AMBIENT).sized(1.125F, 0.8F));
-	public static final RegistryObject<EntityType<EntityGreatHammerheadShark>> GREAT_HAMMERHEAD_SHARK = registerEntity("great_hammerhead_shark", createBuilder(EntityGreatHammerheadShark::new, MobCategory.WATER_AMBIENT).sized(2.0F, 1.6F));
-	public static final RegistryObject<EntityType<EntityOarfishHead>> OARFISH_HEAD = registerEntity("oarfish_head", createBuilder(EntityOarfishHead::new, MobCategory.WATER_AMBIENT).sized(1.3F, 0.8F).setTrackingRange(100).setUpdateInterval(1));
-	public static final RegistryObject<EntityType<EntityOarfishBody>> OARFISH_BODY = registerEntity("oarfish_body", createBuilder(EntityOarfishBody::new, MobCategory.WATER_AMBIENT).sized(1.3F, 0.8F).setTrackingRange(100).setUpdateInterval(1));
-	public static final RegistryObject<EntityType<EntityOarfishTail>> OARFISH_TAIL = registerEntity("oarfish_tail", createBuilder(EntityOarfishTail::new, MobCategory.WATER_AMBIENT).sized(1.3F, 0.625F).setTrackingRange(100).setUpdateInterval(1));
+	public static final RegistryObject<EntityType<EntityGreatWhiteShark>> GREAT_WHITE_SHARK = registerEntity("great_white_shark", createBuilder(EntityGreatWhiteShark::new, MobCategory.WATER_CREATURE).sized(2.0F, 1.6F));
+	public static final RegistryObject<EntityType<EntityCrab>> CRAB = registerEntity("crab", createBuilder(EntityCrab::new, MobCategory.WATER_CREATURE).sized(0.4F, 0.3F));
+	public static final RegistryObject<EntityType<EntityPorbeagleShark>> PORBEAGLE_SHARK = registerEntity("porbeagle_shark", createBuilder(EntityPorbeagleShark::new, MobCategory.WATER_CREATURE).sized(1.125F, 0.875F));
+	public static final RegistryObject<EntityType<EntityTuna>> TUNA = registerEntity("tuna", createBuilder(EntityTuna::new, MobCategory.WATER_CREATURE).sized(1.0F, 1.0F));
+	public static final RegistryObject<EntityType<EntityDolphinfish>> DOLPHINFISH = registerEntity("dolphinfish", createBuilder(EntityDolphinfish::new, MobCategory.WATER_CREATURE).sized(1.0F, 0.6F));
+	public static final RegistryObject<EntityType<EntityHammerheadShark>> HAMMERHEAD_SHARK = registerEntity("hammerhead_shark", createBuilder(EntityHammerheadShark::new, MobCategory.WATER_CREATURE).sized(0.625F, 0.875F));
+	public static final RegistryObject<EntityType<EntityMackerelFish>> MACKEREL_FISH = registerEntity("mackerel_fish", createBuilder(EntityMackerelFish::new, MobCategory.WATER_CREATURE).sized(0.6F, 0.6F).clientTrackingRange(100));
+	public static final RegistryObject<EntityType<EntitySilverPomfretFish>> SILVER_POMFRET_FISH = registerEntity("silver_pomfret_fish", createBuilder(EntitySilverPomfretFish::new, MobCategory.WATER_CREATURE).sized(0.3F, 0.3F).clientTrackingRange(100));
+	public static final RegistryObject<EntityType<EntityLionfish>> LIONFISH = registerEntity("lionfish", createBuilder(EntityLionfish::new, MobCategory.WATER_CREATURE).sized(0.4F, 0.4F));
+	public static final RegistryObject<EntityType<EntityWhaleshark>> WHALESHARK = registerEntity("whaleshark", createBuilder(EntityWhaleshark::new, MobCategory.WATER_CREATURE).sized(3.0F, 2.25F));
+	public static final RegistryObject<EntityType<EntitySailfish>> SAILFISH = registerEntity("sailfish", createBuilder(EntitySailfish::new, MobCategory.WATER_CREATURE).sized(1.125F, 0.8F));
+	public static final RegistryObject<EntityType<EntityGreatHammerheadShark>> GREAT_HAMMERHEAD_SHARK = registerEntity("great_hammerhead_shark", createBuilder(EntityGreatHammerheadShark::new, MobCategory.WATER_CREATURE).sized(2.0F, 1.6F));
+	public static final RegistryObject<EntityType<EntityOarfishHead>> OARFISH_HEAD = registerEntity("oarfish_head", createBuilder(EntityOarfishHead::new, MobCategory.WATER_CREATURE).sized(1.3F, 0.8F).setTrackingRange(100).setUpdateInterval(1));
+	public static final RegistryObject<EntityType<EntityOarfishBody>> OARFISH_BODY = registerEntity("oarfish_body", createBuilder(EntityOarfishBody::new, MobCategory.WATER_CREATURE).sized(1.3F, 0.8F).setTrackingRange(100).setUpdateInterval(1));
+	public static final RegistryObject<EntityType<EntityOarfishTail>> OARFISH_TAIL = registerEntity("oarfish_tail", createBuilder(EntityOarfishTail::new, MobCategory.WATER_CREATURE).sized(1.3F, 0.625F).setTrackingRange(100).setUpdateInterval(1));
 	
 	public static <T extends Entity> EntityType.Builder<T> createBuilder(EntityType.EntityFactory<T> factory, MobCategory category)
 	{

@@ -50,17 +50,17 @@ public class EventHandler
 	@SubscribeEvent
 	public static void onSpawnPlacementRegister(SpawnPlacementRegisterEvent event)
 	{
-    	event.register(OceanicEntities.GREAT_WHITE_SHARK.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EntityGreatWhiteShark::checkFishSpawnRules, Operation.AND);
-    	event.register(OceanicEntities.CRAB.get(), SpawnPlacements.Type.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EntityCrab::checkCrabSpawnRules, Operation.AND);
-    	event.register(OceanicEntities.PORBEAGLE_SHARK.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EntityPorbeagleShark::checkFishSpawnRules, Operation.AND);
-    	event.register(OceanicEntities.TUNA.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EntityTuna::checkFishSpawnRules, Operation.AND);
-    	event.register(OceanicEntities.DOLPHINFISH.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EntityDolphinfish::checkFishSpawnRules, Operation.AND);
-    	event.register(OceanicEntities.HAMMERHEAD_SHARK.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EntityHammerheadShark::checkFishSpawnRules, Operation.AND);
-    	event.register(OceanicEntities.MACKEREL_FISH.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EntityMackerelFish::checkFishSpawnRules, Operation.AND);
-    	event.register(OceanicEntities.SILVER_POMFRET_FISH.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EntitySilverPomfretFish::checkFishSpawnRules, Operation.AND);
-    	event.register(OceanicEntities.LIONFISH.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EntityLionfish::checkFishSpawnRules, Operation.AND);
-    	event.register(OceanicEntities.WHALESHARK.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EntityWhaleshark::checkFishSpawnRules, Operation.AND);
-    	event.register(OceanicEntities.SAILFISH.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EntitySailfish::checkFishSpawnRules, Operation.AND);
-    	event.register(OceanicEntities.GREAT_HAMMERHEAD_SHARK.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EntityGreatHammerheadShark::checkFishSpawnRules, Operation.AND);
+    	event.register(OceanicEntities.GREAT_WHITE_SHARK.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.WORLD_SURFACE, EntityGreatWhiteShark::checkFishSpawnRules, Operation.REPLACE);
+    	event.register(OceanicEntities.CRAB.get(), SpawnPlacements.Type.NO_RESTRICTIONS, Heightmap.Types.WORLD_SURFACE, EntityCrab::checkCrabSpawnRules, Operation.REPLACE);
+    	event.register(OceanicEntities.PORBEAGLE_SHARK.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.WORLD_SURFACE, EntityPorbeagleShark::checkFishSpawnRules, Operation.REPLACE);
+    	event.register(OceanicEntities.TUNA.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.WORLD_SURFACE, EntityTuna::checkFishSpawnRules, Operation.REPLACE);
+    	event.register(OceanicEntities.DOLPHINFISH.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.WORLD_SURFACE, EntityDolphinfish::checkFishSpawnRules, Operation.REPLACE);
+    	event.register(OceanicEntities.HAMMERHEAD_SHARK.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.WORLD_SURFACE, EntityHammerheadShark::checkFishSpawnRules, Operation.REPLACE);
+    	event.register(OceanicEntities.MACKEREL_FISH.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.WORLD_SURFACE, EntityMackerelFish::checkFishSpawnRules, Operation.REPLACE);
+    	event.register(OceanicEntities.SILVER_POMFRET_FISH.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.WORLD_SURFACE, EntitySilverPomfretFish::checkFishSpawnRules, Operation.REPLACE);
+    	event.register(OceanicEntities.LIONFISH.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.WORLD_SURFACE, EntityLionfish::checkFishSpawnRules, Operation.REPLACE);
+    	event.register(OceanicEntities.WHALESHARK.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.WORLD_SURFACE, EntityWhaleshark::checkFishSpawnRules, Operation.REPLACE);
+    	event.register(OceanicEntities.SAILFISH.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.WORLD_SURFACE, EntitySailfish::checkFishSpawnRules, Operation.REPLACE);
+    	event.register(OceanicEntities.GREAT_HAMMERHEAD_SHARK.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.WORLD_SURFACE, EntityGreatHammerheadShark::checkFishSpawnRules, Operation.REPLACE);
 	}
 }
