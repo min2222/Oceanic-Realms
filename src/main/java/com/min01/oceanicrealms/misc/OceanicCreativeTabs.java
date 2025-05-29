@@ -15,7 +15,7 @@ public class OceanicCreativeTabs
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TAB = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, OceanicRealms.MODID);
 
     public static final RegistryObject<CreativeModeTab> OCEANIC_REALMS = CREATIVE_MODE_TAB.register("oceanicrealms", () -> CreativeModeTab.builder()
-    		.title(Component.translatable("itemGroup.oceanicrealms.oceanicrealms"))
+    		.title(Component.translatable("itemGroup.oceanicrealms"))
     		.icon(() -> new ItemStack(OceanicItems.CRAB_CLAW.get()))
     		.displayItems((enabledFeatures, output) -> 
     		{
