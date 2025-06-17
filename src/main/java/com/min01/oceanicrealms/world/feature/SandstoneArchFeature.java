@@ -4,47 +4,63 @@ import com.min01.oceanicrealms.block.OceanicBlocks;
 import com.mojang.serialization.Codec;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.SectionPos;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.block.Mirror;
-import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
-public class SandstoneArchFeature extends Feature<ListFeatureConfiguration>
+public class SandstoneArchFeature extends Feature<NoneFeatureConfiguration>
 {
-	public SandstoneArchFeature(Codec<ListFeatureConfiguration> p_65786_) 
+	public SandstoneArchFeature(Codec<NoneFeatureConfiguration> p_65786_) 
 	{
 		super(p_65786_);
 	}
 
 	@Override
-	public boolean place(FeaturePlaceContext<ListFeatureConfiguration> p_159749_)
+	public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
 	{
-		WorldGenLevel level = p_159749_.level();
-		BlockPos pos = p_159749_.origin();
-		RandomSource random = p_159749_.random();
-		if(level.getBlockState(pos.below()).is(OceanicBlocks.SEDIMENTARY_SANDSTONE.get()))
-		{
-			if(random.nextFloat() <= 0.3F)
-			{
-		    	if(!level.hasChunk(SectionPos.blockToSectionCoord(pos.getX()), SectionPos.blockToSectionCoord(pos.getZ()))) 
-		    	{
-		    	    return false;
-		    	}
-				ResourceLocation location = p_159749_.config().structures.get(random.nextInt(3));
-				StructureTemplateManager manager = level.getLevel().getStructureManager();
-				StructureTemplate template = manager.getOrCreate(location);
-		    	StructurePlaceSettings settings = (new StructurePlaceSettings()).setMirror(Mirror.values()[random.nextInt(2)]).setRotation(Rotation.getRandom(random));
-		    	template.placeInWorld(level, pos, pos, settings, random, 3);
-				return true;
-			}
-		}
-		return false;
+	    WorldGenLevel level = context.level();
+	    BlockPos origin = context.origin();
+	    BlockState state = OceanicBlocks.SEDIMENTARY_SANDSTONE.get().defaultBlockState();
+	    RandomSource random = level.getRandom();
+
+	    int archRadius = 4;
+	    int archHalfWidth = 2;
+	    int archThickness = 3;
+	    int archLength = 15;
+
+	    int cx = origin.getX();
+	    int cy = level.getHeightmapPos(Heightmap.Types.OCEAN_FLOOR_WG, origin).getY();
+	    int cz = origin.getZ();
+
+	    double angle = random.nextDouble() * 2 * Math.PI;
+	    double cos = Math.cos(angle);
+	    double sin = Math.sin(angle);
+
+	    for(double archStep = -archLength / 2.0; archStep <= archLength / 2.0; archStep += 0.25)
+	    {
+	        double normX = archStep * archRadius / (archLength / 2.0);
+	        double archY = Math.sqrt(Math.max(0, archRadius * archRadius - normX * normX));
+	        int y = cy + (int)Math.round(archY);
+	        for(int dx = -archHalfWidth; dx <= archHalfWidth; dx++) 
+	        {
+	            for(int dy = 0; dy < archThickness; dy++) 
+	            {
+	                int worldX = cx + (int)Math.round(archStep * cos - dx * sin);
+	                int worldZ = cz + (int)Math.round(archStep * sin + dx * cos);
+	                int worldY = y + dy;
+	                BlockPos pos = new BlockPos(worldX, worldY, worldZ);
+	                if(level.getBlockState(pos).is(Blocks.WATER))
+	                {
+	                    level.setBlock(pos, state, 2);
+	                }
+	            }
+	        }
+	    }
+	    return true;
 	}
 }

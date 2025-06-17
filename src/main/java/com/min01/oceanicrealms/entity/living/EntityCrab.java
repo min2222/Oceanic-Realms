@@ -69,12 +69,6 @@ public class EntityCrab extends AbstractAnimatableCreature
 		this.setMaxUpStep(1.5F);
 		this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
 	}
-	
-    @Override
-    public boolean removeWhenFarAway(double p_27598_)
-    {
-        return false;
-    }
     
     @Override
     public boolean checkSpawnObstruction(LevelReader p_21433_) 

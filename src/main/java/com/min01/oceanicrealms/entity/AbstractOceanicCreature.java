@@ -53,12 +53,6 @@ public abstract class AbstractOceanicCreature extends AbstractAnimatableWaterAni
     {
     	return new WaterBoundPathNavigation(this, p_27480_);
     }
-    
-    @Override
-    public boolean removeWhenFarAway(double p_21542_) 
-    {
-    	return false;
-    }
 	
 	@Override
 	public void baseTick() 
