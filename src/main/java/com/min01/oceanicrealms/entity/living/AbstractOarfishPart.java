@@ -90,7 +90,7 @@ public abstract class AbstractOarfishPart extends AbstractOwnableOceanicCreature
 				if(worm != null)
 				{
 					Vec3 pos = head.position().add(worm.position());
-					Vec2 rot = worm.getRot(1.0F);
+					Vec2 rot = worm.getRot(6.5F);
 					this.setPos(pos);
 					this.setXRot(rot.x);
 					this.setYRot(rot.y);
@@ -104,6 +104,12 @@ public abstract class AbstractOarfishPart extends AbstractOwnableOceanicCreature
 				}
 			}
 		}
+	}
+	
+	@Override
+	public Vec3 getLookAngle() 
+	{
+		return this.calculateViewVector(this.getXRot(), this.yHeadRot);
 	}
 	
 	@Override

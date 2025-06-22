@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.min01.oceanicrealms.entity.ai.goal.SharkAttackGoal;
 import com.min01.oceanicrealms.entity.ai.goal.SharkEatingGoal;
-import com.min01.oceanicrealms.sound.OceanicSounds;
 import com.min01.oceanicrealms.util.OceanicUtil;
 
 import net.minecraft.commands.arguments.EntityAnchorArgument.Anchor;
@@ -12,6 +11,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -69,7 +69,7 @@ public abstract class AbstractOceanicShark extends AbstractOceanicCreature imple
 				ItemEntity item = list.get(0);
 				this.setAnimationState(2);
 				this.setAnimationTick(20);
-				this.playSound(OceanicSounds.SHARK_EATING.get());
+				this.playSound(SoundEvents.PLAYER_BURP);
 				item.discard();
 			}
 		}

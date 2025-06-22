@@ -18,7 +18,6 @@ public class BoidGoal extends Goal
     private final Mob mob;
     private int timeToFindNearbyEntities;
     private List<? extends Mob> nearbyMobs;
-    private boolean enabled;
 
     public BoidGoal(Mob mob, float separationInfluence, float separationRange, float alignmentInfluence, float cohesionInfluence)
     {
@@ -48,8 +47,7 @@ public class BoidGoal extends Goal
         {
         	this.nearbyMobs.removeIf(LivingEntity::isDeadOrDying);
         }
-    	this.enabled = !this.nearbyMobs.isEmpty();
-    	if(!this.enabled)
+    	if(this.nearbyMobs.isEmpty())
     		return;
         this.mob.addDeltaMovement(this.cohesion());
         this.mob.addDeltaMovement(this.alignment());

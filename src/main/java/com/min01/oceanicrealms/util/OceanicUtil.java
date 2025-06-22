@@ -18,6 +18,9 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.ai.util.DefaultRandomPos;
+import net.minecraft.world.entity.animal.AbstractFish;
 import net.minecraft.world.entity.animal.Dolphin;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.entity.LevelEntityGetter;
@@ -31,6 +34,19 @@ public class OceanicUtil
 {
 	public static final Predicate<LivingEntity> TARGET_PREDICATE = t -> t.isInWater() && !(t instanceof Dolphin) && !(t instanceof EntityWhaleshark) && !(t instanceof IAvoid);
 	public static final Predicate<LivingEntity> TARGET_PREDICATE2 = t -> t.isInWater() && !(t instanceof EntityTuna) && !(t instanceof EntityDolphinfish) && !(t instanceof Dolphin) && !(t instanceof EntityWhaleshark) && !(t instanceof IAvoid);
+	
+	public static void fishPanic(PathfinderMob mob, Vec3 sourcePos, float speed)
+	{
+        Vec3 vec3 = DefaultRandomPos.getPosAway(mob, 16, 7, sourcePos);
+        if(vec3 != null)
+        {
+            mob.getNavigation().moveTo(vec3.x, vec3.y, vec3.z, speed);
+            if(mob instanceof AbstractFish fish)
+            {
+            	fish.getMoveControl().setWantedPosition(vec3.x, vec3.y, vec3.z, speed);
+            }
+        }
+	}
 	
 	public static Vec3 fromToVector(Vec3 from, Vec3 to, float scale)
 	{
