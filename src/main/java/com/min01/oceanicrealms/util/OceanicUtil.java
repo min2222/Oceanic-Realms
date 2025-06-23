@@ -13,6 +13,7 @@ import com.min01.oceanicrealms.entity.living.EntityTuna;
 import com.min01.oceanicrealms.entity.living.EntityWhaleshark;
 
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.commands.arguments.EntityAnchorArgument.Anchor;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
@@ -43,7 +44,8 @@ public class OceanicUtil
             mob.getNavigation().moveTo(vec3.x, vec3.y, vec3.z, speed);
             if(mob instanceof AbstractFish fish)
             {
-            	fish.getMoveControl().setWantedPosition(vec3.x, vec3.y, vec3.z, speed);
+            	fish.lookAt(Anchor.EYES, vec3);
+            	fish.setDeltaMovement(fromToVector(fish.position(), vec3, 0.35F));
             }
         }
 	}

@@ -42,7 +42,7 @@ public class BoidGoal extends Goal
         {
             this.timeToFindNearbyEntities = this.adjustedTickDelay(40);
             this.nearbyMobs = getNearbyEntitiesOfSameClass(this.mob);
-        } 
+        }
         else
         {
         	this.nearbyMobs.removeIf(LivingEntity::isDeadOrDying);

@@ -11,6 +11,7 @@ import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 public class AvoidEntitySwimmingGoal<T extends LivingEntity> extends AvoidEntityGoal<T>
 {
 	private final TargetingConditions avoidEntityTargeting;
+    private int timeToFindNearbyEntities;
 	
 	public AvoidEntitySwimmingGoal(PathfinderMob p_25027_, Class<T> p_25028_, float p_25029_, double p_25030_, double p_25031_) 
 	{
@@ -21,17 +22,19 @@ public class AvoidEntitySwimmingGoal<T extends LivingEntity> extends AvoidEntity
 	@Override
 	public boolean canUse() 
 	{
-		this.toAvoid = this.mob.level.getNearestEntity(this.mob.level.getEntitiesOfClass(this.avoidClass, this.mob.getBoundingBox().inflate(this.maxDist), (p_148078_) -> 
+        if(--this.timeToFindNearbyEntities <= 0)
+        {
+            this.timeToFindNearbyEntities = this.adjustedTickDelay(40);
+    		this.toAvoid = this.mob.level.getNearestEntity(this.mob.level.getEntitiesOfClass(this.avoidClass, this.mob.getBoundingBox().inflate(this.maxDist), (p_148078_) -> 
+    		{
+    			return true;
+    		}), this.avoidEntityTargeting, this.mob, this.mob.getX(), this.mob.getY(), this.mob.getZ());
+        }
+        else if(this.toAvoid != null)
 		{
-			return true;
-		}), this.avoidEntityTargeting, this.mob, this.mob.getX(), this.mob.getY(), this.mob.getZ());
-		return this.toAvoid != null;
-	}
-	
-	@Override
-	public void start()
-	{
-		super.start();
-		OceanicUtil.fishPanic(this.mob, this.toAvoid.position(), 0.8F);
+			OceanicUtil.fishPanic(this.mob, this.toAvoid.position(), 0.8F);
+			this.toAvoid = null;
+		}
+		return false;
 	}
 }
