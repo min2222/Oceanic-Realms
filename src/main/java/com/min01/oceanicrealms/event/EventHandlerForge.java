@@ -32,18 +32,18 @@ public class EventHandlerForge
 				if(!(waterAnimal instanceof EntityLionfish))
 				{
 					waterAnimal.goalSelector.addGoal(0, new AvoidEntitySwimmingGoal<>(waterAnimal, EntityLionfish.class, 8.0F, speed, speed));
-				}
-				if(!(waterAnimal instanceof EntityGreatWhiteShark) && !(waterAnimal instanceof EntityGreatHammerheadShark) && !(waterAnimal instanceof EntityWhaleshark))
-				{
-					waterAnimal.goalSelector.addGoal(0, new AvoidEntitySwimmingGoal<>(waterAnimal, EntityGreatWhiteShark.class, 8.0F, speed, speed));
-					waterAnimal.goalSelector.addGoal(0, new AvoidEntitySwimmingGoal<>(waterAnimal, EntityGreatHammerheadShark.class, 8.0F, speed, speed));
-					if(!(waterAnimal instanceof EntitySailfish))
+					if(!(waterAnimal instanceof EntityGreatWhiteShark) && !(waterAnimal instanceof EntityGreatHammerheadShark) && !(waterAnimal instanceof EntityWhaleshark))
 					{
-						waterAnimal.goalSelector.addGoal(0, new AvoidEntitySwimmingGoal<>(waterAnimal, EntitySailfish.class, 8.0F, speed, speed));
-					}
-					if(!(waterAnimal instanceof AbstractOceanicShark))
-					{
-						waterAnimal.goalSelector.addGoal(0, new AvoidEntitySwimmingGoal<>(waterAnimal, AbstractOceanicShark.class, 8.0F, speed, speed));
+						waterAnimal.goalSelector.addGoal(0, new AvoidEntitySwimmingGoal<>(waterAnimal, EntityGreatWhiteShark.class, 8.0F, speed, speed));
+						waterAnimal.goalSelector.addGoal(0, new AvoidEntitySwimmingGoal<>(waterAnimal, EntityGreatHammerheadShark.class, 8.0F, speed, speed));
+						if(!(waterAnimal instanceof EntitySailfish))
+						{
+							waterAnimal.goalSelector.addGoal(0, new AvoidEntitySwimmingGoal<>(waterAnimal, EntitySailfish.class, 8.0F, speed, speed));
+						}
+						if(!(waterAnimal instanceof AbstractOceanicShark))
+						{
+							waterAnimal.goalSelector.addGoal(0, new AvoidEntitySwimmingGoal<>(waterAnimal, AbstractOceanicShark.class, 8.0F, speed, speed));
+						}
 					}
 				}
 			}

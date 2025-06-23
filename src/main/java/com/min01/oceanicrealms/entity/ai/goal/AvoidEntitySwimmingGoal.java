@@ -25,10 +25,13 @@ public class AvoidEntitySwimmingGoal<T extends LivingEntity> extends AvoidEntity
 		{
 			return true;
 		}), this.avoidEntityTargeting, this.mob, this.mob.getX(), this.mob.getY(), this.mob.getZ());
-		if(this.toAvoid != null)
-		{
-			OceanicUtil.fishPanic(this.mob, this.toAvoid.position(), 0.8F);
-		}
-		return false;
+		return this.toAvoid != null;
+	}
+	
+	@Override
+	public void start()
+	{
+		super.start();
+		OceanicUtil.fishPanic(this.mob, this.toAvoid.position(), 0.8F);
 	}
 }
