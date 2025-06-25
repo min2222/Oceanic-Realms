@@ -12,11 +12,13 @@ public class AvoidEntitySwimmingGoal<T extends LivingEntity> extends AvoidEntity
 {
 	private final TargetingConditions avoidEntityTargeting;
     private int timeToFindNearbyEntities;
+    private double speed;
 	
 	public AvoidEntitySwimmingGoal(PathfinderMob p_25027_, Class<T> p_25028_, float p_25029_, double p_25030_, double p_25031_) 
 	{
 		super(p_25027_, p_25028_, p_25029_, p_25030_, p_25031_);
 		this.avoidEntityTargeting = TargetingConditions.forCombat().range((double)p_25029_).selector(EntitySelector.NO_CREATIVE_OR_SPECTATOR::test);
+		this.speed = p_25030_;
 	}
 	
 	@Override
@@ -32,8 +34,7 @@ public class AvoidEntitySwimmingGoal<T extends LivingEntity> extends AvoidEntity
         }
         else if(this.toAvoid != null)
 		{
-			OceanicUtil.fishPanic(this.mob, this.toAvoid.position(), 0.8F);
-			this.toAvoid = null;
+			OceanicUtil.fishPanic(this.mob, this.toAvoid.position(), this.speed * 2.0F);
 		}
 		return false;
 	}

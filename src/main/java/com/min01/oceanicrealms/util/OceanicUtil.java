@@ -36,7 +36,7 @@ public class OceanicUtil
 	public static final Predicate<LivingEntity> TARGET_PREDICATE = t -> t.isInWater() && !(t instanceof Dolphin) && !(t instanceof EntityWhaleshark) && !(t instanceof IAvoid);
 	public static final Predicate<LivingEntity> TARGET_PREDICATE2 = t -> t.isInWater() && !(t instanceof EntityTuna) && !(t instanceof EntityDolphinfish) && !(t instanceof Dolphin) && !(t instanceof EntityWhaleshark) && !(t instanceof IAvoid);
 	
-	public static void fishPanic(PathfinderMob mob, Vec3 sourcePos, float speed)
+	public static void fishPanic(PathfinderMob mob, Vec3 sourcePos, double speed)
 	{
         Vec3 vec3 = DefaultRandomPos.getPosAway(mob, 16, 7, sourcePos);
         if(vec3 != null)

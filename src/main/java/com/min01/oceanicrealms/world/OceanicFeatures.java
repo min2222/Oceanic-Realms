@@ -26,7 +26,7 @@ public class OceanicFeatures
 	public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(ForgeRegistries.FEATURES, OceanicRealms.MODID);
 	
     public static final RegistryObject<Feature<ListFeatureConfiguration>> SANDSTONE_PILLAR = FEATURES.register("sandstone_pillar", () -> new SandstonePillarFeature(ListFeatureConfiguration.CODEC));
-    public static final RegistryObject<Feature<NoneFeatureConfiguration>> SANDSTONE_ARCH = FEATURES.register("sandstone_arch", () -> new SandstoneArchFeature(NoneFeatureConfiguration.CODEC));
+    public static final RegistryObject<Feature<ListFeatureConfiguration>> SANDSTONE_ARCH = FEATURES.register("sandstone_arch", () -> new SandstoneArchFeature(ListFeatureConfiguration.CODEC));
     public static final RegistryObject<Feature<ListFeatureConfiguration>> REEF_ROCK_BEACH = FEATURES.register("reef_rock_beach", () -> new ReefRockBeachFeature(ListFeatureConfiguration.CODEC));
     public static final RegistryObject<Feature<ListFeatureConfiguration>> REEF_ROCK_SHALLOW = FEATURES.register("reef_rock_shallow", () -> new ReefRockShallowFeature(ListFeatureConfiguration.CODEC));
     public static final RegistryObject<Feature<ListFeatureConfiguration>> REEF_ROCK_DEEP = FEATURES.register("reef_rock_deep", () -> new ReefRockDeepFeature(ListFeatureConfiguration.CODEC));

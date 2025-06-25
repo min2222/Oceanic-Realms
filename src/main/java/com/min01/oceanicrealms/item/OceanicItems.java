@@ -41,10 +41,10 @@ public class OceanicItems
 	public static final RegistryObject<Item> CRAB_CLAW = ITEMS.register("crab_claw", () -> new Item(new Item.Properties()));
 	public static final RegistryObject<Item> COOKED_CRAB_CLAW = ITEMS.register("cooked_crab_claw", () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(2).saturationMod(2.5F).build())));
 	
-	public static final RegistryObject<Item> RAW_TUNA = ITEMS.register("raw_tuna", () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(2).saturationMod(3.0F).build())));
-	public static final RegistryObject<Item> RAW_DOLPHINFISH = ITEMS.register("raw_dolphinfish", () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(2).saturationMod(3.0F).build())));
-	public static final RegistryObject<Item> RAW_SAILFISH = ITEMS.register("raw_sailfish", () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(2).saturationMod(3.0F).build())));
-	public static final RegistryObject<Item> FISH_FILLET = ITEMS.register("fish_fillet", () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(3).saturationMod(4.0F).build())));
+	public static final RegistryObject<Item> RAW_TUNA = ITEMS.register("raw_tuna", () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(5).saturationMod(3.0F).build())));
+	public static final RegistryObject<Item> RAW_DOLPHINFISH = ITEMS.register("raw_dolphinfish", () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(5).saturationMod(3.0F).build())));
+	public static final RegistryObject<Item> RAW_SAILFISH = ITEMS.register("raw_sailfish", () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(5).saturationMod(3.0F).build())));
+	public static final RegistryObject<Item> FISH_FILLET = ITEMS.register("fish_fillet", () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(10).saturationMod(4.0F).build())));
 	public static final RegistryObject<Item> MACKEREL_FISH = ITEMS.register("mackerel_fish", () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(2).saturationMod(0.1F).build())));
 	public static final RegistryObject<Item> COOKED_MACKEREL_FISH = ITEMS.register("cooked_mackerel_fish", () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(6).saturationMod(0.8F).build())));
 	public static final RegistryObject<Item> SILVER_POMFRET_FISH = ITEMS.register("silver_pomfret_fish", () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(2).saturationMod(0.1F).build())));
