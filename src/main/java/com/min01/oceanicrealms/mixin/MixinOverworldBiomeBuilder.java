@@ -30,13 +30,12 @@ public class MixinOverworldBiomeBuilder
 	private Climate.Parameter[] temperatures;
 	
 	@Unique
-	private final Climate.Parameter sandstoneOceanContinentalness = Climate.Parameter.span(-1.0F, -0.255F);
+	private final Climate.Parameter sandstoneOceanContinentalness = Climate.Parameter.span(-1.05F, -0.455F);
 
-	//FIXME due to some parameter conflicts, biome doesn't generated with large biome world preset
     @Inject(method = "addOffCoastBiomes", at = @At("HEAD"), cancellable = true)
     private void addOffCoastBiomes(Consumer<Pair<Climate.ParameterPoint, ResourceKey<Biome>>> p_187196_, CallbackInfo ci)
     {
-    	this.addSurfaceBiome(p_187196_, this.temperatures[4], this.FULL_RANGE, this.sandstoneOceanContinentalness, this.FULL_RANGE, this.FULL_RANGE, 0.0F, OceanicBiomes.SANDSTONE_OCEAN);
+    	this.addSurfaceBiome(p_187196_, this.temperatures[2], this.FULL_RANGE, this.sandstoneOceanContinentalness, this.FULL_RANGE, this.FULL_RANGE, 0.0F, OceanicBiomes.SANDSTONE_OCEAN);
     }
     
     @Shadow

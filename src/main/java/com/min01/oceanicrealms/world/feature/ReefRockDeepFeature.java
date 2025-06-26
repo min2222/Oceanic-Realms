@@ -50,10 +50,6 @@ public class ReefRockDeepFeature extends Feature<ListFeatureConfiguration>
 			    	
     		    	for(StructureTemplate.StructureBlockInfo info : StructureTemplate.processBlockInfos(level, pos, pos, settings, list, template)) 
     		    	{
-    		    	    if(info.nbt() != null) 
-    		    	    {
-    		    	        continue;
-    		    	    }
     		    	    BlockPos blockPos = info.pos();
     		    	    BlockState state = info.state().mirror(settings.getMirror()).rotate(settings.getRotation());
     		    	    LevelChunkSection section = bulk.getSection(blockPos);
@@ -62,7 +58,7 @@ public class ReefRockDeepFeature extends Feature<ListFeatureConfiguration>
                         int y = SectionPos.sectionRelative(blockPos.getY());
                         int z = SectionPos.sectionRelative(blockPos.getZ());
                         
-    		    	    if(section != null)
+    		    	    if(section != null && level.getBlockEntity(blockPos) == null)
     		    	    {
     		    	    	section.setBlockState(x, y, z, state, false);
     		    	    }

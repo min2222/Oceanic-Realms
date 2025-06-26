@@ -12,6 +12,7 @@ public class AvoidEntitySwimmingGoal<T extends LivingEntity> extends AvoidEntity
 {
 	private final TargetingConditions avoidEntityTargeting;
     private int timeToFindNearbyEntities;
+    private int time = this.adjustedTickDelay(40);
     private double speed;
 	
 	public AvoidEntitySwimmingGoal(PathfinderMob p_25027_, Class<T> p_25028_, float p_25029_, double p_25030_, double p_25031_) 
@@ -34,7 +35,17 @@ public class AvoidEntitySwimmingGoal<T extends LivingEntity> extends AvoidEntity
         }
         else if(this.toAvoid != null)
 		{
-			OceanicUtil.fishPanic(this.mob, this.toAvoid.position(), this.speed * 2.0F);
+        	if(this.time <= 0)
+        	{
+        		this.toAvoid = null;
+        		this.mob.getNavigation().stop();
+        		this.time = this.adjustedTickDelay(40);
+        	}
+        	else
+        	{
+        		--this.time;
+            	OceanicUtil.fishPanic(this.mob, this.toAvoid.position(), this.speed * 1.7F);
+        	}
 		}
 		return false;
 	}
