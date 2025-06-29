@@ -28,23 +28,27 @@ public class AvoidEntitySwimmingGoal<T extends LivingEntity> extends AvoidEntity
         if(--this.timeToFindNearbyEntities <= 0)
         {
             this.timeToFindNearbyEntities = this.adjustedTickDelay(40);
-    		this.toAvoid = this.mob.level.getNearestEntity(this.mob.level.getEntitiesOfClass(this.avoidClass, this.mob.getBoundingBox().inflate(this.maxDist), (p_148078_) -> 
+            T entity = this.mob.level.getNearestEntity(this.mob.level.getEntitiesOfClass(this.avoidClass, this.mob.getBoundingBox().inflate(this.maxDist), (p_148078_) -> 
     		{
     			return true;
     		}), this.avoidEntityTargeting, this.mob, this.mob.getX(), this.mob.getY(), this.mob.getZ());
+    		if(entity != null)
+    		{
+    			this.toAvoid = entity;
+    		}
         }
         else if(this.toAvoid != null)
 		{
-        	if(this.time <= 0)
-        	{
-        		this.toAvoid = null;
-        		this.mob.getNavigation().stop();
-        		this.time = this.adjustedTickDelay(40);
-        	}
-        	else
+        	if(this.time > 0)
         	{
         		--this.time;
             	OceanicUtil.fishPanic(this.mob, this.toAvoid.position(), this.speed * 1.7F);
+        	}
+        	else
+        	{
+        		this.mob.getNavigation().stop();
+        		this.toAvoid = null;
+        		this.time = this.adjustedTickDelay(40);
         	}
 		}
 		return false;
