@@ -33,6 +33,7 @@ import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 
 public class OceanicUtil
 {
+	public static final Method GET_ENTITY = ObfuscationReflectionHelper.findMethod(Level.class, "m_142646_");
 	public static final Predicate<LivingEntity> TARGET_PREDICATE = t -> t.isInWater() && !(t instanceof Dolphin) && !(t instanceof EntityWhaleshark) && !(t instanceof IAvoid);
 	public static final Predicate<LivingEntity> TARGET_PREDICATE2 = t -> t.isInWater() && !(t instanceof EntityTuna) && !(t instanceof EntityDolphinfish) && !(t instanceof Dolphin) && !(t instanceof EntityWhaleshark) && !(t instanceof IAvoid);
 	
@@ -81,10 +82,9 @@ public class OceanicUtil
 	@SuppressWarnings("unchecked")
 	public static Entity getEntityByUUID(Level level, UUID uuid)
 	{
-		Method m = ObfuscationReflectionHelper.findMethod(Level.class, "m_142646_");
 		try 
 		{
-			LevelEntityGetter<Entity> entities = (LevelEntityGetter<Entity>) m.invoke(level);
+			LevelEntityGetter<Entity> entities = (LevelEntityGetter<Entity>) GET_ENTITY.invoke(level);
 			return entities.get(uuid);
 		}
 		catch (Exception e) 

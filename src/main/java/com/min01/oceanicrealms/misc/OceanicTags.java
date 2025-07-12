@@ -17,9 +17,9 @@ public class OceanicTags
 		public static final TagKey<Biome> WARM_OCEANS = create("warm_oceans");
 		public static final TagKey<Biome> OCEANS = create("oceans");
 		
-		private static TagKey<Biome> create(String p_203849_) 
+		private static TagKey<Biome> create(String name) 
 		{
-			return TagKey.create(Registries.BIOME, new ResourceLocation(OceanicRealms.MODID, p_203849_));
+			return TagKey.create(Registries.BIOME, new ResourceLocation(OceanicRealms.MODID, name));
 		}
 	}
 }

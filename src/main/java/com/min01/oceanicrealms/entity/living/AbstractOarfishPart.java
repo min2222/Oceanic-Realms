@@ -6,16 +6,13 @@ import java.util.UUID;
 import javax.annotation.Nullable;
 
 import com.min01.oceanicrealms.entity.AbstractOwnableOceanicCreature;
-import com.min01.oceanicrealms.misc.WormChain.Worm;
+import com.min01.oceanicrealms.misc.KinematicChain.ChainSegment;
 import com.min01.oceanicrealms.util.OceanicUtil;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.tags.DamageTypeTags;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.WaterAnimal;
@@ -49,10 +46,7 @@ public abstract class AbstractOarfishPart extends AbstractOwnableOceanicCreature
 	@Override
 	protected void registerGoals() 
 	{
-		if(this.isHead())
-		{
-			super.registerGoals();
-		}
+		
 	}
 	
 	@Override
@@ -65,11 +59,9 @@ public abstract class AbstractOarfishPart extends AbstractOwnableOceanicCreature
 	}
 	
 	@Override
-	public void tick() 
+	public void tick()
 	{
 		super.tick();
-		
-		this.resetFallDistance();
 		
 		if(this.getOwner() != null)
 		{
@@ -84,32 +76,23 @@ public abstract class AbstractOarfishPart extends AbstractOwnableOceanicCreature
 		if(this.getHead() != null)
 		{
 			EntityOarfishHead head = this.getHead();
-			if(head.worms != null)
+			if(head.chain != null)
 			{
-				Worm worm = head.worms[this.getIndex()];
-				if(worm != null)
-				{
-					Vec3 pos = head.position().add(worm.position());
-					Vec2 rot = worm.getRot(6.5F);
-					this.setPos(pos);
-					this.setXRot(rot.x);
-					this.setYRot(rot.y);
-					this.setYHeadRot(rot.y);
-					this.setYBodyRot(rot.y);
-					
-					this.xRotO = rot.x;
-					this.yRotO = rot.y;
-					this.yHeadRotO = rot.y;
-					this.yBodyRotO = rot.y;
-				}
+				ChainSegment segment = head.chain.getSegments()[Math.max(head.chain.getSegments().length - (this.getIndex() + 2), 0)];
+				Vec2 rot = segment.getRot();
+				Vec3 pos = segment.getPos();
+				this.setPos(pos);
+				this.setXRot(rot.x);
+				this.setYRot(rot.y);
+				this.setYBodyRot(rot.y);
+				this.setYHeadRot(rot.y);
+				
+				this.xRotO = rot.x;
+				this.yRotO = rot.y;
+				this.yHeadRotO = rot.y;
+				this.yBodyRotO = rot.y;
 			}
 		}
-	}
-	
-	@Override
-	public Vec3 getLookAngle() 
-	{
-		return this.calculateViewVector(this.getXRot(), this.yHeadRot);
 	}
 	
 	@Override
@@ -136,12 +119,6 @@ public abstract class AbstractOarfishPart extends AbstractOwnableOceanicCreature
 			this.setIndex(p_37262_.getInt("Index"));
 		}
 	}
-    
-    @Override
-    public boolean isInvulnerableTo(DamageSource p_20122_)
-    {
-    	return super.isInvulnerableTo(p_20122_) || p_20122_.is(DamageTypes.IN_WALL) || p_20122_.is(DamageTypeTags.IS_FALL);
-    }
 	
 	public void setHead(EntityOarfishHead head)
 	{

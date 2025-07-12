@@ -5,6 +5,7 @@ import com.min01.oceanicrealms.config.OceanicConfig;
 import com.min01.oceanicrealms.entity.OceanicEntities;
 import com.min01.oceanicrealms.item.OceanicItems;
 import com.min01.oceanicrealms.misc.OceanicCreativeTabs;
+import com.min01.oceanicrealms.misc.OceanicEntityDataSerializers;
 import com.min01.oceanicrealms.network.OceanicNetwork;
 import com.min01.oceanicrealms.world.OceanicFeatures;
 
@@ -30,6 +31,7 @@ public class OceanicRealms
 		OceanicBlocks.BLOCKS.register(bus);
 		OceanicBlocks.BLOCK_ENTITIES.register(bus);
 		OceanicFeatures.FEATURES.register(bus);
+		OceanicEntityDataSerializers.SERIALIZERS.register(bus);
 		
 		OceanicNetwork.registerMessages();
 		ctx.registerConfig(Type.COMMON, OceanicConfig.CONFIG_SPEC, "oceanic-realms.toml");
