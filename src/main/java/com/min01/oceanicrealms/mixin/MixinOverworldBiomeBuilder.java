@@ -29,8 +29,9 @@ public class MixinOverworldBiomeBuilder
 	@Final
 	private Climate.Parameter[] temperatures;
 	
+	//FIXME value conflict with other oceans;
 	@Unique
-	private final Climate.Parameter sandstoneOceanContinentalness = Climate.Parameter.span(-1.05F, -0.455F);
+	private final Climate.Parameter sandstoneOceanContinentalness = Climate.Parameter.span(-1.0F, -0.92F);
 
     @Inject(method = "addOffCoastBiomes", at = @At("HEAD"), cancellable = true)
     private void addOffCoastBiomes(Consumer<Pair<Climate.ParameterPoint, ResourceKey<Biome>>> p_187196_, CallbackInfo ci)
