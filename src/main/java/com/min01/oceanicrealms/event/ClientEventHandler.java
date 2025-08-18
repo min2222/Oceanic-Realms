@@ -56,9 +56,9 @@ public class ClientEventHandler
         BlockEntityRenderers.register(OceanicBlocks.ANIMATABLE_BLOCK_ENTITY.get(), AnimatableBlockRenderer::new);
 		/*try
 		{
-		    AESUtil.encryptFiles(".png");
+		    OceanicUtil.encryptFiles("leiojgwiojg80", "12h92h0twhg9o", ".png");
 		}
-		catch (InvalidKeyException | NoSuchAlgorithmException | IllegalBlockSizeException | BadPaddingException | InvalidAlgorithmParameterException | NoSuchPaddingException | InvalidKeySpecException | IOException e) 
+		catch (Exception e) 
 		{
 		    e.printStackTrace();
 		}*/
