@@ -41,7 +41,20 @@ public class OceanicRealms
 		
 		try
 		{
-			OceanicUtil.load("oceanicrealms.dll");
+			String name = "oceanicrealms";
+	        String os = System.getProperty("os.name").toLowerCase();
+	        if(os.contains("win"))
+	        {
+				OceanicUtil.load(name + ".dll");
+	        }
+	        else if(os.contains("mac")) 
+	        {
+				OceanicUtil.load("lib" + name + ".dylib");
+	        }
+	        else
+	        {
+				OceanicUtil.load("lib" + name + ".so");
+	        }
 		} 
 		catch (IOException e) 
 		{
