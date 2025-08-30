@@ -27,7 +27,7 @@ public class CrabRenderer extends MobRenderer<EntityCrab, ModelCrab>
 	@Override
 	protected int getBlockLightLevel(EntityCrab p_114496_, BlockPos p_114497_) 
 	{
-		return p_114496_.isInWall() ? 15 :  super.getBlockLightLevel(p_114496_, p_114497_);
+		return p_114496_.isInWall() ? 15 : super.getBlockLightLevel(p_114496_, p_114497_);
 	}
 
 	@Override
