@@ -6,8 +6,6 @@ import org.joml.Math;
 
 import com.min01.oceanicrealms.entity.AbstractOceanicCreature;
 import com.min01.oceanicrealms.entity.ai.goal.BoidGoal;
-import com.min01.oceanicrealms.entity.ai.goal.LimitSpeedAndLookInVelocityDirectionGoal;
-import com.min01.oceanicrealms.entity.ai.goal.StayInWaterGoal;
 import com.min01.oceanicrealms.item.OceanicItems;
 import com.min01.oceanicrealms.util.OceanicUtil;
 
@@ -54,9 +52,7 @@ public class EntityMackerelFish extends AbstractOceanicCreature implements Bucke
     protected void registerGoals() 
     {
     	super.registerGoals();
-        this.goalSelector.addGoal(5, new BoidGoal(this, 0.1F, 0.9F, 8 / 20.0F, 1 / 20.0F));
-        this.goalSelector.addGoal(3, new StayInWaterGoal(this));
-        this.goalSelector.addGoal(2, new LimitSpeedAndLookInVelocityDirectionGoal(this, 0.2F, 0.3F));
+        this.goalSelector.addGoal(5, new BoidGoal(this, 0.1F, 0.9F, 0.2F, 0.3F));
     }
     
     @Override

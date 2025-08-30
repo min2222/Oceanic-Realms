@@ -2,8 +2,6 @@ package com.min01.oceanicrealms.entity.living;
 
 import com.min01.oceanicrealms.entity.AbstractOceanicCreature;
 import com.min01.oceanicrealms.entity.ai.goal.BoidGoal;
-import com.min01.oceanicrealms.entity.ai.goal.LimitSpeedAndLookInVelocityDirectionGoal;
-import com.min01.oceanicrealms.entity.ai.goal.StayInWaterGoal;
 import com.min01.oceanicrealms.misc.OceanicTags;
 import com.min01.oceanicrealms.util.OceanicUtil;
 
@@ -45,9 +43,7 @@ public class EntityTuna extends AbstractOceanicCreature
     protected void registerGoals() 
     {
     	super.registerGoals();
-        this.goalSelector.addGoal(5, new BoidGoal(this, 0.1F, 2.5F, 8 / 20.0F, 1 / 20.0F));
-        this.goalSelector.addGoal(3, new StayInWaterGoal(this));
-        this.goalSelector.addGoal(2, new LimitSpeedAndLookInVelocityDirectionGoal(this, 0.3F, 0.5F));
+        this.goalSelector.addGoal(5, new BoidGoal(this, 0.1F, 2.5F, 0.3F, 0.5F));
     }
     
     @Override

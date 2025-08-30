@@ -46,7 +46,10 @@ public abstract class AbstractOarfishPart extends AbstractOwnableOceanicCreature
 	@Override
 	protected void registerGoals() 
 	{
-		
+		if(this.isHead())
+		{
+			super.registerGoals();
+		}
 	}
 	
 	@Override
@@ -78,7 +81,7 @@ public abstract class AbstractOarfishPart extends AbstractOwnableOceanicCreature
 			EntityOarfishHead head = this.getHead();
 			if(head.chain != null)
 			{
-				ChainSegment segment = head.chain.getSegments()[Math.max(head.chain.getSegments().length - (this.getIndex() + 2), 0)];
+				ChainSegment segment = head.chain.getSegments()[this.getIndex()];
 				Vec2 rot = segment.getRot();
 				Vec3 pos = segment.getPos();
 				this.setPos(pos);

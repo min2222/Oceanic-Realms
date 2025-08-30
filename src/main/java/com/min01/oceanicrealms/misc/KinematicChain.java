@@ -1,7 +1,5 @@
 package com.min01.oceanicrealms.misc;
 
-import com.min01.oceanicrealms.util.OceanicUtil;
-
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -15,7 +13,6 @@ public class KinematicChain
 	protected Vec3 target;
 	protected Vec3 anchorPos;
 	protected ChainSegment[] segments;
-	protected Vec2 initialRot = Vec2.ZERO;
 	
 	public KinematicChain(Entity entity, int length) 
 	{
@@ -39,7 +36,7 @@ public class KinematicChain
 	{
 		for(int i = 0; i < this.segments.length; i++)
 		{
-			this.segments[i] = new ChainSegment(this.initialRot, distance);
+			this.segments[i] = new ChainSegment(distance);
 		}
 	}
 	
@@ -66,10 +63,11 @@ public class KinematicChain
 		{
 			ChainSegment tip = this.getTipSegment();
 			Vec3 tipPos = tip.getPos();
-	        Vec3 targetPos = this.getLookPos(tip.getRot(), tipPos, 0.0F, 0.0F, tip.distance);
-	        Vec3 pos = tipPos.lerp(targetPos, 0.15F);
-	        tip.setRot(this.lookAt(pos, this.target, tip.getRot()));
-	        tip.setPos(pos);
+	        Vec3 toTarget = this.target.subtract(tipPos);
+	        double dist = toTarget.length();
+	        double moveDist = Math.min(dist, tip.distance);
+	        tip.setRot(this.lookAt(tipPos, this.target));
+	        tip.setPos(this.getLookPos(tip.getRot(), tipPos, 0.0F, 0.0F, moveDist));
 		}
 		
 		for(int i = 1; i < this.segments.length; i++)
@@ -110,18 +108,6 @@ public class KinematicChain
 		}
 	}
 	
-	public Vec2 lookAt(Vec3 startPos, Vec3 pos, Vec2 oldRot)
-	{
-		Vec3 vec3 = startPos;
-		double d0 = pos.x - vec3.x;
-		double d1 = pos.y - vec3.y;
-		double d2 = pos.z - vec3.z;
-		double d3 = Math.sqrt(d0 * d0 + d2 * d2);
-		float xRot = Mth.wrapDegrees((float)(-(Mth.atan2(d1, d3) * (double)(180.0F / (float)Math.PI))));
-		float yRot = Mth.wrapDegrees((float)(Mth.atan2(d2, d0) * (double)(180.0F / (float)Math.PI)) - 90.0F);
-	    return new Vec2(OceanicUtil.rotlerp(oldRot.x, xRot, 65), OceanicUtil.rotlerp(oldRot.y, yRot, 8));
-	}
-	
 	public Vec2 lookAt(Vec3 startPos, Vec3 pos)
 	{
 		Vec3 vec3 = startPos;
@@ -152,16 +138,6 @@ public class KinematicChain
 		double d1 = vec31.y * forwards + vec32.y * up + vec33.y * left;
 		double d2 = vec31.z * forwards + vec32.z * up + vec33.z * left;
 		return new Vec3(vec3.x + d0, vec3.y + d1, vec3.z + d2);
-	}
-	
-	public void setInitialRot(Vec2 rot)
-	{
-		this.initialRot = rot;
-	}
-	
-	public Vec2 getInitialRot()
-	{
-		return this.initialRot;
 	}
 	
 	public ChainSegment[] getSegments()
@@ -207,9 +183,8 @@ public class KinematicChain
 		protected Vec2 oldRotation = Vec2.ZERO;
 		protected float distance;
 		
-		public ChainSegment(Vec2 initialRot, float distance) 
+		public ChainSegment(float distance) 
 		{
-			this.rotation = initialRot;
 			this.distance = distance;
 		}
 		

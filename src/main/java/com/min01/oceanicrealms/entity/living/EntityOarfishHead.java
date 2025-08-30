@@ -2,11 +2,8 @@ package com.min01.oceanicrealms.entity.living;
 
 import com.min01.oceanicrealms.entity.OceanicEntities;
 import com.min01.oceanicrealms.misc.KinematicChain;
-import com.min01.oceanicrealms.misc.KinematicChain.ChainSegment;
-import com.min01.oceanicrealms.misc.OceanicEntityDataSerializers;
 import com.min01.oceanicrealms.util.OceanicUtil;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -19,20 +16,13 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.HitResult;
-import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 
 public class EntityOarfishHead extends AbstractOarfishPart
 {
 	public static final EntityDataAccessor<Integer> MAX_LENGTH = SynchedEntityData.defineId(EntityOarfishHead.class, EntityDataSerializers.INT);
-	public static final EntityDataAccessor<Vec3> WANTED_POS = SynchedEntityData.defineId(EntityOarfishHead.class, OceanicEntityDataSerializers.VEC3.get());
 	public KinematicChain chain;
 	
 	public EntityOarfishHead(EntityType<? extends WaterAnimal> p_33002_, Level p_33003_) 
@@ -52,7 +42,6 @@ public class EntityOarfishHead extends AbstractOarfishPart
     {
     	super.defineSynchedData();
     	this.entityData.define(MAX_LENGTH, 0);
-    	this.entityData.define(WANTED_POS, Vec3.ZERO);
     }
 	
 	@Override
@@ -71,49 +60,19 @@ public class EntityOarfishHead extends AbstractOarfishPart
 	public void tick() 
 	{
 		super.tick();
-		Vec3 pos = this.getWantedPos();
 		if(this.chain == null)
 		{
-			this.chain = new KinematicChain(this, this.getMaxLength() + 1, 1.35F);
+			this.chain = new KinematicChain(this, this.getMaxLength(), 1.35F);
 		}
 		else
 		{
 	    	this.chain.setOldPosAndRot();
-	    	this.chain.tick();
-	    	this.chain.getSegments()[0].setDistance(1.5F);
-	    	if(this.isInWater())
+	    	for(int i = 0; i < 10; i++)
 	    	{
-		    	if(!pos.equals(Vec3.ZERO))
-				{
-			    	this.chain.setTarget(pos);
-					ChainSegment segment = this.chain.getTipSegment();
-					Vec2 rot = segment.getRot();
-					this.setPos(segment.getPos());
-					this.setXRot(rot.x);
-					this.setYRot(rot.y);
-					this.setYBodyRot(rot.y);
-					this.setYHeadRot(rot.y);
-					
-					this.xRotO = rot.x;
-					this.yRotO = rot.y;
-					this.yHeadRotO = rot.y;
-					this.yBodyRotO = rot.y;
-				}
-				if(pos.equals(Vec3.ZERO) || pos.subtract(this.position()).length() <= 0.5F)
-				{
-		        	Vec3 spreadPos = OceanicUtil.getSpreadPosition(this, this.getSwimRadius());
-		        	HitResult hitResult = this.level.clip(new ClipContext(this.position(), spreadPos, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
-		        	if(hitResult instanceof BlockHitResult blockHit)
-		        	{
-		                BlockPos targetPos = blockHit.getBlockPos();
-		                BlockState blockState = this.level.getBlockState(targetPos);
-		                if(blockState.is(Blocks.WATER))
-		                {
-							this.setWantedPos(Vec3.atCenterOf(targetPos));
-		                }
-		        	}
-				}
+		    	this.chain.tick();
 	    	}
+	    	this.chain.getSegments()[0].setDistance(1.5F);
+    		this.chain.setTarget(OceanicUtil.getLookPos(this.getRotationVector(), this.position(), 0, 0, -1.35F));
 		}
 	}
 
@@ -126,7 +85,7 @@ public class EntityOarfishHead extends AbstractOarfishPart
 		AbstractOarfishPart prev = this;
 		for(int i = 0; i < length; i++)
 		{
-			if(i < length - 1)
+			if(i > 0)
 			{
 				EntityOarfishBody body = new EntityOarfishBody(OceanicEntities.OARFISH_BODY.get(), this.level);
 				body.setPos(this.position());
@@ -180,15 +139,5 @@ public class EntityOarfishHead extends AbstractOarfishPart
 	public int getMaxLength()
 	{
 		return this.entityData.get(MAX_LENGTH);
-	}
-	
-	public void setWantedPos(Vec3 pos)
-	{
-		this.entityData.set(WANTED_POS, pos);
-	}
-	
-	public Vec3 getWantedPos()
-	{
-		return this.entityData.get(WANTED_POS);
 	}
 }

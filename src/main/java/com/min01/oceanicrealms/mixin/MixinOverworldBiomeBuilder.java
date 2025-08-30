@@ -5,7 +5,6 @@ import java.util.function.Consumer;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -28,15 +27,13 @@ public class MixinOverworldBiomeBuilder
 	@Shadow
 	@Final
 	private Climate.Parameter[] temperatures;
-	
-	//FIXME value conflict with other oceans;
-	@Unique
-	private final Climate.Parameter sandstoneOceanContinentalness = Climate.Parameter.span(-1.0F, -0.92F);
 
+	//FIXME deep ocean biome not generated in large biomes world preset;
+	
     @Inject(method = "addOffCoastBiomes", at = @At("HEAD"), cancellable = true)
     private void addOffCoastBiomes(Consumer<Pair<Climate.ParameterPoint, ResourceKey<Biome>>> p_187196_, CallbackInfo ci)
     {
-    	this.addSurfaceBiome(p_187196_, this.temperatures[2], this.FULL_RANGE, this.sandstoneOceanContinentalness, this.FULL_RANGE, this.FULL_RANGE, 0.0F, OceanicBiomes.SANDSTONE_OCEAN);
+    	this.addSurfaceBiome(p_187196_, this.temperatures[2], this.FULL_RANGE, Climate.Parameter.span(-1.035F, -0.255F), this.FULL_RANGE, this.FULL_RANGE, 0.0F, OceanicBiomes.SANDSTONE_OCEAN);
     }
     
     @Shadow
