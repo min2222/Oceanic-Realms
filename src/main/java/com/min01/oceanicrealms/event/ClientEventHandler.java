@@ -54,14 +54,6 @@ public class ClientEventHandler
 	{
         BlockEntityRenderers.register(OceanicBlocks.NO_ROTATION_LIMIT_BLOCK_ENTITY.get(), NoRotationLimitRenderer::new);
         BlockEntityRenderers.register(OceanicBlocks.ANIMATABLE_BLOCK_ENTITY.get(), AnimatableBlockRenderer::new);
-		/*try
-		{
-		    OceanicUtil.encryptFiles("leiojgwiojg80", "12h92h0twhg9o", ".png");
-		}
-		catch (Exception e) 
-		{
-		    e.printStackTrace();
-		}*/
 	}
 	
     @SubscribeEvent
