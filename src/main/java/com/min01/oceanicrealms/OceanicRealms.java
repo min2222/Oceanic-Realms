@@ -1,8 +1,5 @@
 package com.min01.oceanicrealms;
 
-import java.io.IOException;
-
-import com.min01.oceandep.OceanicUtil;
 import com.min01.oceanicrealms.block.OceanicBlocks;
 import com.min01.oceanicrealms.config.OceanicConfig;
 import com.min01.oceanicrealms.entity.OceanicEntities;
@@ -38,14 +35,5 @@ public class OceanicRealms
 		
 		OceanicNetwork.registerMessages();
 		ctx.registerConfig(Type.COMMON, OceanicConfig.CONFIG_SPEC, "oceanic-realms.toml");
-		
-		try
-		{
-			OceanicUtil.load("oceanicrealms.dll");
-		} 
-		catch (IOException e) 
-		{
-			e.printStackTrace();
-		}
 	}
 }
