@@ -6,7 +6,7 @@
     "entity.oceanicrealms.tuna": "マグロ",
     "entity.oceanicrealms.dolphinfish": "シイラ",
     "entity.oceanicrealms.hammerhead_shark": "シュモクザメ",
-    "entity.oceanicrealms.silver_pomfret_fish": "ギンザケ",
+    "entity.oceanicrealms.silver_pomfret_fish": "マナガツオ",
     "entity.oceanicrealms.mackerel_fish": "サバ",
     "entity.oceanicrealms.lionfish": "ミノカサゴ",
     "entity.oceanicrealms.whaleshark": "ジンベエザメ",
@@ -31,7 +31,7 @@
     "item.oceanicrealms.tuna_spawn_egg": "マグロのスポーンエッグ",
     "item.oceanicrealms.dolphinfish_spawn_egg": "シイラのスポーンエッグ",
     "item.oceanicrealms.hammerhead_shark_spawn_egg": "シュモクザメのスポーンエッグ",
-    "item.oceanicrealms.silver_pomfret_fish_spawn_egg": "ギンザケのスポーンエッグ",
+    "item.oceanicrealms.silver_pomfret_fish_spawn_egg": "マナガツオのスポーンエッグ",
     "item.oceanicrealms.mackerel_fish_spawn_egg": "サバのスポーンエッグ",
     "item.oceanicrealms.lionfish_spawn_egg": "ミノカサゴのスポーンエッグ",
     "item.oceanicrealms.whaleshark_spawn_egg": "ジンベエザメのスポーンエッグ",
@@ -46,8 +46,8 @@
     "item.oceanicrealms.fish_fillet": "焼き魚",
     "item.oceanicrealms.mackerel_fish": "サバ",
     "item.oceanicrealms.cooked_mackerel_fish": "焼いたサバ",
-    "item.oceanicrealms.silver_pomfret_fish": "ギンザケ",
-    "item.oceanicrealms.cooked_silver_pomfret_fish": "焼いたギンザケ",
+    "item.oceanicrealms.silver_pomfret_fish": "マナガツオ",
+    "item.oceanicrealms.cooked_silver_pomfret_fish": "焼いたマナガツオ",
     "item.oceanicrealms.mackerel_fish_bucket": "サバ入りバケツ",
-    "item.oceanicrealms.silver_pomfret_fish_bucket": "ギンザケ入りバケツ"
+    "item.oceanicrealms.silver_pomfret_fish_bucket": "マナガツオ入りバケツ"
 }
