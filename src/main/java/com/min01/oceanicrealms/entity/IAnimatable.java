@@ -2,9 +2,9 @@ package com.min01.oceanicrealms.entity;
 
 public interface IAnimatable
 {
-	boolean isUsingSkill();
-	
 	void setUsingSkill(boolean value);
+	
+	boolean isUsingSkill();
 	
 	void setAnimationTick(int value);
 	

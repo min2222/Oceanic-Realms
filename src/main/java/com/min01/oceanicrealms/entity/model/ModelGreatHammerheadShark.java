@@ -87,8 +87,8 @@ public class ModelGreatHammerheadShark extends HierarchicalModel<EntityGreatHamm
 		OceanicClientUtil.animateHead(this.root, netHeadYaw, headPitch);
 		this.root.zRot += Math.toRadians(entity.getRollAngle());
 		this.animateWalk(GreatHammerheadSharkAnimation.GREAT_HAMMERHEAD_SHARK_SWIM, limbSwing, limbSwingAmount, 2.5F, 2.5F);
-		this.animate(entity.attackAnimationState, GreatHammerheadSharkAnimation.GREAT_HAMMERHEAD_SHARK_ATTACK, ageInTicks);
-		this.animate(entity.eatingAnimationState, GreatHammerheadSharkAnimation.GREAT_HAMMERHEAD_SHARK_EATING, ageInTicks);
+		entity.attackAnimationState.animate(this, GreatHammerheadSharkAnimation.GREAT_HAMMERHEAD_SHARK_ATTACK, ageInTicks);
+		entity.eatingAnimationState.animate(this, GreatHammerheadSharkAnimation.GREAT_HAMMERHEAD_SHARK_EATING, ageInTicks);
 	}
 	
 	@Override

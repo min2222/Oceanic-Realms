@@ -13,6 +13,7 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.MobBucketItem;
+import net.minecraft.world.item.PlaceOnWaterBlockItem;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.ForgeSpawnEggItem;
@@ -30,7 +31,7 @@ public class OceanicItems
 	public static final RegistryObject<Item> TUNA_SPAWN_EGG = registerSpawnEgg("tuna_spawn_egg", () -> OceanicEntities.TUNA.get(), 3957141, 12047834);
 	public static final RegistryObject<Item> DOLPHINFISH_SPAWN_EGG = registerSpawnEgg("dolphinfish_spawn_egg", () -> OceanicEntities.DOLPHINFISH.get(), 4962601, 12824900);
 	public static final RegistryObject<Item> HAMMERHEAD_SHARK_SPAWN_EGG = registerSpawnEgg("hammerhead_shark_spawn_egg", () -> OceanicEntities.HAMMERHEAD_SHARK.get(), 6654324, 12174013);
-	public static final RegistryObject<Item> MACKEREL_FISH_SPAWN_EGG = registerSpawnEgg("mackerel_fish_spawn_egg", () -> OceanicEntities.MACKEREL_FISH.get(), 3830103, 13489859);
+	public static final RegistryObject<Item> MACKEREL_FISH_SPAWN_EGG = registerSpawnEgg("mackerel_fish_spawn_egg", () -> OceanicEntities.MACKEREL_FISH.get(), 3887246, 13156013);
 	public static final RegistryObject<Item> SILVER_POMFRET_FISH_SPAWN_EGG = registerSpawnEgg("silver_pomfret_fish_spawn_egg", () -> OceanicEntities.SILVER_POMFRET_FISH.get(), 13098194, 8247355);
 	public static final RegistryObject<Item> LIONFISH_SPAWN_EGG = registerSpawnEgg("lionfish_spawn_egg", () -> OceanicEntities.LIONFISH.get(), 14337723, 14504233);
 	public static final RegistryObject<Item> WHALESHARK_SPAWN_EGG = registerSpawnEgg("whaleshark_spawn_egg", () -> OceanicEntities.WHALESHARK.get(), 4808815, 12372958);
@@ -59,9 +60,14 @@ public class OceanicItems
 	public static final RegistryObject<Item> STARFISH = registerBlockItem("starfish", () -> OceanicBlocks.STARFISH.get(), new Item.Properties());
 	public static final RegistryObject<Item> GIANT_KELP = registerBlockItem("giant_kelp", () -> OceanicBlocks.GIANT_KELP.get(), new Item.Properties());
 	public static final RegistryObject<Item> RED_ALGAE = registerBlockItem("red_algae", () -> OceanicBlocks.RED_ALGAE.get(), new Item.Properties());
+	public static final RegistryObject<Item> DOLPHINFISHSPAWN = ITEMS.register("dolphinfishspawn", () -> new PlaceOnWaterBlockItem(OceanicBlocks.DOLPHINFISHSPAWN.get(), new Item.Properties()));
+	public static final RegistryObject<Item> TUNASPAWN = ITEMS.register("tunaspawn", () -> new PlaceOnWaterBlockItem(OceanicBlocks.TUNASPAWN.get(), new Item.Properties()));
 	
 	public static final RegistryObject<Item> MACKEREL_FISH_BUCKET = ITEMS.register("mackerel_fish_bucket", () -> new MobBucketItem(() -> OceanicEntities.MACKEREL_FISH.get(), () -> Fluids.WATER, () -> SoundEvents.BUCKET_EMPTY_FISH, new Item.Properties().stacksTo(1)));
 	public static final RegistryObject<Item> SILVER_POMFRET_FISH_BUCKET = ITEMS.register("silver_pomfret_fish_bucket", () -> new MobBucketItem(() -> OceanicEntities.SILVER_POMFRET_FISH.get(), () -> Fluids.WATER, () -> SoundEvents.BUCKET_EMPTY_FISH, new Item.Properties().stacksTo(1)));
+
+	public static final RegistryObject<Item> DOLPHINFISHSPAWN_BUCKET = ITEMS.register("dolphinfishspawn_bucket", () -> new FishspawnBucketItem(OceanicBlocks.DOLPHINFISHSPAWN.get(), SoundEvents.FROGSPAWN_PLACE, (new Item.Properties()).stacksTo(1)));
+	public static final RegistryObject<Item> TUNASPAWN_BUCKET = ITEMS.register("tunaspawn_bucket", () -> new FishspawnBucketItem(OceanicBlocks.TUNASPAWN.get(), SoundEvents.FROGSPAWN_PLACE, (new Item.Properties()).stacksTo(1)));
 	
 	public static RegistryObject<Item> registerBlockItem(String name, Supplier<Block> block, Item.Properties properties)
 	{

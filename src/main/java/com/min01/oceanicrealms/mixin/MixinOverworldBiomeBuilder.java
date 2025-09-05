@@ -26,14 +26,12 @@ public class MixinOverworldBiomeBuilder
 	
 	@Shadow
 	@Final
-	private Climate.Parameter[] temperatures;
-
-	//FIXME deep ocean biome not generated in large biomes world preset;
+	private Climate.Parameter deepOceanContinentalness;
 	
     @Inject(method = "addOffCoastBiomes", at = @At("HEAD"), cancellable = true)
     private void addOffCoastBiomes(Consumer<Pair<Climate.ParameterPoint, ResourceKey<Biome>>> p_187196_, CallbackInfo ci)
     {
-    	this.addSurfaceBiome(p_187196_, this.temperatures[2], this.FULL_RANGE, Climate.Parameter.span(-1.035F, -0.255F), this.FULL_RANGE, this.FULL_RANGE, 0.0F, OceanicBiomes.SANDSTONE_OCEAN);
+    	this.addSurfaceBiome(p_187196_, Climate.Parameter.span(1.25F, 1.5F), this.FULL_RANGE, this.deepOceanContinentalness, this.FULL_RANGE, this.FULL_RANGE, 0.0F, OceanicBiomes.SANDSTONE_OCEAN);
     }
     
     @Shadow

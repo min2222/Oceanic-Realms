@@ -79,8 +79,8 @@ public class ModelPorbeagleShark extends HierarchicalModel<EntityPorbeagleShark>
 		OceanicClientUtil.animateHead(this.root, netHeadYaw, headPitch);
 		this.root.zRot += Math.toRadians(entity.getRollAngle());
 		this.animateWalk(PorbeagleSharkAnimation.PORBEAGLE_SHARK_SWIM, limbSwing, limbSwingAmount, 2.5F, 2.5F);
-		this.animate(entity.attackAnimationState, PorbeagleSharkAnimation.PORBEAGLE_SHARK_ATTACK, ageInTicks);
-		this.animate(entity.eatingAnimationState, PorbeagleSharkAnimation.PORBEAGLE_SHARK_EATING, ageInTicks);
+		entity.attackAnimationState.animate(this, PorbeagleSharkAnimation.PORBEAGLE_SHARK_ATTACK, ageInTicks);
+		entity.eatingAnimationState.animate(this, PorbeagleSharkAnimation.PORBEAGLE_SHARK_EATING, ageInTicks);
 	}
 	
 	@Override

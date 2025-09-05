@@ -8,6 +8,8 @@ import com.min01.oceanicrealms.block.model.ModelStarfish;
 import com.min01.oceanicrealms.blockentity.renderer.AnimatableBlockRenderer;
 import com.min01.oceanicrealms.blockentity.renderer.NoRotationLimitRenderer;
 import com.min01.oceanicrealms.entity.OceanicEntities;
+import com.min01.oceanicrealms.entity.model.ModelBabyDolphinfish;
+import com.min01.oceanicrealms.entity.model.ModelBabyTuna;
 import com.min01.oceanicrealms.entity.model.ModelCrab;
 import com.min01.oceanicrealms.entity.model.ModelDolphinfish;
 import com.min01.oceanicrealms.entity.model.ModelGreatHammerheadShark;
@@ -63,7 +65,9 @@ public class ClientEventHandler
     	event.registerLayerDefinition(ModelCrab.LAYER_LOCATION, ModelCrab::createBodyLayer);
     	event.registerLayerDefinition(ModelPorbeagleShark.LAYER_LOCATION, ModelPorbeagleShark::createBodyLayer);
     	event.registerLayerDefinition(ModelTuna.LAYER_LOCATION, ModelTuna::createBodyLayer);
+    	event.registerLayerDefinition(ModelBabyTuna.LAYER_LOCATION, ModelBabyTuna::createBodyLayer);
     	event.registerLayerDefinition(ModelDolphinfish.LAYER_LOCATION, ModelDolphinfish::createBodyLayer);
+    	event.registerLayerDefinition(ModelBabyDolphinfish.LAYER_LOCATION, ModelBabyDolphinfish::createBodyLayer);
     	event.registerLayerDefinition(ModelHammerheadShark.LAYER_LOCATION, ModelHammerheadShark::createBodyLayer);
     	event.registerLayerDefinition(ModelClam.LAYER_LOCATION, ModelClam::createBodyLayer);
     	event.registerLayerDefinition(ModelMackerelFish.LAYER_LOCATION, ModelMackerelFish::createBodyLayer);

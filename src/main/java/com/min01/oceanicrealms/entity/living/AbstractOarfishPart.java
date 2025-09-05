@@ -6,6 +6,7 @@ import java.util.UUID;
 import javax.annotation.Nullable;
 
 import com.min01.oceanicrealms.entity.AbstractOwnableOceanicCreature;
+import com.min01.oceanicrealms.entity.AgeableWaterAnimal;
 import com.min01.oceanicrealms.misc.KinematicChain.ChainSegment;
 import com.min01.oceanicrealms.util.OceanicUtil;
 
@@ -15,7 +16,6 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
@@ -25,7 +25,7 @@ public abstract class AbstractOarfishPart extends AbstractOwnableOceanicCreature
 	public static final EntityDataAccessor<Optional<UUID>> HEAD_UUID = SynchedEntityData.defineId(AbstractOarfishPart.class, EntityDataSerializers.OPTIONAL_UUID);
 	public static final EntityDataAccessor<Integer> INDEX = SynchedEntityData.defineId(AbstractOarfishPart.class, EntityDataSerializers.INT);
 	
-	public AbstractOarfishPart(EntityType<? extends WaterAnimal> p_33002_, Level p_33003_)
+	public AbstractOarfishPart(EntityType<? extends AgeableWaterAnimal> p_33002_, Level p_33003_)
 	{
 		super(p_33002_, p_33003_);
 	}

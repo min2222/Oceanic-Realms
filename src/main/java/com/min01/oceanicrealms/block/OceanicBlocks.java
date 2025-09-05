@@ -3,6 +3,8 @@ package com.min01.oceanicrealms.block;
 import com.min01.oceanicrealms.OceanicRealms;
 import com.min01.oceanicrealms.blockentity.AnimatableBlockEntity;
 import com.min01.oceanicrealms.blockentity.NoRotationLimitBlockEntity;
+import com.min01.oceanicrealms.entity.OceanicEntities;
+import com.min01.oceanicrealms.item.OceanicItems;
 
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -30,6 +32,8 @@ public class OceanicBlocks
     public static final RegistryObject<Block> GIANT_KELP = BLOCKS.register("giant_kelp", () -> new GiantKelpBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WATER).noCollission().randomTicks().instabreak().noOcclusion().sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY)));
     public static final RegistryObject<Block> RED_ALGAE = BLOCKS.register("red_algae", () -> new RedAlgaeBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).noCollission().instabreak().sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY)));
     public static final RegistryObject<Block> REEF_ROCK = BLOCKS.register("reef_rock", () -> new Block(BlockBehaviour.Properties.copy(Blocks.STONE)));
+    public static final RegistryObject<Block> DOLPHINFISHSPAWN = BLOCKS.register("dolphinfishspawn", () -> new FishspawnBlock(BlockBehaviour.Properties.copy(Blocks.FROGSPAWN), () -> OceanicItems.DOLPHINFISHSPAWN_BUCKET.get(), () -> OceanicEntities.DOLPHINFISH.get()));
+    public static final RegistryObject<Block> TUNASPAWN = BLOCKS.register("tunaspawn", () -> new FishspawnBlock(BlockBehaviour.Properties.copy(Blocks.FROGSPAWN), () -> OceanicItems.TUNASPAWN_BUCKET.get(), () -> OceanicEntities.TUNA.get()));
     
     public static final RegistryObject<BlockEntityType<NoRotationLimitBlockEntity>> NO_ROTATION_LIMIT_BLOCK_ENTITY = BLOCK_ENTITIES.register("no_rotation_limit", () -> BlockEntityType.Builder.of(NoRotationLimitBlockEntity::new, 
     		OceanicBlocks.CLAM.get()).build(null));

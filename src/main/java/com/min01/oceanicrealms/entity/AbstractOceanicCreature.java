@@ -5,9 +5,11 @@ import com.min01.oceanicrealms.util.OceanicUtil;
 
 import net.minecraft.commands.arguments.EntityAnchorArgument.Anchor;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.MoverType;
@@ -16,7 +18,6 @@ import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
 import net.minecraft.world.entity.ai.goal.RandomSwimmingGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
-import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
@@ -27,7 +28,7 @@ public abstract class AbstractOceanicCreature extends AbstractAnimatableWaterAni
 {
 	private float rollAngle = 0.0F;
 	
-	public AbstractOceanicCreature(EntityType<? extends WaterAnimal> p_33002_, Level p_33003_)
+	public AbstractOceanicCreature(EntityType<? extends AgeableWaterAnimal> p_33002_, Level p_33003_)
 	{
 		super(p_33002_, p_33003_);
 		this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
@@ -52,6 +53,12 @@ public abstract class AbstractOceanicCreature extends AbstractAnimatableWaterAni
     protected PathNavigation createNavigation(Level p_27480_) 
     {
     	return new WaterBoundPathNavigation(this, p_27480_);
+    }
+    
+    @Override
+    public AgeableMob getBreedOffspring(ServerLevel p_146743_, AgeableMob p_146744_) 
+    {
+    	return null;
     }
 	
 	@Override

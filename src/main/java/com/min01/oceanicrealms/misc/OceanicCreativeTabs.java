@@ -53,5 +53,9 @@ public class OceanicCreativeTabs
     			output.accept(OceanicItems.RED_ALGAE.get());
     			output.accept(OceanicItems.MACKEREL_FISH_BUCKET.get());
     			output.accept(OceanicItems.SILVER_POMFRET_FISH_BUCKET.get());
+    			output.accept(OceanicItems.DOLPHINFISHSPAWN_BUCKET.get());
+    			output.accept(OceanicItems.TUNASPAWN_BUCKET.get());
+    			output.accept(OceanicItems.DOLPHINFISHSPAWN.get());
+    			output.accept(OceanicItems.TUNASPAWN.get());
     		}).build());
 }

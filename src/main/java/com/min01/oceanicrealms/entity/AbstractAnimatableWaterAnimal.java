@@ -5,22 +5,18 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.Vec3;
 
-public abstract class AbstractAnimatableWaterAnimal extends WaterAnimal implements IAnimatable
+public abstract class AbstractAnimatableWaterAnimal extends AgeableWaterAnimal implements IAnimatable
 {
 	public static final EntityDataAccessor<Integer> ANIMATION_STATE = SynchedEntityData.defineId(AbstractAnimatableWaterAnimal.class, EntityDataSerializers.INT);
 	public static final EntityDataAccessor<Integer> ANIMATION_TICK = SynchedEntityData.defineId(AbstractAnimatableWaterAnimal.class, EntityDataSerializers.INT);
 	public static final EntityDataAccessor<Boolean> CAN_LOOK = SynchedEntityData.defineId(AbstractAnimatableWaterAnimal.class, EntityDataSerializers.BOOLEAN);
 	public static final EntityDataAccessor<Boolean> CAN_MOVE = SynchedEntityData.defineId(AbstractAnimatableWaterAnimal.class, EntityDataSerializers.BOOLEAN);
-	public static final EntityDataAccessor<Boolean> IS_USING_SKILL = SynchedEntityData.defineId(AbstractAnimatableWaterAnimal.class, EntityDataSerializers.BOOLEAN);
 	public static final EntityDataAccessor<Boolean> HAS_TARGET = SynchedEntityData.defineId(AbstractAnimatableWaterAnimal.class, EntityDataSerializers.BOOLEAN);
+	public static final EntityDataAccessor<Boolean> IS_USING_SKILL = SynchedEntityData.defineId(AbstractAnimatableWaterAnimal.class, EntityDataSerializers.BOOLEAN);
 
-	public Vec3[] posArray;
-	
-	public AbstractAnimatableWaterAnimal(EntityType<? extends WaterAnimal> p_33002_, Level p_33003_) 
+	public AbstractAnimatableWaterAnimal(EntityType<? extends AgeableWaterAnimal> p_33002_, Level p_33003_) 
 	{
 		super(p_33002_, p_33003_);
 		this.noCulling = true;
@@ -34,8 +30,8 @@ public abstract class AbstractAnimatableWaterAnimal extends WaterAnimal implemen
 		this.entityData.define(ANIMATION_TICK, 0);
 		this.entityData.define(CAN_LOOK, true);
 		this.entityData.define(CAN_MOVE, true);
-		this.entityData.define(IS_USING_SKILL, false);
 		this.entityData.define(HAS_TARGET, false);
+		this.entityData.define(IS_USING_SKILL, false);
 	}
     
     @Override
@@ -52,12 +48,13 @@ public abstract class AbstractAnimatableWaterAnimal extends WaterAnimal implemen
 		{
 			this.setAnimationTick(this.getAnimationTick() - 1);
 		}
-    }
-    
-	public void stopAllAnimationStates()
-	{
 		
-	}
+		if(this.entityData.get(IS_USING_SKILL) && this.getAnimationTick() <= 0)
+		{
+			this.setAnimationState(0);
+			this.setUsingSkill(false);
+		}
+    }
 	
     @Override
     public void readAdditionalSaveData(CompoundTag p_21450_) 
@@ -80,7 +77,7 @@ public abstract class AbstractAnimatableWaterAnimal extends WaterAnimal implemen
     	p_21484_.putInt("AnimationTick", this.getAnimationTick());
     	p_21484_.putInt("AnimationState", this.getAnimationState());
     }
-    
+	
 	public void setHasTarget(boolean value)
 	{
 		this.entityData.set(HAS_TARGET, value);
@@ -145,5 +142,10 @@ public abstract class AbstractAnimatableWaterAnimal extends WaterAnimal implemen
     public int getAnimationState()
     {
         return this.entityData.get(ANIMATION_STATE);
+    }
+    
+    public boolean isUsingSkill(int state)
+    {
+    	return this.getAnimationState() == state && this.isUsingSkill();
     }
 }

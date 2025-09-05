@@ -5,6 +5,8 @@ import java.util.List;
 import org.joml.Math;
 
 import com.min01.oceanicrealms.entity.AbstractOceanicCreature;
+import com.min01.oceanicrealms.entity.AgeableWaterAnimal;
+import com.min01.oceanicrealms.entity.IBoid;
 import com.min01.oceanicrealms.entity.ai.goal.BoidGoal;
 import com.min01.oceanicrealms.item.OceanicItems;
 import com.min01.oceanicrealms.util.OceanicUtil;
@@ -24,19 +26,18 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.Bucketable;
-import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-public class EntityMackerelFish extends AbstractOceanicCreature implements Bucketable
+public class EntityMackerelFish extends AbstractOceanicCreature implements Bucketable, IBoid
 {
 	public static final EntityDataAccessor<Boolean> FROM_BUCKET = SynchedEntityData.defineId(EntityMackerelFish.class, EntityDataSerializers.BOOLEAN);
 	public static final EntityDataAccessor<Integer> FOLLOW_DURATION = SynchedEntityData.defineId(EntityMackerelFish.class, EntityDataSerializers.INT);
 	
 	public final AnimationState dryAnimationState = new AnimationState();
 	
-	public EntityMackerelFish(EntityType<? extends WaterAnimal> p_33002_, Level p_33003_)
+	public EntityMackerelFish(EntityType<? extends AgeableWaterAnimal> p_33002_, Level p_33003_)
 	{
 		super(p_33002_, p_33003_);
 	}
@@ -52,7 +53,7 @@ public class EntityMackerelFish extends AbstractOceanicCreature implements Bucke
     protected void registerGoals() 
     {
     	super.registerGoals();
-        this.goalSelector.addGoal(5, new BoidGoal(this, 0.1F, 0.9F, 0.2F, 0.3F));
+        this.goalSelector.addGoal(5, new BoidGoal(this, 0.1F, 0.9F));
     }
     
     @Override
@@ -72,7 +73,10 @@ public class EntityMackerelFish extends AbstractOceanicCreature implements Bucke
 			this.dryAnimationState.animateWhen(!this.isInWater(), this.tickCount);
 		}
 		OceanicUtil.fishFlopping(this);
-		this.followWhaleshark();
+		if(this.tickCount % 10 == 0)
+		{
+			this.followWhaleshark();
+		}
 	}
 	
 	public void followWhaleshark()
@@ -120,7 +124,7 @@ public class EntityMackerelFish extends AbstractOceanicCreature implements Bucke
     }
     
 	@Override
-    protected InteractionResult mobInteract(Player p_27477_, InteractionHand p_27478_)
+	public InteractionResult mobInteract(Player p_27477_, InteractionHand p_27478_)
     {
     	return Bucketable.bucketMobPickup(p_27477_, p_27478_, this).orElse(super.mobInteract(p_27477_, p_27478_));
     }

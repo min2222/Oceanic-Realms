@@ -13,14 +13,13 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.level.Level;
 
 public abstract class AbstractOwnableOceanicCreature<T extends Entity> extends AbstractOceanicCreature
 {
 	public static final EntityDataAccessor<Optional<UUID>> OWNER_UUID = SynchedEntityData.defineId(AbstractOwnableOceanicCreature.class, EntityDataSerializers.OPTIONAL_UUID);
 	
-	public AbstractOwnableOceanicCreature(EntityType<? extends WaterAnimal> p_33002_, Level p_33003_)
+	public AbstractOwnableOceanicCreature(EntityType<? extends AgeableWaterAnimal> p_33002_, Level p_33003_)
 	{
 		super(p_33002_, p_33003_);
 	}

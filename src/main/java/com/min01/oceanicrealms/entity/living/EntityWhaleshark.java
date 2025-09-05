@@ -1,6 +1,7 @@
 package com.min01.oceanicrealms.entity.living;
 
 import com.min01.oceanicrealms.entity.AbstractOceanicCreature;
+import com.min01.oceanicrealms.entity.AgeableWaterAnimal;
 import com.min01.oceanicrealms.misc.WormChain;
 import com.min01.oceanicrealms.misc.WormChain.Worm;
 
@@ -8,7 +9,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 
@@ -16,7 +16,7 @@ public class EntityWhaleshark extends AbstractOceanicCreature
 {
 	public final Worm worm = new Worm();
 	
-	public EntityWhaleshark(EntityType<? extends WaterAnimal> p_33002_, Level p_33003_)
+	public EntityWhaleshark(EntityType<? extends AgeableWaterAnimal> p_33002_, Level p_33003_)
 	{
 		super(p_33002_, p_33003_);
 	}

@@ -16,7 +16,6 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
@@ -27,7 +26,7 @@ public abstract class AbstractOceanicShark extends AbstractOceanicCreature imple
 	public static final EntityDataAccessor<Integer> HUNGER_COOLDOWN = SynchedEntityData.defineId(AbstractOceanicShark.class, EntityDataSerializers.INT);
 	public static final EntityDataAccessor<Boolean> IS_EAT = SynchedEntityData.defineId(AbstractOceanicShark.class, EntityDataSerializers.BOOLEAN);
 	
-	public AbstractOceanicShark(EntityType<? extends WaterAnimal> p_33002_, Level p_33003_) 
+	public AbstractOceanicShark(EntityType<? extends AgeableWaterAnimal> p_33002_, Level p_33003_) 
 	{
 		super(p_33002_, p_33003_);
 	}

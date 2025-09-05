@@ -14,6 +14,8 @@ import com.min01.oceanicrealms.entity.living.EntityWhaleshark;
 
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.commands.arguments.EntityAnchorArgument.Anchor;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
@@ -23,6 +25,7 @@ import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.util.DefaultRandomPos;
 import net.minecraft.world.entity.animal.AbstractFish;
 import net.minecraft.world.entity.animal.Dolphin;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.entity.LevelEntityGetter;
 import net.minecraft.world.phys.Vec2;
@@ -37,6 +40,21 @@ public class OceanicUtil
 	public static final Predicate<LivingEntity> TARGET_PREDICATE = t -> t.isInWater() && !(t instanceof Dolphin) && !(t instanceof EntityWhaleshark) && !(t instanceof IAvoid);
 	public static final Predicate<LivingEntity> TARGET_PREDICATE2 = t -> t.isInWater() && !(t instanceof EntityTuna) && !(t instanceof EntityDolphinfish) && !(t instanceof Dolphin) && !(t instanceof EntityWhaleshark) && !(t instanceof IAvoid);
 	
+    @SuppressWarnings("deprecation")
+	public static BlockPos getGroundPos(BlockGetter pLevel, double pX, double startY, double pZ)
+    {
+        BlockPos.MutableBlockPos blockpos$mutable = new BlockPos.MutableBlockPos(pX, startY, pZ);
+        do
+        {
+        	blockpos$mutable.move(Direction.DOWN);
+        }
+        while((pLevel.getBlockState(blockpos$mutable).isAir() || pLevel.getBlockState(blockpos$mutable).liquid() || !pLevel.getBlockState(blockpos$mutable).isCollisionShapeFullBlock(pLevel, blockpos$mutable)) && blockpos$mutable.getY() > pLevel.getMinBuildHeight());
+
+        BlockPos blockpos = blockpos$mutable.below();
+
+        return blockpos;
+    }
+    
 	public static void fishPanic(PathfinderMob mob, Vec3 sourcePos, double speed)
 	{
         Vec3 vec3 = DefaultRandomPos.getPosAway(mob, 16, 7, sourcePos);

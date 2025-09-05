@@ -1,6 +1,7 @@
 package com.min01.oceanicrealms.entity.ai.control;
 
 import com.min01.oceanicrealms.entity.AbstractOceanicCreature;
+import com.min01.oceanicrealms.entity.IBoid;
 import com.min01.oceanicrealms.util.OceanicUtil;
 
 import net.minecraft.core.BlockPos;
@@ -42,45 +43,84 @@ public class OceanicSwimmingMoveControl extends MoveControl
 		}
 		if(this.operation == MoveControl.Operation.MOVE_TO && !this.mob.getNavigation().isDone()) 
 		{
-			if(this.mob.tickCount % 60 == 0)
+			if(this.mob instanceof IBoid)
 			{
-				this.generateNewTarget();
-			}
-			double d0 = this.targetPos.x - this.mob.getX();
-			double d1 = this.targetPos.y - this.mob.getY();
-			double d2 = this.targetPos.z - this.mob.getZ();
-			double d3 = d0 * d0 + d1 * d1 + d2 * d2;
-			if(d3 < (double) 2.5000003E-7F) 
-			{
-				this.mob.setZza(0.0F);
-			}
-			else 
-			{
-				float f = (float) (Mth.atan2(d2, d0) * (double) (180.0F / (float) Math.PI)) - 90.0F;
-				this.mob.setYRot(this.rotlerp(this.mob.getYRot(), f, 2.0F));
-				this.mob.yBodyRot = this.mob.getYRot();
-				this.mob.yHeadRot = this.mob.getYRot();
-				float f1 = (float) (this.speedModifier * this.mob.getAttributeValue(Attributes.MOVEMENT_SPEED));
-				if(this.mob.isInWater()) 
+				Vec3 direction = this.mob.getDeltaMovement();
+				double d0 = direction.x;
+				double d1 = direction.y;
+				double d2 = direction.z;
+				double d3 = d0 * d0 + d1 * d1 + d2 * d2;
+				if(d3 < (double) 2.5000003E-7F) 
 				{
-					this.mob.setSpeed(f1 * this.inWaterSpeedModifier);
-					double d4 = Math.sqrt(d0 * d0 + d2 * d2);
-					if(Math.abs(d1) > (double) 1.0E-5F || Math.abs(d4) > (double) 1.0E-5F) 
-					{
-						float f3 = -((float) (Mth.atan2(d1, d4) * (double) (180.0F / (float) Math.PI)));
-						f3 = Mth.clamp(Mth.wrapDegrees(f3), (float) (-this.maxTurnX), (float) this.maxTurnX);
-						this.mob.setXRot(this.rotlerp(this.mob.getXRot(), f3, 2.0F));
-					}
-					float f6 = Mth.cos(this.mob.getXRot() * ((float) Math.PI / 180.0F));
-					float f4 = Mth.sin(this.mob.getXRot() * ((float) Math.PI / 180.0F));
-					this.mob.zza = f6 * f1;
-					this.mob.yya = -f4 * f1;
+					this.mob.setZza(0.0F);
 				}
-				else
+				else 
 				{
-					float f5 = Math.abs(Mth.wrapDegrees(this.mob.getYRot() - f));
-					float f2 = this.getTurningSpeedFactor(f5);
-					this.mob.setSpeed(f1 * this.outsideWaterSpeedModifier * f2);
+					float f = -(float)(Mth.atan2(direction.x, direction.z) * (double)(180.0F / (float)Math.PI));
+					this.mob.setYRot(this.rotlerp(this.mob.getYRot(), f, 10.0F));
+					this.mob.yBodyRot = this.mob.getYRot();
+					this.mob.yHeadRot = this.mob.getYRot();
+					float f1 = (float) (this.speedModifier * this.mob.getAttributeValue(Attributes.MOVEMENT_SPEED));
+					if(this.mob.isInWater()) 
+					{
+						this.mob.setSpeed(f1 * this.inWaterSpeedModifier);
+						if(Math.abs(direction.y) > (double) 1.0E-5F || Math.abs(direction.horizontalDistance()) > (double) 1.0E-5F) 
+						{
+							float f3 = -(float)(Mth.atan2(direction.y, direction.horizontalDistance()) * (double)(180.0F / (float)Math.PI));
+							f3 = Mth.clamp(Mth.wrapDegrees(f3), (float) (-this.maxTurnX), (float) this.maxTurnX);
+							this.mob.setXRot(this.rotlerp(this.mob.getXRot(), f3, 2.0F));
+						}
+					}
+					else
+					{
+						float f5 = Math.abs(Mth.wrapDegrees(this.mob.getYRot() - f));
+						float f2 = this.getTurningSpeedFactor(f5);
+						this.mob.setSpeed(f1 * this.outsideWaterSpeedModifier * f2);
+					}
+				}
+			}
+			else
+			{
+				if(this.mob.tickCount % 60 == 0)
+				{
+					this.generateNewTarget();
+				}
+				double d0 = this.targetPos.x - this.mob.getX();
+				double d1 = this.targetPos.y - this.mob.getY();
+				double d2 = this.targetPos.z - this.mob.getZ();
+				double d3 = d0 * d0 + d1 * d1 + d2 * d2;
+				if(d3 < (double) 2.5000003E-7F) 
+				{
+					this.mob.setZza(0.0F);
+				}
+				else 
+				{
+					float f = (float) (Mth.atan2(d2, d0) * (double) (180.0F / (float) Math.PI)) - 90.0F;
+					this.mob.setYRot(this.rotlerp(this.mob.getYRot(), f, 2.0F));
+					this.mob.yBodyRot = this.mob.getYRot();
+					this.mob.yHeadRot = this.mob.getYRot();
+					float f1 = (float) (this.speedModifier * this.mob.getAttributeValue(Attributes.MOVEMENT_SPEED));
+					if(this.mob.isInWater()) 
+					{
+						this.mob.setSpeed(f1 * this.inWaterSpeedModifier);
+						double d4 = Math.sqrt(d0 * d0 + d2 * d2);
+						if(Math.abs(d1) > (double) 1.0E-5F || Math.abs(d4) > (double) 1.0E-5F) 
+						{
+							float f3 = -((float) (Mth.atan2(d1, d4) * (double) (180.0F / (float) Math.PI)));
+							f3 = Mth.clamp(Mth.wrapDegrees(f3), (float) (-this.maxTurnX), (float) this.maxTurnX);
+							this.mob.setXRot(this.rotlerp(this.mob.getXRot(), f3, 2.0F));
+						}
+						float f6 = Mth.cos(this.mob.getXRot() * ((float) Math.PI / 180.0F));
+						float f4 = Mth.sin(this.mob.getXRot() * ((float) Math.PI / 180.0F));
+						this.mob.zza = f6 * f1;
+						this.mob.yya = -f4 * f1;
+					}
+					else
+					{
+						float f5 = Math.abs(Mth.wrapDegrees(this.mob.getYRot() - f));
+						float f2 = this.getTurningSpeedFactor(f5);
+						this.mob.setSpeed(f1 * this.outsideWaterSpeedModifier * f2);
+					}
 				}
 			}
 		} 

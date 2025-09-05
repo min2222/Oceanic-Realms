@@ -66,7 +66,7 @@ public class ModelSailfish extends HierarchicalModel<EntitySailfish>
 		OceanicClientUtil.animateHead(this.root, netHeadYaw, headPitch);
 		this.root.zRot += Math.toRadians(entity.getRollAngle());
 		this.animate(entity.dryAnimationState, SailfishAnimation.SAILFISH_DRY, ageInTicks);
-		this.animate(entity.eatingAnimationState, SailfishAnimation.SAILFISH_EATING, ageInTicks);
+		entity.eatingAnimationState.animate(this, SailfishAnimation.SAILFISH_EATING, ageInTicks);
 		this.animateWalk(SailfishAnimation.SAILFISH_SWIM, limbSwing, limbSwingAmount, 3.5F, 2.5F);
 	}
 	

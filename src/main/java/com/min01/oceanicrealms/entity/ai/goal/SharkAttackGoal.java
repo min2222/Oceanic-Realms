@@ -28,7 +28,6 @@ public class SharkAttackGoal extends BasicAnimationSkillGoal<AbstractOceanicShar
 		return super.canUse() || flag;
 	}
 	
-	@Override
 	public boolean additionalStartCondition()
 	{
 		Vec3 lookPos = OceanicUtil.getLookPos(this.mob.getRotationVector(), this.mob.position(), 0.0F, 0.0F, this.mob.getHeadDistance());

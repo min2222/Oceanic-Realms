@@ -3,8 +3,10 @@ package com.min01.oceanicrealms.entity.living;
 import java.util.List;
 
 import com.min01.oceanicrealms.entity.AbstractOceanicCreature;
+import com.min01.oceanicrealms.entity.AgeableWaterAnimal;
 import com.min01.oceanicrealms.entity.IAvoid;
 import com.min01.oceanicrealms.entity.ai.goal.SailfishEatingGoal;
+import com.min01.oceanicrealms.misc.SmoothAnimationState;
 import com.min01.oceanicrealms.util.OceanicUtil;
 
 import net.minecraft.commands.arguments.EntityAnchorArgument.Anchor;
@@ -35,9 +37,9 @@ public class EntitySailfish extends AbstractOceanicCreature implements IAvoid
 	public static final EntityDataAccessor<Boolean> IS_EAT = SynchedEntityData.defineId(EntitySailfish.class, EntityDataSerializers.BOOLEAN);
 	
 	public final AnimationState dryAnimationState = new AnimationState();
-	public final AnimationState eatingAnimationState = new AnimationState();
+	public final SmoothAnimationState eatingAnimationState = new SmoothAnimationState();
 	
-	public EntitySailfish(EntityType<? extends WaterAnimal> p_33002_, Level p_33003_)
+	public EntitySailfish(EntityType<? extends AgeableWaterAnimal> p_33002_, Level p_33003_)
 	{
 		super(p_33002_, p_33003_);
 	}
@@ -75,34 +77,6 @@ public class EntitySailfish extends AbstractOceanicCreature implements IAvoid
     	this.entityData.define(IS_EAT, false);
     }
     
-	@Override
-	public void onSyncedDataUpdated(EntityDataAccessor<?> p_219422_) 
-	{
-        if(ANIMATION_STATE.equals(p_219422_) && this.level.isClientSide) 
-        {
-            switch(this.getAnimationState()) 
-            {
-        		case 0: 
-        		{
-        			this.stopAllAnimationStates();
-        			break;
-        		}
-        		case 1: 
-        		{
-        			this.stopAllAnimationStates();
-        			this.eatingAnimationState.start(this.tickCount);
-        			break;
-        		}
-            }
-        }
-	}
-	
-	@Override
-	public void stopAllAnimationStates() 
-	{
-		this.eatingAnimationState.stop();
-	}
-    
     @Override
     public void tick() 
     {
@@ -110,6 +84,7 @@ public class EntitySailfish extends AbstractOceanicCreature implements IAvoid
 		if(this.level.isClientSide)
 		{
 			this.dryAnimationState.animateWhen(!this.isInWater(), this.tickCount);
+			this.eatingAnimationState.updateWhen(this.isUsingSkill(1), this.tickCount);
 		}
 		if(!this.isUsingSkill())
 		{

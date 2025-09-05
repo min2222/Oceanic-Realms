@@ -1,6 +1,8 @@
 package com.min01.oceanicrealms.entity.living;
 
 import com.min01.oceanicrealms.entity.AbstractOceanicCreature;
+import com.min01.oceanicrealms.entity.AgeableWaterAnimal;
+import com.min01.oceanicrealms.entity.IBoid;
 import com.min01.oceanicrealms.entity.ai.goal.BoidGoal;
 import com.min01.oceanicrealms.item.OceanicItems;
 import com.min01.oceanicrealms.util.OceanicUtil;
@@ -19,19 +21,18 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.Bucketable;
-import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-public class EntitySilverPomfretFish extends AbstractOceanicCreature implements Bucketable
+public class EntitySilverPomfretFish extends AbstractOceanicCreature implements Bucketable, IBoid
 {	
 	public static final EntityDataAccessor<Boolean> FROM_BUCKET = SynchedEntityData.defineId(EntitySilverPomfretFish.class, EntityDataSerializers.BOOLEAN);
 	public static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(EntitySilverPomfretFish.class, EntityDataSerializers.INT);
 	
 	public final AnimationState dryAnimationState = new AnimationState();
 	
-	public EntitySilverPomfretFish(EntityType<? extends WaterAnimal> p_33002_, Level p_33003_)
+	public EntitySilverPomfretFish(EntityType<? extends AgeableWaterAnimal> p_33002_, Level p_33003_)
 	{
 		super(p_33002_, p_33003_);
 	}
@@ -47,7 +48,7 @@ public class EntitySilverPomfretFish extends AbstractOceanicCreature implements 
     protected void registerGoals() 
     {
     	super.registerGoals();
-        this.goalSelector.addGoal(5, new BoidGoal(this, 0.1F, 0.9F, 0.2F, 0.3F));
+        this.goalSelector.addGoal(5, new BoidGoal(this, 0.1F, 0.9F));
     }
     
     @Override
@@ -87,7 +88,7 @@ public class EntitySilverPomfretFish extends AbstractOceanicCreature implements 
     }
 
 	@Override
-    protected InteractionResult mobInteract(Player p_27477_, InteractionHand p_27478_)
+	public InteractionResult mobInteract(Player p_27477_, InteractionHand p_27478_)
     {
     	return Bucketable.bucketMobPickup(p_27477_, p_27478_, this).orElse(super.mobInteract(p_27477_, p_27478_));
     }

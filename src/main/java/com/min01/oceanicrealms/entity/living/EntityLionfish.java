@@ -1,6 +1,7 @@
 package com.min01.oceanicrealms.entity.living;
 
 import com.min01.oceanicrealms.entity.AbstractOceanicCreature;
+import com.min01.oceanicrealms.entity.AgeableWaterAnimal;
 import com.min01.oceanicrealms.entity.IAvoid;
 
 import net.minecraft.world.effect.MobEffectInstance;
@@ -10,13 +11,12 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 
 public class EntityLionfish extends AbstractOceanicCreature implements IAvoid
 {
-	public EntityLionfish(EntityType<? extends WaterAnimal> p_33002_, Level p_33003_)
+	public EntityLionfish(EntityType<? extends AgeableWaterAnimal> p_33002_, Level p_33003_)
 	{
 		super(p_33002_, p_33003_);
 	}

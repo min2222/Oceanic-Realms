@@ -1,5 +1,6 @@
 package com.min01.oceanicrealms.entity.living;
 
+import com.min01.oceanicrealms.entity.AgeableWaterAnimal;
 import com.min01.oceanicrealms.entity.OceanicEntities;
 import com.min01.oceanicrealms.misc.KinematicChain;
 import com.min01.oceanicrealms.util.OceanicUtil;
@@ -14,7 +15,6 @@ import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -25,7 +25,7 @@ public class EntityOarfishHead extends AbstractOarfishPart
 	public static final EntityDataAccessor<Integer> MAX_LENGTH = SynchedEntityData.defineId(EntityOarfishHead.class, EntityDataSerializers.INT);
 	public KinematicChain chain;
 	
-	public EntityOarfishHead(EntityType<? extends WaterAnimal> p_33002_, Level p_33003_) 
+	public EntityOarfishHead(EntityType<? extends AgeableWaterAnimal> p_33002_, Level p_33003_) 
 	{
 		super(p_33002_, p_33003_);
 	}
@@ -67,16 +67,12 @@ public class EntityOarfishHead extends AbstractOarfishPart
 		else
 		{
 	    	this.chain.setOldPosAndRot();
-	    	for(int i = 0; i < 10; i++)
-	    	{
-		    	this.chain.tick();
-	    	}
+	    	this.chain.tick();
 	    	this.chain.getSegments()[0].setDistance(1.5F);
     		this.chain.setTarget(OceanicUtil.getLookPos(this.getRotationVector(), this.position(), 0, 0, -1.35F));
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_21434_, DifficultyInstance p_21435_, MobSpawnType p_21436_, SpawnGroupData p_21437_, CompoundTag p_21438_)
 	{

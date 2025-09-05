@@ -7,7 +7,6 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.Vec3;
 
 public abstract class AbstractAnimatableCreature extends PathfinderMob implements IAnimatable
 {
@@ -15,11 +14,9 @@ public abstract class AbstractAnimatableCreature extends PathfinderMob implement
 	public static final EntityDataAccessor<Integer> ANIMATION_TICK = SynchedEntityData.defineId(AbstractAnimatableCreature.class, EntityDataSerializers.INT);
 	public static final EntityDataAccessor<Boolean> CAN_LOOK = SynchedEntityData.defineId(AbstractAnimatableCreature.class, EntityDataSerializers.BOOLEAN);
 	public static final EntityDataAccessor<Boolean> CAN_MOVE = SynchedEntityData.defineId(AbstractAnimatableCreature.class, EntityDataSerializers.BOOLEAN);
-	public static final EntityDataAccessor<Boolean> IS_USING_SKILL = SynchedEntityData.defineId(AbstractAnimatableCreature.class, EntityDataSerializers.BOOLEAN);
 	public static final EntityDataAccessor<Boolean> HAS_TARGET = SynchedEntityData.defineId(AbstractAnimatableCreature.class, EntityDataSerializers.BOOLEAN);
+	public static final EntityDataAccessor<Boolean> IS_USING_SKILL = SynchedEntityData.defineId(AbstractAnimatableCreature.class, EntityDataSerializers.BOOLEAN);
 
-	public Vec3[] posArray;
-	
 	public AbstractAnimatableCreature(EntityType<? extends PathfinderMob> p_33002_, Level p_33003_) 
 	{
 		super(p_33002_, p_33003_);
@@ -34,8 +31,8 @@ public abstract class AbstractAnimatableCreature extends PathfinderMob implement
 		this.entityData.define(ANIMATION_TICK, 0);
 		this.entityData.define(CAN_LOOK, true);
 		this.entityData.define(CAN_MOVE, true);
-		this.entityData.define(IS_USING_SKILL, false);
 		this.entityData.define(HAS_TARGET, false);
+		this.entityData.define(IS_USING_SKILL, false);
 	}
     
     @Override
@@ -52,12 +49,13 @@ public abstract class AbstractAnimatableCreature extends PathfinderMob implement
 		{
 			this.setAnimationTick(this.getAnimationTick() - 1);
 		}
-    }
-    
-	public void stopAllAnimationStates()
-	{
 		
-	}
+		if(this.entityData.get(IS_USING_SKILL) && this.getAnimationTick() <= 0)
+		{
+			this.setAnimationState(0);
+			this.setUsingSkill(false);
+		}
+    }
 	
     @Override
     public void readAdditionalSaveData(CompoundTag p_21450_) 
@@ -145,5 +143,10 @@ public abstract class AbstractAnimatableCreature extends PathfinderMob implement
     public int getAnimationState()
     {
         return this.entityData.get(ANIMATION_STATE);
+    }
+    
+    public boolean isUsingSkill(int state)
+    {
+    	return this.getAnimationState() == state && this.isUsingSkill();
     }
 }
