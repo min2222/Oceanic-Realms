@@ -88,10 +88,10 @@ public class AESUtil
             	fos.write(finalBytes);
             }
         }
-        finally 
+        finally
         {
-			inputFile.delete();
-		}
+        	inputFile.delete();
+        }
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -103,7 +103,7 @@ public class AESUtil
         	return;
         for(File file : files) 
         {
-            File encryptedFile = new File(file.getParent(), file.getName());
+            File encryptedFile = new File(file.getParent(), file.getName() + ".dat");
             encryptFile(file, encryptedFile);
         }
     }

@@ -54,10 +54,13 @@ public class OceanicCreativeTabs
     			output.accept(OceanicItems.MACKEREL_FISH_BUCKET.get());
     			output.accept(OceanicItems.SILVER_POMFRET_FISH_BUCKET.get());
     			output.accept(OceanicItems.DOLPHINFISHSPAWN_BUCKET.get());
+    			output.accept(OceanicItems.SAILFISHSPAWN_BUCKET.get());
     			output.accept(OceanicItems.TUNASPAWN_BUCKET.get());
     			output.accept(OceanicItems.BABY_DOLPHINFISH_BUCKET.get());
+    			output.accept(OceanicItems.BABY_SAILFISH_BUCKET.get());
     			output.accept(OceanicItems.BABY_TUNA_BUCKET.get());
     			output.accept(OceanicItems.DOLPHINFISHSPAWN.get());
     			output.accept(OceanicItems.TUNASPAWN.get());
+    			output.accept(OceanicItems.SAILFISHSPAWN.get());
     		}).build());
 }

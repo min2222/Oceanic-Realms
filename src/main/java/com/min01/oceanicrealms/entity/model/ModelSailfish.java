@@ -75,6 +75,7 @@ public class ModelSailfish extends HierarchicalModel<EntitySailfish>
 	{
 		return this.root;
 	}
+	
 	@Override
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) 
 	{

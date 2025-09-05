@@ -9,6 +9,8 @@ import com.min01.oceanicrealms.blockentity.renderer.AnimatableBlockRenderer;
 import com.min01.oceanicrealms.blockentity.renderer.NoRotationLimitRenderer;
 import com.min01.oceanicrealms.entity.OceanicEntities;
 import com.min01.oceanicrealms.entity.model.ModelBabyDolphinfish;
+import com.min01.oceanicrealms.entity.model.ModelBabyGreatWhiteShark;
+import com.min01.oceanicrealms.entity.model.ModelBabySailfish;
 import com.min01.oceanicrealms.entity.model.ModelBabyTuna;
 import com.min01.oceanicrealms.entity.model.ModelCrab;
 import com.min01.oceanicrealms.entity.model.ModelDolphinfish;
@@ -71,6 +73,7 @@ public class ClientEventHandler
     public static void onRegisterLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event)
     {
     	event.registerLayerDefinition(ModelGreatWhiteShark.LAYER_LOCATION, ModelGreatWhiteShark::createBodyLayer);
+    	event.registerLayerDefinition(ModelBabyGreatWhiteShark.LAYER_LOCATION, ModelBabyGreatWhiteShark::createBodyLayer);
     	event.registerLayerDefinition(ModelCrab.LAYER_LOCATION, ModelCrab::createBodyLayer);
     	event.registerLayerDefinition(ModelPorbeagleShark.LAYER_LOCATION, ModelPorbeagleShark::createBodyLayer);
     	event.registerLayerDefinition(ModelTuna.LAYER_LOCATION, ModelTuna::createBodyLayer);
@@ -86,6 +89,7 @@ public class ClientEventHandler
     	event.registerLayerDefinition(ModelLionfish.LAYER_LOCATION, ModelLionfish::createBodyLayer);
     	event.registerLayerDefinition(ModelWhaleshark.LAYER_LOCATION, ModelWhaleshark::createBodyLayer);
     	event.registerLayerDefinition(ModelSailfish.LAYER_LOCATION, ModelSailfish::createBodyLayer);
+    	event.registerLayerDefinition(ModelBabySailfish.LAYER_LOCATION, ModelBabySailfish::createBodyLayer);
     	event.registerLayerDefinition(ModelGreatHammerheadShark.LAYER_LOCATION, ModelGreatHammerheadShark::createBodyLayer);
     	event.registerLayerDefinition(ModelOarfishHead.LAYER_LOCATION, ModelOarfishHead::createBodyLayer);
     	event.registerLayerDefinition(ModelOarfishBody.LAYER_LOCATION, ModelOarfishBody::createBodyLayer);

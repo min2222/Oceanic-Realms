@@ -2,10 +2,16 @@ package com.min01.oceanicrealms.entity.living;
 
 import com.min01.oceanicrealms.entity.AbstractOceanicShark;
 import com.min01.oceanicrealms.entity.AgeableWaterAnimal;
+import com.min01.oceanicrealms.entity.OceanicEntities;
 import com.min01.oceanicrealms.misc.SmoothAnimationState;
 import com.min01.oceanicrealms.util.OceanicUtil;
 
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
@@ -34,6 +40,18 @@ public class EntityGreatWhiteShark extends AbstractOceanicShark
     }
     
     @Override
+    public AgeableMob getBreedOffspring(ServerLevel p_146743_, AgeableMob p_146744_)
+    {
+    	return OceanicEntities.GREAT_WHITE_SHARK.get().create(p_146743_);
+    }
+    
+    @Override
+    public EntityDimensions getDimensions(Pose p_21047_) 
+    {
+    	return this.isBaby() ? EntityDimensions.scalable(0.625F, 0.375F) : super.getDimensions(p_21047_);
+    }
+    
+    @Override
     protected void registerGoals() 
     {
     	super.registerGoals();
@@ -58,4 +76,10 @@ public class EntityGreatWhiteShark extends AbstractOceanicShark
 			this.eatingAnimationState.updateWhen(this.isUsingSkill(2), this.tickCount);
 		}
 	}
+	
+    @Override
+    protected Component getTypeName()
+    {
+    	return this.isBaby() ? Component.translatable("entity.oceanicrealms.baby_great_white_shark") : super.getTypeName();
+    }
 }

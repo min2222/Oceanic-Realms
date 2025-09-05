@@ -34,7 +34,8 @@ public class OceanicBlocks
     public static final RegistryObject<Block> REEF_ROCK = BLOCKS.register("reef_rock", () -> new Block(BlockBehaviour.Properties.copy(Blocks.STONE)));
     public static final RegistryObject<Block> DOLPHINFISHSPAWN = BLOCKS.register("dolphinfishspawn", () -> new FishspawnBlock(BlockBehaviour.Properties.copy(Blocks.FROGSPAWN), () -> OceanicItems.DOLPHINFISHSPAWN_BUCKET.get(), () -> OceanicEntities.DOLPHINFISH.get()));
     public static final RegistryObject<Block> TUNASPAWN = BLOCKS.register("tunaspawn", () -> new FishspawnBlock(BlockBehaviour.Properties.copy(Blocks.FROGSPAWN), () -> OceanicItems.TUNASPAWN_BUCKET.get(), () -> OceanicEntities.TUNA.get()));
-    
+    public static final RegistryObject<Block> SAILFISHSPAWN = BLOCKS.register("sailfishspawn", () -> new FishspawnBlock(BlockBehaviour.Properties.copy(Blocks.FROGSPAWN), () -> OceanicItems.SAILFISHSPAWN_BUCKET.get(), () -> OceanicEntities.SAILFISH.get()));
+     
     public static final RegistryObject<BlockEntityType<NoRotationLimitBlockEntity>> NO_ROTATION_LIMIT_BLOCK_ENTITY = BLOCK_ENTITIES.register("no_rotation_limit", () -> BlockEntityType.Builder.of(NoRotationLimitBlockEntity::new, 
     		OceanicBlocks.CLAM.get()).build(null));
     

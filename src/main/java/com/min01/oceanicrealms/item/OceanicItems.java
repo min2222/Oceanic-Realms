@@ -62,15 +62,18 @@ public class OceanicItems
 	public static final RegistryObject<Item> RED_ALGAE = registerBlockItem("red_algae", () -> OceanicBlocks.RED_ALGAE.get(), new Item.Properties());
 	public static final RegistryObject<Item> DOLPHINFISHSPAWN = ITEMS.register("dolphinfishspawn", () -> new PlaceOnWaterBlockItem(OceanicBlocks.DOLPHINFISHSPAWN.get(), new Item.Properties()));
 	public static final RegistryObject<Item> TUNASPAWN = ITEMS.register("tunaspawn", () -> new PlaceOnWaterBlockItem(OceanicBlocks.TUNASPAWN.get(), new Item.Properties()));
+	public static final RegistryObject<Item> SAILFISHSPAWN = ITEMS.register("sailfishspawn", () -> new PlaceOnWaterBlockItem(OceanicBlocks.SAILFISHSPAWN.get(), new Item.Properties()));
 	
 	public static final RegistryObject<Item> MACKEREL_FISH_BUCKET = ITEMS.register("mackerel_fish_bucket", () -> new MobBucketItem(() -> OceanicEntities.MACKEREL_FISH.get(), () -> Fluids.WATER, () -> SoundEvents.BUCKET_EMPTY_FISH, new Item.Properties().stacksTo(1)));
 	public static final RegistryObject<Item> SILVER_POMFRET_FISH_BUCKET = ITEMS.register("silver_pomfret_fish_bucket", () -> new MobBucketItem(() -> OceanicEntities.SILVER_POMFRET_FISH.get(), () -> Fluids.WATER, () -> SoundEvents.BUCKET_EMPTY_FISH, new Item.Properties().stacksTo(1)));
 
 	public static final RegistryObject<Item> BABY_TUNA_BUCKET = ITEMS.register("baby_tuna_bucket", () -> new MobBucketItem(() -> OceanicEntities.TUNA.get(), () -> Fluids.WATER, () -> SoundEvents.BUCKET_EMPTY_FISH, new Item.Properties().stacksTo(1)));
 	public static final RegistryObject<Item> BABY_DOLPHINFISH_BUCKET = ITEMS.register("baby_dolphinfish_bucket", () -> new MobBucketItem(() -> OceanicEntities.DOLPHINFISH.get(), () -> Fluids.WATER, () -> SoundEvents.BUCKET_EMPTY_FISH, new Item.Properties().stacksTo(1)));
+	public static final RegistryObject<Item> BABY_SAILFISH_BUCKET = ITEMS.register("baby_sailfish_bucket", () -> new MobBucketItem(() -> OceanicEntities.SAILFISH.get(), () -> Fluids.WATER, () -> SoundEvents.BUCKET_EMPTY_FISH, new Item.Properties().stacksTo(1)));
 	
 	public static final RegistryObject<Item> DOLPHINFISHSPAWN_BUCKET = ITEMS.register("dolphinfishspawn_bucket", () -> new FishspawnBucketItem(OceanicBlocks.DOLPHINFISHSPAWN.get(), SoundEvents.FROGSPAWN_PLACE, (new Item.Properties()).stacksTo(1)));
 	public static final RegistryObject<Item> TUNASPAWN_BUCKET = ITEMS.register("tunaspawn_bucket", () -> new FishspawnBucketItem(OceanicBlocks.TUNASPAWN.get(), SoundEvents.FROGSPAWN_PLACE, (new Item.Properties()).stacksTo(1)));
+	public static final RegistryObject<Item> SAILFISHSPAWN_BUCKET = ITEMS.register("sailfishspawn_bucket", () -> new FishspawnBucketItem(OceanicBlocks.SAILFISHSPAWN.get(), SoundEvents.FROGSPAWN_PLACE, (new Item.Properties()).stacksTo(1)));
 	
 	public static RegistryObject<Item> registerBlockItem(String name, Supplier<Block> block, Item.Properties properties)
 	{
