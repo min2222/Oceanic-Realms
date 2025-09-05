@@ -77,7 +77,7 @@ public class EntitySailfish extends AbstractOceanicCreature implements Bucketabl
     		@Override
     		public boolean canUse() 
     		{
-    			return super.canUse() && EntitySailfish.this.isHungry();
+    			return super.canUse() && EntitySailfish.this.isHungry() && !EntitySailfish.this.isBaby();
     		}
     	});
     }

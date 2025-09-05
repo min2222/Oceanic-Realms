@@ -9,6 +9,8 @@ import org.joml.Math;
 
 import com.min01.oceanicrealms.entity.IAvoid;
 import com.min01.oceanicrealms.entity.living.EntityDolphinfish;
+import com.min01.oceanicrealms.entity.living.EntityMackerelFish;
+import com.min01.oceanicrealms.entity.living.EntitySilverPomfretFish;
 import com.min01.oceanicrealms.entity.living.EntityTuna;
 import com.min01.oceanicrealms.entity.living.EntityWhaleshark;
 
@@ -24,6 +26,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.util.DefaultRandomPos;
 import net.minecraft.world.entity.animal.AbstractFish;
+import net.minecraft.world.entity.animal.AbstractSchoolingFish;
 import net.minecraft.world.entity.animal.Dolphin;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -39,6 +42,7 @@ public class OceanicUtil
 	public static final Method GET_ENTITY = ObfuscationReflectionHelper.findMethod(Level.class, "m_142646_");
 	public static final Predicate<LivingEntity> TARGET_PREDICATE = t -> t.isInWater() && !(t instanceof Dolphin) && !(t instanceof EntityWhaleshark) && !(t instanceof IAvoid);
 	public static final Predicate<LivingEntity> TARGET_PREDICATE2 = t -> t.isInWater() && !(t instanceof EntityTuna) && !(t instanceof EntityDolphinfish) && !(t instanceof Dolphin) && !(t instanceof EntityWhaleshark) && !(t instanceof IAvoid);
+	public static final Predicate<LivingEntity> TARGET_PREDICATE3 = t -> t.isInWater() && (t.isBaby() || t instanceof EntityMackerelFish || t instanceof EntitySilverPomfretFish || t instanceof AbstractSchoolingFish) && !(t instanceof IAvoid);
 	
     @SuppressWarnings("deprecation")
 	public static BlockPos getGroundPos(BlockGetter pLevel, double pX, double startY, double pZ)

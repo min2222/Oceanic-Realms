@@ -60,10 +60,25 @@ public class EntityGreatWhiteShark extends AbstractOceanicShark
     		@Override
     		public boolean canUse() 
     		{
-    			return super.canUse() && EntityGreatWhiteShark.this.isHungry();
+    			return super.canUse() && EntityGreatWhiteShark.this.isHungry() && !EntityGreatWhiteShark.this.isBaby();
     		}
     	});
-    	this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Player.class, false, t -> t.getHealth() < 3.0F));
+    	this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, WaterAnimal.class, false, OceanicUtil.TARGET_PREDICATE3)
+    	{
+    		@Override
+    		public boolean canUse() 
+    		{
+    			return super.canUse() && EntityGreatWhiteShark.this.isHungry() && EntityGreatWhiteShark.this.isBaby();
+    		}
+    	});
+    	this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Player.class, false, t -> t.getHealth() < 3.0F)
+    	{
+    		@Override
+    		public boolean canUse() 
+    		{
+    			return super.canUse() && !EntityGreatWhiteShark.this.isBaby();
+    		}
+    	});
     }
     
 	@Override

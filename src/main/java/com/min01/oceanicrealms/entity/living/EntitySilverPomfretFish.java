@@ -48,7 +48,7 @@ public class EntitySilverPomfretFish extends AbstractOceanicCreature implements 
     protected void registerGoals() 
     {
     	super.registerGoals();
-        this.goalSelector.addGoal(5, new BoidGoal(this, 0.1F, 0.9F));
+        this.goalSelector.addGoal(5, new BoidGoal(this, 0.9F));
     }
     
     @Override

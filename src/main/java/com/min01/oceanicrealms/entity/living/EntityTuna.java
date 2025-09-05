@@ -64,7 +64,7 @@ public class EntityTuna extends AbstractOceanicCreature implements Bucketable, I
     {
     	super.registerGoals();
         //TODO proper navigation, aka disable boid;
-        this.goalSelector.addGoal(5, new BoidGoal(this, 0.1F, 2.5F));
+        this.goalSelector.addGoal(5, new BoidGoal(this, 2.5F));
         this.goalSelector.addGoal(5, new BreedGoal(this, 1.0F));
         this.goalSelector.addGoal(3, new TemptGoal(this, 1.25D, Ingredient.of(ItemTags.FISHES), false));
     }

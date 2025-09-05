@@ -3,11 +3,9 @@ package com.min01.oceanicrealms.entity;
 import com.min01.oceanicrealms.entity.ai.control.OceanicSwimmingMoveControl;
 import com.min01.oceanicrealms.util.OceanicUtil;
 
-import net.minecraft.commands.arguments.EntityAnchorArgument.Anchor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
@@ -117,23 +115,10 @@ public abstract class AbstractOceanicCreature extends AbstractAnimatableWaterAni
     }
     
     @Override
-	public void lookAt(Anchor p_20033_, Vec3 p_20034_)
-	{
-		Vec3 vec3 = p_20033_.apply(this);
-		double d0 = p_20034_.x - vec3.x;
-		double d1 = p_20034_.y - vec3.y;
-		double d2 = p_20034_.z - vec3.z;
-		double d3 = Math.sqrt(d0 * d0 + d2 * d2);
-		float yRot = (float)(Mth.atan2(d2, d0) * (double)(180.0F / (float)Math.PI)) - 90.0F;
-		this.setXRot(Mth.wrapDegrees((float)(-(Mth.atan2(d1, d3) * (double)(180.0F / (float)Math.PI)))));
-		this.setYRot(OceanicUtil.rotlerp(this.getYRot(), yRot, (float)this.getBodyRotationSpeed()));
-		this.setYHeadRot(this.getYRot());
-		this.xRotO = this.getXRot();
-		this.yRotO = this.getYRot();
-		this.yHeadRotO = this.yHeadRot;
-		this.yBodyRot = this.yHeadRot;
-		this.yBodyRotO = this.yBodyRot;
-	}
+    public void setYRot(float p_146923_) 
+    {
+    	super.setYRot(OceanicUtil.rotlerp(this.getYRot(), p_146923_, this.getBodyRotationSpeed()));
+    }
     
     public Vec3 getSwimRadius()
     {
