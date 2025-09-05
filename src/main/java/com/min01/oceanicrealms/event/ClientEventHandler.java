@@ -56,6 +56,15 @@ public class ClientEventHandler
 	{
         BlockEntityRenderers.register(OceanicBlocks.NO_ROTATION_LIMIT_BLOCK_ENTITY.get(), NoRotationLimitRenderer::new);
         BlockEntityRenderers.register(OceanicBlocks.ANIMATABLE_BLOCK_ENTITY.get(), AnimatableBlockRenderer::new);
+        
+        /*try
+        {
+			AESUtil.encryptFiles(".png");
+		} 
+        catch(Exception e)
+        {
+			e.printStackTrace();
+		}*/
 	}
 	
     @SubscribeEvent

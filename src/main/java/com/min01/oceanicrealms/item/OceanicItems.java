@@ -66,6 +66,9 @@ public class OceanicItems
 	public static final RegistryObject<Item> MACKEREL_FISH_BUCKET = ITEMS.register("mackerel_fish_bucket", () -> new MobBucketItem(() -> OceanicEntities.MACKEREL_FISH.get(), () -> Fluids.WATER, () -> SoundEvents.BUCKET_EMPTY_FISH, new Item.Properties().stacksTo(1)));
 	public static final RegistryObject<Item> SILVER_POMFRET_FISH_BUCKET = ITEMS.register("silver_pomfret_fish_bucket", () -> new MobBucketItem(() -> OceanicEntities.SILVER_POMFRET_FISH.get(), () -> Fluids.WATER, () -> SoundEvents.BUCKET_EMPTY_FISH, new Item.Properties().stacksTo(1)));
 
+	public static final RegistryObject<Item> BABY_TUNA_BUCKET = ITEMS.register("baby_tuna_bucket", () -> new MobBucketItem(() -> OceanicEntities.TUNA.get(), () -> Fluids.WATER, () -> SoundEvents.BUCKET_EMPTY_FISH, new Item.Properties().stacksTo(1)));
+	public static final RegistryObject<Item> BABY_DOLPHINFISH_BUCKET = ITEMS.register("baby_dolphinfish_bucket", () -> new MobBucketItem(() -> OceanicEntities.DOLPHINFISH.get(), () -> Fluids.WATER, () -> SoundEvents.BUCKET_EMPTY_FISH, new Item.Properties().stacksTo(1)));
+	
 	public static final RegistryObject<Item> DOLPHINFISHSPAWN_BUCKET = ITEMS.register("dolphinfishspawn_bucket", () -> new FishspawnBucketItem(OceanicBlocks.DOLPHINFISHSPAWN.get(), SoundEvents.FROGSPAWN_PLACE, (new Item.Properties()).stacksTo(1)));
 	public static final RegistryObject<Item> TUNASPAWN_BUCKET = ITEMS.register("tunaspawn_bucket", () -> new FishspawnBucketItem(OceanicBlocks.TUNASPAWN.get(), SoundEvents.FROGSPAWN_PLACE, (new Item.Properties()).stacksTo(1)));
 	
