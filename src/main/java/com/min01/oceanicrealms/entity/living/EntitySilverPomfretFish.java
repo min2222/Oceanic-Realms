@@ -3,7 +3,6 @@ package com.min01.oceanicrealms.entity.living;
 import com.min01.oceanicrealms.entity.AbstractOceanicCreature;
 import com.min01.oceanicrealms.entity.AgeableWaterAnimal;
 import com.min01.oceanicrealms.entity.IBoid;
-import com.min01.oceanicrealms.entity.ai.goal.BoidGoal;
 import com.min01.oceanicrealms.item.OceanicItems;
 import com.min01.oceanicrealms.util.OceanicUtil;
 
@@ -45,18 +44,17 @@ public class EntitySilverPomfretFish extends AbstractOceanicCreature implements 
     }
     
     @Override
-    protected void registerGoals() 
-    {
-    	super.registerGoals();
-        this.goalSelector.addGoal(5, new BoidGoal(this, 0.9F));
-    }
-    
-    @Override
     protected void defineSynchedData()
     {
     	super.defineSynchedData();
     	this.entityData.define(FROM_BUCKET, false);
     	this.entityData.define(VARIANT, this.random.nextInt(1, 3));
+    }
+    
+    @Override
+    public float separationRange()
+    {
+    	return 0.9F;
     }
     
 	@Override

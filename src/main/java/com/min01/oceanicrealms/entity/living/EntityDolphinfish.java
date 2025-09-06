@@ -4,7 +4,7 @@ import com.min01.oceanicrealms.entity.AbstractOceanicCreature;
 import com.min01.oceanicrealms.entity.AgeableWaterAnimal;
 import com.min01.oceanicrealms.entity.IBoid;
 import com.min01.oceanicrealms.entity.OceanicEntities;
-import com.min01.oceanicrealms.entity.ai.goal.BoidGoal;
+import com.min01.oceanicrealms.entity.ai.goal.FishTemptGoal;
 import com.min01.oceanicrealms.item.OceanicItems;
 import com.min01.oceanicrealms.util.OceanicUtil;
 
@@ -26,8 +26,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.BreedGoal;
-import net.minecraft.world.entity.ai.goal.TemptGoal;
 import net.minecraft.world.entity.animal.Bucketable;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
@@ -59,15 +57,12 @@ public class EntityDolphinfish extends AbstractOceanicCreature implements Bucket
     	super.defineSynchedData();
     	this.entityData.define(FROM_BUCKET, false);
     }
-    
+
     @Override
-    protected void registerGoals() 
+    protected void registerGoals()
     {
     	super.registerGoals();
-        //TODO proper navigation, aka disable boid;
-        this.goalSelector.addGoal(5, new BoidGoal(this, 2.5F));
-        this.goalSelector.addGoal(5, new BreedGoal(this, 1.0F));
-        this.goalSelector.addGoal(3, new TemptGoal(this, 1.25D, Ingredient.of(ItemTags.FISHES), false));
+    	this.goalSelector.addGoal(0, new FishTemptGoal(this, 1.25F, Ingredient.of(ItemTags.FISHES), false));
     }
     
     @Override

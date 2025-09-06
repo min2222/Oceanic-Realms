@@ -122,7 +122,7 @@ public abstract class AbstractOceanicCreature extends AbstractAnimatableWaterAni
     
     public Vec3 getSwimRadius()
     {
-    	return new Vec3(15, 5, 15);
+    	return new Vec3(50, 10, 50);
     }
 	
 	public int getBodyRotationSpeed()

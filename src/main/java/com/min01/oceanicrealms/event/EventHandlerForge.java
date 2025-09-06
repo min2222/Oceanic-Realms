@@ -52,8 +52,6 @@ public class EventHandlerForge
 			{
 				double speed = waterAnimal.getAttributeBaseValue(Attributes.MOVEMENT_SPEED);
 				waterAnimal.goalSelector.addGoal(0, new AvoidEntitySwimmingGoal<>(waterAnimal, EntityLionfish.class, 8.0F, speed, speed));
-				waterAnimal.goalSelector.addGoal(0, new AvoidEntitySwimmingGoal<>(waterAnimal, EntityGreatWhiteShark.class, 8.0F, speed, speed));
-				waterAnimal.goalSelector.addGoal(0, new AvoidEntitySwimmingGoal<>(waterAnimal, EntityGreatHammerheadShark.class, 8.0F, speed, speed));
 				waterAnimal.goalSelector.addGoal(0, new AvoidEntitySwimmingGoal<>(waterAnimal, EntitySailfish.class, 8.0F, speed, speed));
 				waterAnimal.goalSelector.addGoal(0, new AvoidEntitySwimmingGoal<>(waterAnimal, AbstractOceanicShark.class, 8.0F, speed, speed));
 			}

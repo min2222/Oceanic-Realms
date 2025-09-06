@@ -7,7 +7,7 @@ import org.joml.Math;
 import com.min01.oceanicrealms.entity.AbstractOceanicCreature;
 import com.min01.oceanicrealms.entity.AgeableWaterAnimal;
 import com.min01.oceanicrealms.entity.IBoid;
-import com.min01.oceanicrealms.entity.ai.goal.BoidGoal;
+import com.min01.oceanicrealms.entity.ai.control.OceanicSwimmingMoveControl;
 import com.min01.oceanicrealms.item.OceanicItems;
 import com.min01.oceanicrealms.util.OceanicUtil;
 
@@ -29,6 +29,7 @@ import net.minecraft.world.entity.animal.Bucketable;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 
 public class EntityMackerelFish extends AbstractOceanicCreature implements Bucketable, IBoid
 {
@@ -50,18 +51,17 @@ public class EntityMackerelFish extends AbstractOceanicCreature implements Bucke
     }
     
     @Override
-    protected void registerGoals() 
-    {
-    	super.registerGoals();
-        this.goalSelector.addGoal(5, new BoidGoal(this, 0.9F));
-    }
-    
-    @Override
     protected void defineSynchedData()
     {
     	super.defineSynchedData();
     	this.entityData.define(FROM_BUCKET, false);
     	this.entityData.define(FOLLOW_DURATION, 1200);
+    }
+    
+    @Override
+    public float separationRange()
+    {
+    	return 0.9F;
     }
     
 	@Override
@@ -87,12 +87,18 @@ public class EntityMackerelFish extends AbstractOceanicCreature implements Bucke
 			if(this.getFollowDuration() > 0)
 			{
 				int size = 8;
-				this.addDeltaMovement(OceanicUtil.fromToVector(this.position(), list.get(0).position().add(Math.random() * size, Math.random() * size, Math.random() * size), 0.05F));
+				Vec3 targetPos = list.get(0).position().add(Math.random() * size, Math.random() * size, Math.random() * size);
+				((OceanicSwimmingMoveControl) this.getMoveControl()).setForceTarget(targetPos);
 				this.setFollowDuration(this.getFollowDuration() - 1);
+			}
+			else
+			{
+				((OceanicSwimmingMoveControl) this.getMoveControl()).setForceTarget(false);
 			}
 		}
 		else
 		{
+			((OceanicSwimmingMoveControl) this.getMoveControl()).setForceTarget(false);
 			this.setFollowDuration(1200);
 		}
 	}
