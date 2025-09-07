@@ -77,7 +77,7 @@ public class BoidMoveControl extends MoveControl
 			else 
 			{
 				float f = -(float)(Mth.atan2(direction.x, direction.z) * (double)(180.0F / (float)Math.PI));
-				this.mob.setYRot(this.rotlerp(this.mob.getYRot(), f, 5.0F));
+				this.mob.setYRot(this.rotlerp(this.mob.getYRot(), f, 10.0F));
 				this.mob.yBodyRot = this.mob.getYRot();
 				this.mob.yHeadRot = this.mob.getYRot();
 				float f1 = (float) (this.speedModifier * this.mob.getAttributeValue(Attributes.MOVEMENT_SPEED));
@@ -88,7 +88,7 @@ public class BoidMoveControl extends MoveControl
 					{
 						float f3 = -((float) (Mth.atan2(direction.y, direction.horizontalDistance()) * (double) (180.0F / (float) Math.PI)));
 						f3 = Mth.clamp(Mth.wrapDegrees(f3), (float) (-this.maxTurnX), (float) this.maxTurnX);
-						this.mob.setXRot(this.rotlerp(this.mob.getXRot(), f3, 2.0F));
+						this.mob.setXRot(this.rotlerp(this.mob.getXRot(), f3, 5.0F));
 					}
 					float f6 = Mth.cos(this.mob.getXRot() * ((float) Math.PI / 180.0F));
 					float f4 = Mth.sin(this.mob.getXRot() * ((float) Math.PI / 180.0F));

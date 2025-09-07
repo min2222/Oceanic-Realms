@@ -5,9 +5,14 @@ import java.util.Collection;
 import java.util.List;
 
 import com.min01.oceanicrealms.entity.AbstractOceanicCreature;
+import com.min01.oceanicrealms.entity.IAvoid;
+import com.min01.oceanicrealms.util.OceanicUtil;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
+import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult.Type;
 import net.minecraft.world.phys.Vec3;
 
 //https://github.com/TheCymaera/minecraft-boids/tree/master
@@ -24,19 +29,19 @@ public class Boid
 
 	public void update(List<? extends Mob> boids, Collection<Boid.Obstacle> obstacles, boolean avoidance, boolean alignment, boolean cohesion, float flockRadius, float maxVelocity) 
 	{
-		for(int x = (int)this.bounds.minX(); x < this.bounds.maxX(); x++) 
+		Vec3 lookPos = OceanicUtil.getLookPos(this.mob.getRotationVector(), this.mob.position(), 0, 0, 3.0F);
+		BlockHitResult blockHit = this.mob.level.clip(new ClipContext(this.mob.position(), lookPos, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, mob));
+		if(blockHit.getType() != Type.MISS) 
 		{
-			for(int y = (int)this.bounds.minY(); y < this.bounds.maxY(); y++) 
-			{
-				for(int z = (int)this.bounds.minZ(); z < this.bounds.maxZ(); z++)
-				{
-					BlockPos pos = new BlockPos(x, y, z);
-					if(this.mob.level.getBlockState(pos).isCollisionShapeFullBlock(this.mob.level, pos)) 
-					{
-						obstacles.add(new Boid.Obstacle(Vec3.atCenterOf(pos), 5, 0.05F));
-					}
-				}
-			}
+			obstacles.add(new Boid.Obstacle(blockHit.getLocation(), 5.0F, 0.5F));
+		}
+		
+		TargetingConditions conditions = TargetingConditions.forNonCombat().range(5.0D).ignoreLineOfSight().selector(t -> t instanceof IAvoid);
+		AbstractOceanicCreature creature = this.mob.level.getNearestEntity(AbstractOceanicCreature.class, conditions, this.mob, this.mob.getX(), this.mob.getY(), this.mob.getZ(), this.mob.getBoundingBox().inflate(5.0D));
+		
+		if(creature instanceof IAvoid)
+		{
+			obstacles.add(new Boid.Obstacle(creature.position(), 5.0F, 0.5F));
 		}
 		
 		List<Mob> flock = this.getInRange(boids, flockRadius);
@@ -115,7 +120,7 @@ public class Boid
 	private Vec3 averageVelocity(List<Mob> flock)
 	{
 		Vec3 avg = Vec3.ZERO;
-		if(flock.size() == 0)
+		if(flock.isEmpty())
 		{
 			return Vec3.ZERO;
 		}
@@ -130,7 +135,7 @@ public class Boid
 	private Vec3 centerDisplacement(List<Mob> flock)
 	{
 		Vec3 center = Vec3.ZERO;
-		if(flock.size() == 0)
+		if(flock.isEmpty())
 		{
 			return Vec3.ZERO;
 		}
