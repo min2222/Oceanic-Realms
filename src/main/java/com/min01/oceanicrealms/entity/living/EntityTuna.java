@@ -2,8 +2,8 @@ package com.min01.oceanicrealms.entity.living;
 
 import com.min01.oceanicrealms.entity.AbstractOceanicCreature;
 import com.min01.oceanicrealms.entity.AgeableWaterAnimal;
-import com.min01.oceanicrealms.entity.IBoid;
 import com.min01.oceanicrealms.entity.OceanicEntities;
+import com.min01.oceanicrealms.entity.ai.control.BoidMoveControl;
 import com.min01.oceanicrealms.entity.ai.goal.FishTemptGoal;
 import com.min01.oceanicrealms.item.OceanicItems;
 import com.min01.oceanicrealms.misc.OceanicTags;
@@ -38,7 +38,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 
-public class EntityTuna extends AbstractOceanicCreature implements Bucketable, IBoid
+public class EntityTuna extends AbstractOceanicCreature implements Bucketable
 {
 	public static final EntityDataAccessor<Boolean> FROM_BUCKET = SynchedEntityData.defineId(EntityTuna.class, EntityDataSerializers.BOOLEAN);
 	public static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(EntityTuna.class, EntityDataSerializers.INT);
@@ -48,6 +48,7 @@ public class EntityTuna extends AbstractOceanicCreature implements Bucketable, I
 	public EntityTuna(EntityType<? extends AgeableWaterAnimal> p_33002_, Level p_33003_)
 	{
 		super(p_33002_, p_33003_);
+		this.moveControl = new BoidMoveControl(this, 85, 0.5F, 0.1F, false);
 	}
 	
     public static AttributeSupplier.Builder createAttributes()

@@ -1,6 +1,6 @@
 package com.min01.oceanicrealms.entity.ai.goal;
 
-import com.min01.oceanicrealms.entity.ai.control.OceanicSwimmingMoveControl;
+import com.min01.oceanicrealms.entity.ai.control.BoidMoveControl;
 
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.TemptGoal;
@@ -16,13 +16,13 @@ public class FishTemptGoal extends TemptGoal
 	@Override
 	public void tick()
 	{
-		((OceanicSwimmingMoveControl) this.mob.getMoveControl()).setForceTarget(this.player.position());
+		((BoidMoveControl) this.mob.getMoveControl()).setForceTarget(this.player.position());
 	}
 	
 	@Override
 	public void stop() 
 	{
 		super.stop();
-		((OceanicSwimmingMoveControl) this.mob.getMoveControl()).setForceTarget(false);
+		((BoidMoveControl) this.mob.getMoveControl()).setForceTarget(false);
 	}
 }

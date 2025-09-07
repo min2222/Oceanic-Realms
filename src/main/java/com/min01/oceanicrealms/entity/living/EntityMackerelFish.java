@@ -6,8 +6,7 @@ import org.joml.Math;
 
 import com.min01.oceanicrealms.entity.AbstractOceanicCreature;
 import com.min01.oceanicrealms.entity.AgeableWaterAnimal;
-import com.min01.oceanicrealms.entity.IBoid;
-import com.min01.oceanicrealms.entity.ai.control.OceanicSwimmingMoveControl;
+import com.min01.oceanicrealms.entity.ai.control.BoidMoveControl;
 import com.min01.oceanicrealms.item.OceanicItems;
 import com.min01.oceanicrealms.util.OceanicUtil;
 
@@ -31,7 +30,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
-public class EntityMackerelFish extends AbstractOceanicCreature implements Bucketable, IBoid
+public class EntityMackerelFish extends AbstractOceanicCreature implements Bucketable
 {
 	public static final EntityDataAccessor<Boolean> FROM_BUCKET = SynchedEntityData.defineId(EntityMackerelFish.class, EntityDataSerializers.BOOLEAN);
 	public static final EntityDataAccessor<Integer> FOLLOW_DURATION = SynchedEntityData.defineId(EntityMackerelFish.class, EntityDataSerializers.INT);
@@ -41,13 +40,14 @@ public class EntityMackerelFish extends AbstractOceanicCreature implements Bucke
 	public EntityMackerelFish(EntityType<? extends AgeableWaterAnimal> p_33002_, Level p_33003_)
 	{
 		super(p_33002_, p_33003_);
+		this.moveControl = new BoidMoveControl(this, 85, 0.5F, 0.1F, false);
 	}
 	
     public static AttributeSupplier.Builder createAttributes()
     {
         return Mob.createMobAttributes()
         		.add(Attributes.MAX_HEALTH, 3.0F)
-        		.add(Attributes.MOVEMENT_SPEED, 0.5F);
+        		.add(Attributes.MOVEMENT_SPEED, 0.3F);
     }
     
     @Override
@@ -56,12 +56,6 @@ public class EntityMackerelFish extends AbstractOceanicCreature implements Bucke
     	super.defineSynchedData();
     	this.entityData.define(FROM_BUCKET, false);
     	this.entityData.define(FOLLOW_DURATION, 1200);
-    }
-    
-    @Override
-    public float separationRange()
-    {
-    	return 0.9F;
     }
     
 	@Override
@@ -88,17 +82,17 @@ public class EntityMackerelFish extends AbstractOceanicCreature implements Bucke
 			{
 				int size = 8;
 				Vec3 targetPos = list.get(0).position().add(Math.random() * size, Math.random() * size, Math.random() * size);
-				((OceanicSwimmingMoveControl) this.getMoveControl()).setForceTarget(targetPos);
+				((BoidMoveControl) this.getMoveControl()).setForceTarget(targetPos);
 				this.setFollowDuration(this.getFollowDuration() - 1);
 			}
 			else
 			{
-				((OceanicSwimmingMoveControl) this.getMoveControl()).setForceTarget(false);
+				((BoidMoveControl) this.getMoveControl()).setForceTarget(false);
 			}
 		}
 		else
 		{
-			((OceanicSwimmingMoveControl) this.getMoveControl()).setForceTarget(false);
+			((BoidMoveControl) this.getMoveControl()).setForceTarget(false);
 			this.setFollowDuration(1200);
 		}
 	}
