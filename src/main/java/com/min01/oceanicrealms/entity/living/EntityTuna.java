@@ -55,7 +55,7 @@ public class EntityTuna extends AbstractOceanicCreature implements Bucketable
     {
         return Monster.createMonsterAttributes()
         		.add(Attributes.MAX_HEALTH, 15.0F)
-        		.add(Attributes.MOVEMENT_SPEED, 0.5F);
+        		.add(Attributes.MOVEMENT_SPEED, 0.3F);
     }
     
     @Override

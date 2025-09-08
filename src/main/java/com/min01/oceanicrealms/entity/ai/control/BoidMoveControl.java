@@ -1,17 +1,11 @@
 package com.min01.oceanicrealms.entity.ai.control;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-
 import com.min01.oceanicrealms.entity.AbstractOceanicCreature;
 import com.min01.oceanicrealms.misc.Boid;
-import com.min01.oceanicrealms.misc.Boid.Bounds;
 import com.min01.oceanicrealms.util.OceanicUtil;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.MoveControl;
@@ -29,10 +23,9 @@ public class BoidMoveControl extends MoveControl
 	private final float inWaterSpeedModifier;
 	private final float outsideWaterSpeedModifier;
 	private final boolean applyGravity;
-	private final Boid boid;
-	private List<? extends Mob> nearbyMobs = new ArrayList<>();
-	private Vec3 targetPos = Vec3.ZERO;
 	private boolean forceTarget;
+	public Vec3 targetPos = Vec3.ZERO;
+	public final Boid boid;
 
 	public BoidMoveControl(Mob mob, int maxTurnX, float inWaterSpeedModifier, float outsideWaterSpeedModifier, boolean applyGravity)
 	{
@@ -41,7 +34,7 @@ public class BoidMoveControl extends MoveControl
 		this.inWaterSpeedModifier = inWaterSpeedModifier;
 		this.outsideWaterSpeedModifier = outsideWaterSpeedModifier;
 		this.applyGravity = applyGravity;
-		this.boid = new Boid(this.mob);
+		this.boid = new Boid(mob);
 	}
 
 	@Override
@@ -53,17 +46,14 @@ public class BoidMoveControl extends MoveControl
 		}
 		if(this.operation == MoveControl.Operation.MOVE_TO) 
 		{
-	        if(this.mob.tickCount % 60 == 0 || this.nearbyMobs.isEmpty() || this.targetPos.equals(Vec3.ZERO))
-	        {
-	        	if(!this.forceTarget)
-	        	{
-		        	this.generateNewTarget();
-	        	}
-	        	this.nearbyMobs = this.mob.level.getEntitiesOfClass(this.mob.getClass(), this.mob.getBoundingBox().inflate(4.0F), t -> !t.isDeadOrDying());
-	        	this.nearbyMobs.sort(Comparator.comparing(Entity::getUUID));
-	        }
-	        this.nearbyMobs.removeIf(t -> t.isDeadOrDying());
-			this.boid.update(this.nearbyMobs, new ArrayList<>(), true, true, true, 4.0F, 0.3F);
+        	if(!this.forceTarget)
+        	{
+    	        if(this.mob.tickCount % 60 == 0 || this.targetPos.equals(Vec3.ZERO))
+    	        {
+    	        	this.generateNewTarget();
+    	        }
+        	}
+			this.boid.tick();
 	        this.stayInWater();
 			Vec3 direction = this.mob.getDeltaMovement();
 			double d0 = direction.x;
@@ -127,7 +117,6 @@ public class BoidMoveControl extends MoveControl
                 if(blockState.is(Blocks.WATER))
                 {
                 	this.targetPos = blockHit.getLocation();
-                	this.boid.setBounds(Bounds.fromCenter(blockHit.getLocation(), ((AbstractOceanicCreature) this.mob).getSwimRadius()));
                 	break;
                 }
         	}
@@ -160,7 +149,7 @@ public class BoidMoveControl extends MoveControl
     
     public float amount() 
     {
-        float amount = 0.1F;
+        float amount = 0.05F;
         float dY = Mth.abs((float) this.mob.getDeltaMovement().y);
         if(dY > amount) 
         {
@@ -177,7 +166,6 @@ public class BoidMoveControl extends MoveControl
     public void setForceTarget(Vec3 pos)
     {
     	this.targetPos = pos;
-    	this.boid.setBounds(Bounds.fromCenter(pos, Vec3.ZERO));
     	this.forceTarget = true;
     }
     
